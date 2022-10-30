@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  app:
+    build: ./registry_fe
+    container_name: app
+    volumes:
+      - ./registry_fe:/app
+    ports:
+      - 3000:3000
+    environment:
+      - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
+      - FRONTEND_BASE_URL=$FRONTEND_BASE_URL
+  backend:
+    build: ./registry_be
+    container_name: backend
+    volumes:
+      - ./registry_be:/app
+    ports:
+      - 8000:8000
