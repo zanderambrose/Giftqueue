@@ -1,5 +1,7 @@
 asgiref
 Django
 djangorestframework
+djangorestframework-simplejwt
+PyJWT
 pytz
 sqlparse
