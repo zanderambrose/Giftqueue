@@ -12,6 +12,7 @@ services:
       - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
       - FRONTEND_BASE_URL=$FRONTEND_BASE_URL
+      - NEXT_AUTH_SECRET=$NEXT_AUTH_SECRET
   backend:
     build: ./registry_be
     container_name: backend

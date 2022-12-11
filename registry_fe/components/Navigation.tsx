@@ -18,8 +18,8 @@ function Navigation() {
 
   const handleSignOut = () => {
     signOut({
-      redirect: false,
-      callbackUrl: `${process.env.FRONTEND_BASE_URL}`,
+      callbackUrl: `http://localhost:3000`,
+      // callbackUrl: `${process.env.FRONTEND_BASE_URL}`,
     });
   };
 
