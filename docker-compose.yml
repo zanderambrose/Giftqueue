@@ -12,12 +12,12 @@ services:
       - GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
       - GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET
       - FRONTEND_BASE_URL=$FRONTEND_BASE_URL
-  # backend:
-  #   build: ./registry_be
-  #   container_name: backend
-  #   volumes:
-  #     - ./registry_be:/app
-  #   ports:
-  #     - 8000:8000
-  #   environment:
-  #     - GOOGLE_AUD_CLAIM=$GOOGLE_AUD_CLAIM
+  backend:
+    build: ./registry_be
+    container_name: backend
+    volumes:
+      - ./registry_be:/app
+    ports:
+      - 8000:8000
+    environment:
+      - GOOGLE_AUD_CLAIM=$GOOGLE_AUD_CLAIM
