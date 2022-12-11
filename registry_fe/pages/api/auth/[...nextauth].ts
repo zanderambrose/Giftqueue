@@ -42,25 +42,25 @@ export default NextAuth({
       // console.log("**********ACCOUNT************: ", account);
       // console.log("**********PROFILE************: ", profile);
       // console.log("**********ISNEWUSER************: ", isNewUser);
-      // // Initial sign in
-      // if (account && user) {
-      //   return {
-      //     accessToken: account.id_token,
-      //     accessTokenExpires: Date.now() + account.expires_at * 1000,
-      //     refreshToken: account.refresh_token,
-      //     user,
-      //   };
-      // }
-      // // Return previous token if the access token has not expired yet
-      // if (Date.now() < token.accessTokenExpires) {
-      //   return token;
-      // }
-      // // Access token has expired, try to update it
-      // return refreshAccessToken(token);
-      if (account) {
-        token.accessToken = account.id_token;
+      // Initial sign in
+      if (account && user) {
+        return {
+          accessToken: account.id_token,
+          accessTokenExpires: Date.now() + account.expires_at * 1000,
+          refreshToken: account.refresh_token,
+          user,
+        };
       }
-      return token;
+      // Return previous token if the access token has not expired yet
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
+      // if (account) {
+      //   token.accessToken = account.id_token;
+      // }
+      // return token;
     },
   },
 });
