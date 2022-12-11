@@ -19,3 +19,5 @@ services:
       - ./registry_be:/app
     ports:
       - 8000:8000
+    environment:
+      - GOOGLE_AUD_CLAIM=$GOOGLE_AUD_CLAIM
