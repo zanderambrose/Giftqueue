@@ -2,54 +2,45 @@ import React from "react";
 
 // Next Js
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 // Bootstrap
 import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 
 // Next Auth
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Navigation() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
 
-  const handleSignOut = () => {
-    signOut({
+  const handleSignIn = () => {
+    signIn("google", {
       callbackUrl: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}`,
     });
   };
 
   return (
-    <Navbar>
-      <Container>
+    <div className="container ">
+      <Navbar className="d-flex justify-content-between align-items-center">
         <Link href="/" passHref>
           <Navbar.Brand>Logo</Navbar.Brand>
         </Link>
-        <Navbar.Toggle />
-        {router.pathname === "/" && (
-          <div className="justify-content-end">
-            {session ? (
-              <Button
-                onClick={() => handleSignOut()}
-                className="px-4"
-                variant="success"
-              >
-                Sign Out
-              </Button>
-            ) : (
-              <Link href="/login" passHref>
-                <Button className="px-4" variant="success">
-                  Login
-                </Button>
-              </Link>
-            )}
-          </div>
-        )}
-      </Container>
-    </Navbar>
+        <div className="justify-content-end">
+          {session ? (
+            <ProfileDropdown />
+          ) : (
+            <Button
+              onClick={() => handleSignIn()}
+              className="px-4"
+              variant="success"
+            >
+              Login
+            </Button>
+          )}
+        </div>
+      </Navbar>
+    </div>
   );
 }
 

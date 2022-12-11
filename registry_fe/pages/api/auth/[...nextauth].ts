@@ -34,11 +34,12 @@ export default NextAuth({
 
       // Send properties to the client, like an access_token from a provider.
       session.idToken = token.accessToken;
+      session.user = token.user;
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }: any) {
       // console.log("**********TOKEN************: ", token);
-      // console.log("**********USER************: ", user);
+      // console.log("**********USER FROM JWT************: ", user);
       // console.log("**********ACCOUNT************: ", account);
       // console.log("**********PROFILE************: ", profile);
       // console.log("**********ISNEWUSER************: ", isNewUser);
