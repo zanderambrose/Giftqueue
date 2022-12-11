@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Nav from "react-bootstrap/Nav";
+import Link from "next/link";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 import { useSession, signOut } from "next-auth/react";
@@ -30,7 +30,9 @@ const ProfileDropdown = () => {
 
   return (
     <NavDropdown align={"end"} drop="down" title={UserMenu} id="nav-dropdown">
-      <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
+      <Link href={"/account"} passHref>
+        <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
+      </Link>
       <NavDropdown.Item eventKey="4.2">Friends</NavDropdown.Item>
       <NavDropdown.Item eventKey="4.3">Calendar</NavDropdown.Item>
       <NavDropdown.Divider />
