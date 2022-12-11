@@ -5,6 +5,7 @@ import Link from "next/link";
 
 // Bootstrap
 import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 
 // Next Auth
@@ -23,9 +24,17 @@ function Navigation() {
   return (
     <div className="container ">
       <Navbar className="d-flex justify-content-between align-items-center">
-        <Link href="/" passHref>
-          <Navbar.Brand>Logo</Navbar.Brand>
-        </Link>
+        <div className="d-flex align-items-center justify-content-between">
+          <Link href="/" passHref>
+            <Navbar.Brand>Logo</Navbar.Brand>
+          </Link>
+          <Link href={"/friends"} passHref>
+            <Nav.Link href="#home">Friends</Nav.Link>
+          </Link>
+          <Link href={"/calendar"} passHref>
+            <Nav.Link href="#home">Calendar</Nav.Link>
+          </Link>
+        </div>
         <div className="justify-content-end">
           {session ? (
             <ProfileDropdown />

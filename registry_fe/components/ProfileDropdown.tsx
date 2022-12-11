@@ -2,15 +2,16 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NavDropdown from "react-bootstrap/NavDropdown";
-
+import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 
 const ProfileDropdown = () => {
+  const { pathname } = useRouter();
   const { data: session } = useSession();
   const handleSignOut = () => {
     signOut({
       callbackUrl: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}`,
-      redirect: false,
+      redirect: pathname === "/" ? false : true,
     });
   };
 
@@ -33,8 +34,9 @@ const ProfileDropdown = () => {
       <Link href={"/account"} passHref>
         <NavDropdown.Item eventKey="4.1">Account</NavDropdown.Item>
       </Link>
-      <NavDropdown.Item eventKey="4.2">Friends</NavDropdown.Item>
-      <NavDropdown.Item eventKey="4.3">Calendar</NavDropdown.Item>
+      <Link href={"/settings"} passHref>
+        <NavDropdown.Item eventKey="4.1">Settings</NavDropdown.Item>
+      </Link>
       <NavDropdown.Divider />
       <NavDropdown.Item eventKey="4.4" onClick={() => handleSignOut()}>
         Sign Out
