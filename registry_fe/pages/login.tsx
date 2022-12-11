@@ -7,8 +7,7 @@ const login = () => {
     <Button
       onClick={() =>
         signIn("google", {
-          callbackUrl: "http://localhost:3000",
-          //   callbackUrl: `${process.env.FRONTEND_BASE_URL as string}`,
+          callbackUrl: `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}`,
         })
       }
     >
