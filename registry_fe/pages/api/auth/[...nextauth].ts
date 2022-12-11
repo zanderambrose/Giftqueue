@@ -1,7 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { refreshAccessToken } from "../../../util/googleRefresh";
 
-export const authOptions = {
+export default NextAuth({
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -15,36 +16,52 @@ export const authOptions = {
       },
     }),
   ],
+  secret: process.env.NEXT_AUTH_SECRET,
+  session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
-      console.log("**********USER************: ", user);
-      console.log("**********ACCOUNT************: ", account);
-      console.log("**********PROFILE************: ", profile);
-      console.log("**********EMAIL************: ", email);
-      console.log("**********CREDENTIALS************: ", credentials);
+      // console.log("**********USER************: ", user);
+      // console.log("**********ACCOUNT************: ", account);
+      // console.log("**********PROFILE************: ", profile);
+      // console.log("**********EMAIL************: ", email);
+      // console.log("**********CREDENTIALS************: ", credentials);
       return true;
     },
     async session({ session, user, token }: any) {
-      console.log("**********SESSION************: ", session);
-      console.log("**********USER************: ", user);
-      console.log("**********TOKEN************: ", token);
+      // console.log("**********SESSION************: ", session);
+      // console.log("**********USER************: ", user);
+      // console.log("**********TOKEN************: ", token);
 
       // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken;
+      session.idToken = token.accessToken;
+      session.user = token.user;
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }: any) {
-      console.log("**********TOKEN************: ", token);
-      console.log("**********USER************: ", user);
-      console.log("**********ACCOUNT************: ", account);
-      console.log("**********PROFILE************: ", profile);
-      console.log("**********ISNEWUSER************: ", isNewUser);
-
-      if (account) {
-        token.accessToken = account.access_token;
+      // console.log("**********TOKEN************: ", token);
+      // console.log("**********USER FROM JWT************: ", user);
+      // console.log("**********ACCOUNT************: ", account);
+      // console.log("**********PROFILE************: ", profile);
+      // console.log("**********ISNEWUSER************: ", isNewUser);
+      // Initial sign in
+      if (account && user) {
+        return {
+          accessToken: account.id_token,
+          accessTokenExpires: Date.now() + account.expires_at * 1000,
+          refreshToken: account.refresh_token,
+          user,
+        };
       }
-      return token;
+      // Return previous token if the access token has not expired yet
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+      // Access token has expired, try to update it
+      return refreshAccessToken(token);
+      // if (account) {
+      //   token.accessToken = account.id_token;
+      // }
+      // return token;
     },
   },
-};
-export default NextAuth(authOptions);
+});
