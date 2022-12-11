@@ -23,8 +23,8 @@ function Navigation() {
 
   return (
     <div className="container ">
-      <Navbar className="d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center justify-content-between">
+      <Navbar>
+        <div className="d-flex align-items-center justify-content-between w-25">
           <Link href="/" passHref>
             <Navbar.Brand>Logo</Navbar.Brand>
           </Link>
@@ -35,7 +35,7 @@ function Navigation() {
             <Nav.Link href="#home">Calendar</Nav.Link>
           </Link>
         </div>
-        <div className="justify-content-end">
+        <div className="ms-auto">
           {session ? (
             <ProfileDropdown />
           ) : (
