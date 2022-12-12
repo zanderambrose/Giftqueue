@@ -62,6 +62,9 @@ class OwnedBaseModel(models.Model):
 class CelebrationDay(OwnedBaseModel):
     date = models.DateField()
 
+    def __str__(self):
+        return f'{self.owner} - {self.name}'
+
 
 class GiftItem(OwnedBaseModel):
     url = models.URLField(max_length=255)

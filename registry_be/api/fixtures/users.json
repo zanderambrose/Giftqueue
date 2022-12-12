@@ -51,7 +51,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000005,
+    "pk": 100001000000000,
     "fields": {
       "first_name": "T",
       "last_name": "Pain",

@@ -16,12 +16,9 @@ class CelebrationDayViewSet(viewsets.ModelViewSet):
     serializer_class = CelebrationDaySerializer
 
     def create(self, request, *args, **kwargs):
-        print(f'name: {self.request.get("name")}')
-        print(f'owner: {self.request.user}')
-        print(f'date: {self.request.get("date")}')
-        date_to_save = datetime.date(1997,10,19)
-        name = self.request.get('name')
-        owner = self.request.user
+        date_to_save = request.data.get("date")
+        name = request.data.get('name')
+        owner = self.request.user.id
         json_date = {"name": name, 'owner': owner, "date": date_to_save}
         serializer = self.get_serializer(data=json_date)
         serializer.is_valid(raise_exception=True)
