@@ -17,5 +17,17 @@ export const useRegistryApi = () => {
         throw new Error(error.message);
       }
     },
+    createDate: async (name: string, date: any): Promise<any> => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/`,
+          { name, date },
+          { headers: { Authorization: `Bearer ${session?.idToken}` } }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   };
 };
