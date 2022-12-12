@@ -1,0 +1,82 @@
+[
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000001,
+    "fields": {
+      "first_name": "John",
+      "last_name": "Lennon",
+      "email": "john@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 100000000000000002,
+    "fields": {
+      "first_name": "Kim",
+      "last_name": "Possible",
+      "email": "kim@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000003,
+    "fields": {
+      "first_name": "Dwayne",
+      "last_name": "Johnson",
+      "email": "therock@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000004,
+    "fields": {
+      "first_name": "Hercules",
+      "last_name": "Mulligan",
+      "email": "bratbrat@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000005,
+    "fields": {
+      "first_name": "Megan",
+      "last_name": "TheStallion",
+      "email": "giddyup@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000005,
+    "fields": {
+      "first_name": "T",
+      "last_name": "Pain",
+      "email": "buyingdrinks@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000006,
+    "fields": {
+      "first_name": "Jorge",
+      "last_name": "Posada",
+      "email": "posada@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  },
+  {
+    "model": "api.RegistryUser",
+    "pk": 10000000000000007,
+    "fields": {
+      "first_name": "Severus",
+      "last_name": "Snape",
+      "email": "slither@email.com",
+      "date_joined": "2014-08-08T16:00:00"
+    }
+  }
+]
