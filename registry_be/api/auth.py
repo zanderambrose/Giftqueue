@@ -24,7 +24,9 @@ class RegistryJWTAuthentication(JWTAuthentication):
         except self.user_model.DoesNotExist:
             user = self.user_model.objects.create(
             sub = validated_token[api_settings.USER_ID_CLAIM],
-            email = validated_token.get('email', ''))
+            email = validated_token.get('email', ''),
+            first_name = validated_token.get('given_name', ""),
+            last_name = validated_token.get("family_name",'')),
             return user
             # raise AuthenticationFailed(_("User not found"), code="user_not_found")
 
