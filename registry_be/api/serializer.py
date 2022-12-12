@@ -1,9 +1,8 @@
 from rest_framework import serializers
 from .models import RegistryUser
 
-class UserCreateSerializer(serializers.ModelSerializer):
-
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RegistryUser
-        fields = ('email', 'password')
+        fields = '__all__'

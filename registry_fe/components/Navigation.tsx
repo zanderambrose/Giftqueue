@@ -23,16 +23,21 @@ function Navigation() {
 
   return (
     <div className="container ">
+      {/* <p>{session?.idToken}</p> */}
       <Navbar>
         <div className="d-flex align-items-center justify-content-between w-25">
           <Link href="/" passHref>
             <Navbar.Brand>Logo</Navbar.Brand>
           </Link>
           <Link href={"/friends"} passHref>
-            <Nav.Link href="#home">Friends</Nav.Link>
+            <Nav.Link className="ms-3" href="#home">
+              Friends
+            </Nav.Link>
           </Link>
           <Link href={"/calendar"} passHref>
-            <Nav.Link href="#home">Calendar</Nav.Link>
+            <Nav.Link className="ms-3" href="#home">
+              Calendar
+            </Nav.Link>
           </Link>
         </div>
         <div className="ms-auto">

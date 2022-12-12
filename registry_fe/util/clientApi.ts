@@ -3,14 +3,19 @@ import { useSession } from "next-auth/react";
 
 export const useRegistryApi = () => {
   const { data: session } = useSession();
-  const getAuthHeader = () => {
-    return `Bearer ${session?.idToken}`;
-  };
   return {
-    getAllFriends: async () => {
-      await axios.get(`${process.env.REGISTRY_API_BASE_URL}friends/`, {
-        headers: { Authorization: getAuthHeader() },
-      });
+    getAllFriends: async (): Promise<any[]> => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friends/`,
+          {
+            headers: { Authorization: `Bearer ${session?.idToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
     },
   };
 };

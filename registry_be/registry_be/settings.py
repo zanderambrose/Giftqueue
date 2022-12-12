@@ -14,6 +14,8 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
+FRONTEND_BASE_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,9 +44,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'rest_framework_simplejwt',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -171,3 +176,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.RegistryUser'
+
+CORS_ALLOWED_ORIGINS = [
+    FRONTEND_BASE_URL,
+]
