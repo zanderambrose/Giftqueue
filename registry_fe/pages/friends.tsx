@@ -27,7 +27,11 @@ const Friends = () => {
       {data && (
         <ul>
           {data?.map((friend: any) => {
-            return <li key={friend.id}>{friend.email}</li>;
+            return (
+              <li key={friend.id}>
+                {friend.first_name} {friend.last_name}
+              </li>
+            );
           })}
         </ul>
       )}
