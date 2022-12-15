@@ -33,7 +33,7 @@ export default NextAuth({
       // console.log("**********TOKEN************: ", token);
 
       // Send properties to the client, like an access_token from a provider.
-      session.idToken = token.accessToken;
+      session.idToken = token.idToken;
       session.user = token.user;
       return session;
     },
@@ -44,16 +44,24 @@ export default NextAuth({
       // console.log("**********PROFILE************: ", profile);
       // console.log("**********ISNEWUSER************: ", isNewUser);
       // Initial sign in
-      if (account && user) {
-        return {
-          accessToken: account.id_token,
-          accessTokenExpires: Date.now() + account.expires_at * 1000,
-          refreshToken: account.refresh_token,
-          user,
-        };
+      // if (account && user) {
+      //   return {
+      //     accessToken: account.id_token,
+      //     accessTokenExpires: Date.now() + account.expires_at * 1000,
+      //     refreshToken: account.refresh_token,
+      //     user,
+      //   };
+      // }
+      if (account) {
+        token.idToken = account.id_token;
+        token.refreshToken = account.refresh_token;
+        token.expires = (account.expires_at as number) * 1000;
+        token.user = user;
       }
+
       // Return previous token if the access token has not expired yet
-      if (Date.now() < token.accessTokenExpires) {
+      if (Date.now() < token.expires) {
+        console.log("SHOULD BE VALID");
         return token;
       }
       // Access token has expired, try to update it

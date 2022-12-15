@@ -1,4 +1,5 @@
 export async function refreshAccessToken(token: any) {
+  console.log("REFRESH FUNCTION BEING CALLED");
   try {
     const url =
       "https://oauth2.googleapis.com/token?" +
@@ -23,12 +24,9 @@ export async function refreshAccessToken(token: any) {
       throw refreshedTokens;
     }
 
-    return {
-      ...token,
-      accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens.expires_at * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
-    };
+    token.idToken = refreshedTokens.id_token;
+    token.refreshToken = refreshedTokens.refresh_token;
+    token.expires = (refreshedTokens.expires_in as number) * 1000;
   } catch (error) {
     console.log(error);
 

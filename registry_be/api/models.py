@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.postgres.fields import ArrayField
 
 
 class CustomUserManager(BaseUserManager):
@@ -67,5 +68,5 @@ class CelebrationDay(OwnedBaseModel):
 
 
 class GiftItem(OwnedBaseModel):
-    url = models.URLField(max_length=255)
+    url = ArrayField(models.URLField(max_length=255))
     is_purchased = models.BooleanField(default=False)
