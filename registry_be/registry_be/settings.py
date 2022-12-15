@@ -15,6 +15,8 @@ from datetime import timedelta
 import os
 
 FRONTEND_BASE_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
+DATABASE_PASSWORD=os.environ.get('POSTGRES_PASSWORD')
+DATABASE_USER=os.environ.get('POSTGRES_USER')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +30,7 @@ SECRET_KEY = 'django-insecure-w5356_b)ee)3*ptg#bxp55o(^6b^t($jzv+)!mef%&k_r4+^_d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 GOOGLE_AUD_CLAIM = os.environ.get("GOOGLE_AUD_CLAIM", None)
 
@@ -85,8 +87,12 @@ WSGI_APPLICATION = 'registry_be.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'zander', 
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'db', 
+        'PORT': '5432',
     }
 }
 
