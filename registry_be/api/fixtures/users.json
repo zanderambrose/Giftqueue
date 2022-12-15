@@ -1,7 +1,7 @@
 [
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000001,
+    "pk": 11,
     "fields": {
       "first_name": "John",
       "last_name": "Lennon",
@@ -11,7 +11,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 100000000000000002,
+    "pk": 12,
     "fields": {
       "first_name": "Kim",
       "last_name": "Possible",
@@ -21,7 +21,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000003,
+    "pk": 13,
     "fields": {
       "first_name": "Dwayne",
       "last_name": "Johnson",
@@ -31,7 +31,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000004,
+    "pk": 14,
     "fields": {
       "first_name": "Hercules",
       "last_name": "Mulligan",
@@ -41,7 +41,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000005,
+    "pk": 15,
     "fields": {
       "first_name": "Megan",
       "last_name": "TheStallion",
@@ -51,7 +51,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 100001000000000,
+    "pk": 16,
     "fields": {
       "first_name": "T",
       "last_name": "Pain",
@@ -61,7 +61,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000006,
+    "pk": 17,
     "fields": {
       "first_name": "Jorge",
       "last_name": "Posada",
@@ -71,7 +71,7 @@
   },
   {
     "model": "api.RegistryUser",
-    "pk": 10000000000000007,
+    "pk": 18,
     "fields": {
       "first_name": "Severus",
       "last_name": "Snape",
