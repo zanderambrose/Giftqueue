@@ -3,12 +3,16 @@ from rest_framework.response import Response
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, status
-from .models import RegistryUser, CelebrationDay
-from api.serializer import UserSerializer, CelebrationDaySerializer
+from .models import RegistryUser, CelebrationDay, GiftItem
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, GiftItemSerializer
+
 
 class FriendsViewSet(viewsets.ModelViewSet):
     queryset = RegistryUser.objects.all()
     serializer_class = UserSerializer
+
+    def get_queryset(self):
+        return RegistryUser.objects.exclude(id=self.request.user.id).exclude(email='admin@admin.com')
 
 
 class CelebrationDayViewSet(viewsets.ModelViewSet):
@@ -25,11 +29,9 @@ class CelebrationDayViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-    
 
-class TestView(APIView):
 
-    def get(self, request, format=None):
-        return Response({"hello": "world"})
-
+class GiftItemViewSet(viewsets.ModelViewSet):
+    queryset = GiftItem.objects.all()
+    serializer_class = GiftItemAllSerializer
 

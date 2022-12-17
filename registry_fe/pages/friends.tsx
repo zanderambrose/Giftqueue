@@ -15,6 +15,7 @@ const Friends = () => {
   });
   return (
     <Layout>
+      <h1 className="text-center">Friends</h1>
       <Form className="d-flex">
         <Form.Control
           type="search"
