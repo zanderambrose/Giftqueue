@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import RegistryUser, CelebrationDay, GiftItem
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -17,17 +17,29 @@ class CelebrationDaySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GiftItemUrlSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        return instance.url
+
+
+    class Meta:
+        model = GiftItemUrl
+        fields = ('url',)
+
+
+
 class GiftItemAllSerializer(serializers.ModelSerializer):
+    url = GiftItemUrlSerializer(read_only=True, many=True, source='giftitemurl_set')
 
 
     class Meta:
         model = GiftItem
-        fields = "__all__"
+        fields = ('name', "owner", "is_purchased", "url", "id")
 
 
-class GiftItemSerializer(serializers.ModelSerializer):
+class GiftItemFilteredSerializer(serializers.ModelSerializer):
 
 
     class Meta:
         model = GiftItem
-        fields = ('name', "owner", "url")
+        fields = ('name', "owner")

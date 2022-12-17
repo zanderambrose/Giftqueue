@@ -6,7 +6,7 @@ router = DefaultRouter()
 
 router.register(r'friends', FriendsViewSet, basename='friends')
 router.register(r'celebration', CelebrationDayViewSet, basename='celebration')
-router.register(r'gifts', GiftItemViewSet, basename='gifts')
+router.register(r'wishlist', GiftItemViewSet, basename='wishlist')
 
 urlpatterns = [
     path('', include(router.urls)),
