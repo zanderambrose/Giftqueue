@@ -1,10 +1,9 @@
 import datetime
 from rest_framework.response import Response
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework import viewsets, status
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, GiftItemFilteredSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer
 
 
 class FriendsViewSet(viewsets.ModelViewSet):
@@ -34,11 +33,6 @@ class CelebrationDayViewSet(viewsets.ModelViewSet):
 class GiftItemViewSet(viewsets.ModelViewSet):
     queryset = GiftItem.objects.all()
     serializer_class = GiftItemAllSerializer
-
-    def get_serializer_class(self):
-        if self.action == 'list':
-            return GiftItemAllSerializer
-        return super().get_serializer_class()
 
     def create(self, request, *args, **kwargs):
         name = request.data.get('name')

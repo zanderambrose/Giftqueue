@@ -47,10 +47,3 @@ class GiftItemAllSerializer(serializers.ModelSerializer):
         model = GiftItem
         fields = ('name', "owner", "is_purchased", "url", "id")
 
-
-class GiftItemFilteredSerializer(serializers.ModelSerializer):
-
-
-    class Meta:
-        model = GiftItem
-        fields = ('name', "owner")
