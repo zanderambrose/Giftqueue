@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer
+from django.http.request import QueryDict
 
 
 class FriendsViewSet(viewsets.ModelViewSet):
@@ -14,20 +15,21 @@ class FriendsViewSet(viewsets.ModelViewSet):
         return RegistryUser.objects.exclude(id=self.request.user.id).exclude(email='admin@admin.com')
 
 
-class CelebrationDayViewSet(viewsets.ModelViewSet):
+class OwnedViewSet(viewsets.ModelViewSet):
+    """
+    Add name and owner to request to simplify owned models
+    """
+    def create(self, request, *args, **kwargs):
+        if isinstance(request.data, QueryDict): # optional
+            request.data._mutable = True
+        request.data['name'] = request.data.get('name')
+        request.data['owner'] = request.user.id
+        return super().create(request, *args, **kwargs)
+
+
+class CelebrationDayViewSet(OwnedViewSet):
     queryset = CelebrationDay.objects.all()
     serializer_class = CelebrationDaySerializer
-
-    def create(self, request, *args, **kwargs):
-        date_to_save = request.data.get("date")
-        name = request.data.get('name')
-        owner = self.request.user.id
-        json_date = {"name": name, 'owner': owner, "date": date_to_save}
-        serializer = self.get_serializer(data=json_date)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class GiftItemViewSet(viewsets.ModelViewSet):
