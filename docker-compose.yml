@@ -29,6 +29,10 @@ services:
       - POSTGRES_USER=$POSTGRES_USER
     depends_on:
       - db
+    restart: always
+    links:
+      - "db:database"
+
   db:
     image: postgres
     restart: always

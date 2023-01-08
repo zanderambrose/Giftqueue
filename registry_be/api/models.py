@@ -55,8 +55,9 @@ class RegistryUser(AbstractUser):
 
 
 class Friendship(models.Model):
-     profile_request = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='request')
-     profile_accept = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='accept')
+    profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
+    profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
+    is_accepted = models.BooleanField(default=False)
 
 
 class OwnedBaseModel(models.Model):
