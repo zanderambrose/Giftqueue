@@ -11,3 +11,6 @@ down:
 
 destroy:
 	docker compose $(COMPOSE_FILES) --env-file .env down --remove-orphans -v;
+
+dbshell:
+	docker compose exec -it db bash 
