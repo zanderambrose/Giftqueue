@@ -114,9 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# from rest_framework_simplejwt.authentication import JWTAuthentication
-# from rest_framework_simplejwt.tokens import AccessToken
-# from rest_framework_simplejwt.state import token_backend
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
