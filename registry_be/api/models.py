@@ -54,6 +54,11 @@ class RegistryUser(AbstractUser):
         return self.email
 
 
+class Friendship(models.Model):
+     profile_request = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='request')
+     profile_accept = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='accept')
+
+
 class OwnedBaseModel(models.Model):
     name = models.CharField(max_length=255, blank=False, default=None)
     owner = models.ForeignKey(RegistryUser,on_delete=models.CASCADE)    
