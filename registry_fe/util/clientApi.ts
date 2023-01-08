@@ -7,7 +7,7 @@ export const useRegistryApi = () => {
     getAllFriends: async (): Promise<any[]> => {
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friends/`,
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friend/`,
           {
             headers: { Authorization: `Bearer ${session?.idToken}` },
           }
