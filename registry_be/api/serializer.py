@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -47,3 +47,10 @@ class GiftItemAllSerializer(serializers.ModelSerializer):
         model = GiftItem
         fields = ('name', "owner", "is_purchased", "url", "id")
 
+
+class FriendshipSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Friendship
+        fields = "__all__"
