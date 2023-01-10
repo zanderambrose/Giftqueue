@@ -5,6 +5,7 @@ from rest_framework import viewsets, status, generics
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipSerializer
 from django.http.request import QueryDict
+from django.db.models import Q
 
 
 class FriendsViewSet(viewsets.ModelViewSet):
@@ -61,6 +62,10 @@ class GiftItemViewSet(viewsets.ModelViewSet):
             GiftItemUrl.objects.create(url=url, gift_item=gift_item)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-class Friendlist(generics.ListAPIView):
+class FriendlistListView(generics.ListAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
+
+    def get_queryset(self):
+        queryset= super().get_queryset()
+        return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id) & Q(is_accepted=True))
