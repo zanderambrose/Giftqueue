@@ -3,7 +3,6 @@ import Head from "next/head";
 
 // Components
 import LandingPage from "../components/LandingPage";
-import Navigation from "../components/Navigation";
 
 const Home: NextPage = () => {
   return (
@@ -14,7 +13,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navigation />
       <LandingPage />
     </div>
   );

@@ -14,6 +14,10 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
+FRONTEND_BASE_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
+DATABASE_PASSWORD=os.environ.get('POSTGRES_PASSWORD')
+DATABASE_USER=os.environ.get('POSTGRES_USER')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +30,7 @@ SECRET_KEY = 'django-insecure-w5356_b)ee)3*ptg#bxp55o(^6b^t($jzv+)!mef%&k_r4+^_d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 GOOGLE_AUD_CLAIM = os.environ.get("GOOGLE_AUD_CLAIM", None)
 
@@ -42,9 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'rest_framework_simplejwt',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -80,8 +87,12 @@ WSGI_APPLICATION = 'registry_be.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'zander', 
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': 'db', 
+        'PORT': '5432',
     }
 }
 
@@ -103,9 +114,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-# from rest_framework_simplejwt.authentication import JWTAuthentication
-# from rest_framework_simplejwt.tokens import AccessToken
-# from rest_framework_simplejwt.state import token_backend
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -171,3 +179,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'api.RegistryUser'
+
+CORS_ALLOWED_ORIGINS = [
+    FRONTEND_BASE_URL,
+]

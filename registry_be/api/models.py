@@ -54,6 +54,12 @@ class RegistryUser(AbstractUser):
         return self.email
 
 
+class Friendship(models.Model):
+    profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
+    profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
+    is_accepted = models.BooleanField(default=False)
+
+
 class OwnedBaseModel(models.Model):
     name = models.CharField(max_length=255, blank=False, default=None)
     owner = models.ForeignKey(RegistryUser,on_delete=models.CASCADE)    
@@ -62,7 +68,20 @@ class OwnedBaseModel(models.Model):
 class CelebrationDay(OwnedBaseModel):
     date = models.DateField()
 
+    def __str__(self):
+        return f'{self.owner} - {self.name}'
+
 
 class GiftItem(OwnedBaseModel):
-    url = models.URLField(max_length=255)
     is_purchased = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.name} - {self.owner.first_name}'
+
+
+class GiftItemUrl(models.Model):
+    url = models.URLField(max_length=255)
+    gift_item = models.ForeignKey(GiftItem, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.gift_item.name} - {self.gift_item.owner}'

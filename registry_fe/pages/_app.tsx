@@ -1,9 +1,13 @@
 import type { AppProps } from "next/app";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "../styles/globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+// Create a client
+const queryClient = new QueryClient();
 
 function MyApp({
   Component,
@@ -13,7 +17,9 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </SessionProvider>
   );
 }
