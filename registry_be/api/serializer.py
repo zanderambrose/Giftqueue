@@ -48,10 +48,19 @@ class GiftItemAllSerializer(serializers.ModelSerializer):
         fields = ('name', "owner", "is_purchased", "url", "id")
 
 
-class FriendshipSerializer(serializers.ModelSerializer):
+class FriendshipListSerializer(serializers.ModelSerializer):
     profile_requestor = UserSerializer()
     profile_acceptor = UserSerializer()
+
 
     class Meta:
         model = Friendship
         fields = ("profile_requestor", "profile_acceptor", "is_accepted")
+
+
+class FriendshipRequestSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = Friendship
+        fields = "__all__" 

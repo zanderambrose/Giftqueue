@@ -1,9 +1,8 @@
 import datetime
 from rest_framework.response import Response
-from rest_framework.response import Response
-from rest_framework import viewsets, status, generics
+from rest_framework import viewsets, status, generics, mixins
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipListSerializer, FriendshipRequestSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 
@@ -64,8 +63,27 @@ class GiftItemViewSet(viewsets.ModelViewSet):
 
 class FriendlistListView(generics.ListAPIView):
     queryset = Friendship.objects.all()
-    serializer_class = FriendshipSerializer
+    serializer_class = FriendshipListSerializer
 
     def get_queryset(self):
         queryset= super().get_queryset()
         return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id) & Q(is_accepted=True))
+
+
+class FriendrequestListCreateView(generics.ListCreateAPIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+    queryset = Friendship.objects.all() 
+    serializer_class = FriendshipRequestSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        filtered_queryset = queryset.filter(profile_acceptor=self.request.user.id, is_accepted=False)
+        serializer = FriendshipRequestSerializer(filtered_queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        data = {"profile_requestor": self.request.user.id, "profile_acceptor": self.request.data.get('profile_acceptor')}
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
