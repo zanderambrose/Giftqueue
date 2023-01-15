@@ -18,15 +18,17 @@ export async function refreshAccessToken(token: any) {
     });
 
     const refreshedTokens = await response.json();
-    console.log("REFRESHED TOKEN: ", refreshedTokens);
 
     if (!response.ok) {
       throw refreshedTokens;
     }
 
-    token.idToken = refreshedTokens.id_token;
-    token.refreshToken = refreshedTokens.refresh_token;
-    token.expires = (refreshedTokens.expires_in as number) * 1000;
+    return {
+      ...token,
+      accessToken: refreshedTokens.id_token,
+      expires: Date.now() + refreshedTokens.expires_in * 1000,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+    };
   } catch (error) {
     console.log(error);
 
