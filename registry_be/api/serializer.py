@@ -51,11 +51,23 @@ class GiftItemAllSerializer(serializers.ModelSerializer):
 class FriendshipListSerializer(serializers.ModelSerializer):
     profile_requestor = UserSerializer()
     profile_acceptor = UserSerializer()
-
+    
+    """
+        Only serialize friend of logged in user
+        Remove serialized value of requesting user
+    """
+    def to_representation(self, instance):
+       user_id = self.context["request"].user.id
+       val = super().to_representation(instance)
+       if val["profile_requestor"]["id"] == user_id:
+        del val["profile_requestor"]
+       if val["profile_acceptor"]['id'] == user_id:
+        del val["profile_acceptor"] 
+       return val
 
     class Meta:
         model = Friendship
-        fields = ("profile_requestor", "profile_acceptor", "is_accepted")
+        fields = ("profile_requestor", "profile_acceptor")
 
 
 class FriendshipRequestSerializer(serializers.ModelSerializer):

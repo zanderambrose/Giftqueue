@@ -67,7 +67,7 @@ class FriendlistListView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset= super().get_queryset()
-        return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id) & Q(is_accepted=True))
+        return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
 
 
 class FriendrequestListCreateView(generics.ListCreateAPIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
