@@ -6,6 +6,13 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
 
+class TimeStampMixin(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
 
 class CustomUserManager(BaseUserManager):
     """
@@ -39,7 +46,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class RegistryUser(AbstractUser):
+class RegistryUser(AbstractUser, TimeStampMixin):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     relationships = models.ManyToManyField('self', blank=True)
@@ -54,14 +61,14 @@ class RegistryUser(AbstractUser):
         return self.email
 
 
-class Friendship(models.Model):
+class Friendship(TimeStampMixin, models.Model):
     profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
     profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
     is_accepted = models.BooleanField(default=False)
     date_accepted = models.DateTimeField(blank=True, null=True)
 
 
-class OwnedBaseModel(models.Model):
+class OwnedBaseModel(TimeStampMixin,models.Model):
     name = models.CharField(max_length=255, blank=False, default=None)
     owner = models.ForeignKey(RegistryUser,on_delete=models.CASCADE)    
 
@@ -80,7 +87,7 @@ class GiftItem(OwnedBaseModel):
         return f'{self.name} - {self.owner.first_name}'
 
 
-class GiftItemUrl(models.Model):
+class GiftItemUrl(TimeStampMixin,models.Model):
     url = models.URLField(max_length=255)
     gift_item = models.ForeignKey(GiftItem, on_delete=models.CASCADE)
 
