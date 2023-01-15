@@ -1,4 +1,3 @@
-import datetime
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics, mixins
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
@@ -12,7 +11,12 @@ class FriendsViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_queryset(self):
-        return RegistryUser.objects.exclude(id=self.request.user.id).exclude(email='admin@admin.com')
+        queryset = RegistryUser.objects.exclude(id=self.request.user.id).exclude(email='admin@admin.com')
+        name_query_param = self.request.query_params.get('name', None)
+        if (name_query_param):
+            return queryset.filter(Q(first_name__icontains=name_query_param)| Q(last_name__icontains=name_query_param))
+        else:
+            return queryset
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
