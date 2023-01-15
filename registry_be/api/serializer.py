@@ -63,11 +63,13 @@ class FriendshipListSerializer(serializers.ModelSerializer):
         del val["profile_requestor"]
        if val["profile_acceptor"]['id'] == user_id:
         del val["profile_acceptor"] 
+       if not val["date_accepted"]:
+        del val["date_accepted"]
        return val
 
     class Meta:
         model = Friendship
-        fields = ("profile_requestor", "profile_acceptor")
+        fields = ("profile_requestor", "profile_acceptor", "date_accepted")
 
 
 class FriendshipRequestSerializer(serializers.ModelSerializer):

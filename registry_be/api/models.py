@@ -58,6 +58,7 @@ class Friendship(models.Model):
     profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
     profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
     is_accepted = models.BooleanField(default=False)
+    date_accepted = models.DateField(blank=True, null=True)
 
 
 class OwnedBaseModel(models.Model):
