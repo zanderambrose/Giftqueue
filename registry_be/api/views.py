@@ -70,7 +70,7 @@ class FriendlistListView(generics.ListAPIView):
         return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
 
 
-class FriendrequestListCreateView(generics.ListCreateAPIView, mixins.UpdateModelMixin, mixins.DestroyModelMixin):
+class FriendrequestViewset(viewsets.ModelViewSet):
     queryset = Friendship.objects.all() 
     serializer_class = FriendshipRequestSerializer
 
