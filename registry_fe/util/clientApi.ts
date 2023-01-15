@@ -9,7 +9,7 @@ export const useRegistryApi = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friend/`,
           {
-            headers: { Authorization: `Bearer ${session?.idToken}` },
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
         return response.data;
@@ -22,7 +22,7 @@ export const useRegistryApi = () => {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}wishlist/`,
           {
-            headers: { Authorization: `Bearer ${session?.idToken}` },
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
         return response.data;
@@ -35,7 +35,7 @@ export const useRegistryApi = () => {
         return axios.post(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/`,
           { name, date },
-          { headers: { Authorization: `Bearer ${session?.idToken}` } }
+          { headers: { Authorization: `Bearer ${session?.accessToken}` } }
         );
         // return response.data;
       } catch (error: any) {
@@ -47,7 +47,7 @@ export const useRegistryApi = () => {
         return axios.post(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}wishlist/`,
           { name, url },
-          { headers: { Authorization: `Bearer ${session?.idToken}` } }
+          { headers: { Authorization: `Bearer ${session?.accessToken}` } }
         );
         // return response.data;
       } catch (error: any) {
