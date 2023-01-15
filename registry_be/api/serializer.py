@@ -10,7 +10,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def days(self, obj):
-        return (now() - obj.created_at).days
+        computed_days = (now() - obj.created_at).days
+        return computed_days if computed_days > 0 else 1
 
 class CelebrationDaySerializer(serializers.ModelSerializer):
 
