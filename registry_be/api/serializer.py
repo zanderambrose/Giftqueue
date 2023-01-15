@@ -48,7 +48,7 @@ class GiftItemAllSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GiftItem
-        fields = ('name', "owner", "is_purchased", "url", "id")
+        fields = ('name', "owner", "is_purchased", "url", "id", "notes", "related_to")
 
 
 class FriendshipListSerializer(serializers.ModelSerializer):

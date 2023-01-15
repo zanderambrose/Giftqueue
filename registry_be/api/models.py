@@ -81,6 +81,8 @@ class CelebrationDay(OwnedBaseModel):
 
 class GiftItem(OwnedBaseModel):
     is_purchased = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, null=True)
+    related_to = models.ForeignKey(CelebrationDay, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} - {self.owner.first_name}'
