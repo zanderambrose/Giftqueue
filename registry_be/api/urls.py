@@ -4,7 +4,7 @@ from .views import FriendsViewSet, CelebrationDayViewSet, GiftItemViewSet, Frien
 
 router = DefaultRouter()
 
-router.register(r'friend', FriendsViewSet, basename='friend')
+router.register(r'friend/search', FriendsViewSet, basename='friend')
 router.register(r'celebration', CelebrationDayViewSet, basename='celebration')
 router.register(r'wishlist', GiftItemViewSet, basename='wishlist')
 router.register(r'friendrequest', FriendrequestViewset, basename='friendrequest')
