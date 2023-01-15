@@ -1,13 +1,16 @@
+from django.utils.timezone import now
 from rest_framework import serializers
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
 
 class UserSerializer(serializers.ModelSerializer):
-
+    days_since_joined = serializers.SerializerMethodField('days')
 
     class Meta:
         model = RegistryUser
         fields = '__all__'
 
+    def days(self, obj):
+        return (now() - obj.created_at).days
 
 class CelebrationDaySerializer(serializers.ModelSerializer):
 

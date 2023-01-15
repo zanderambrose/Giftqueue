@@ -49,14 +49,13 @@ class CustomUserManager(BaseUserManager):
 class RegistryUser(AbstractUser, TimeStampMixin):
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    relationships = models.ManyToManyField('self', blank=True)
     sub = models.CharField(max_length= 255,blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
-
+    
     def __str__(self):
         return self.email
 
