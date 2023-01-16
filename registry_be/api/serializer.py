@@ -84,7 +84,7 @@ class FriendshipRequestSerializer(serializers.ModelSerializer):
         fields = "__all__" 
 
 
-class ActivtyFeedSerializer(serializers.ModelSerializer):
+class ActivityFeedSerializer(serializers.ModelSerializer):
 
 
     class Meta:
