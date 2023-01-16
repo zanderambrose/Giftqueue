@@ -94,3 +94,17 @@ class GiftItemUrl(TimeStampMixin,models.Model):
 
     def __str__(self):
         return f'{self.gift_item.name} - {self.gift_item.owner}'
+
+ACTIVITY_FEED_ACTION_CHOICES = (
+    ("GIFT", 'GIFT'),
+    ("DAY", "DAY"),
+)
+
+class ActivityFeed(models.Model):
+    owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255 ,choices=ACTIVITY_FEED_ACTION_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f'{self.owner.first_name} - {self.owner.last_name} - {self.action}'

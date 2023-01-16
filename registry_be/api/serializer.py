@@ -1,6 +1,6 @@
 from django.utils.timezone import now
 from rest_framework import serializers
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
 
 class UserSerializer(serializers.ModelSerializer):
     days_since_joined = serializers.SerializerMethodField('days')
@@ -82,3 +82,11 @@ class FriendshipRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Friendship
         fields = "__all__" 
+
+
+class ActivtyFeedSerializer(serializers.ModelSerializer):
+
+
+    class Meta:
+        model = ActivityFeed 
+        fields = "__all__"
