@@ -71,7 +71,12 @@ class FriendlistListView(generics.ListAPIView):
 
     def get_queryset(self):
         queryset= super().get_queryset()
-        return queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
+        return_queryset = queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
+        '''
+        Get List of primary keys for users friends. 
+        '''
+        #print("list pks: ", [x['id'] for x in list(return_queryset.values('id'))])
+        return return_queryset
 
 
 class FriendrequestViewset(viewsets.ModelViewSet):
