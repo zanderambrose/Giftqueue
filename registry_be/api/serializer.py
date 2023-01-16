@@ -87,6 +87,8 @@ class FriendshipRequestSerializer(serializers.ModelSerializer):
 
 class ActivityFeedSerializer(serializers.ModelSerializer):
     time_ago = serializers.SerializerMethodField('get_time')
+    owner = UserSerializer()
+
 
     class Meta:
         model = ActivityFeed 
