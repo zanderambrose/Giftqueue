@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework_simplejwt',
     "corsheaders",
+    "django.contrib.humanize",
 ]
 
 MIDDLEWARE = [

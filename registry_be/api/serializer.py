@@ -1,6 +1,7 @@
 from django.utils.timezone import now
 from rest_framework import serializers
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
+from django.contrib.humanize.templatetags import humanize
 
 class UserSerializer(serializers.ModelSerializer):
     days_since_joined = serializers.SerializerMethodField('days')
@@ -85,8 +86,11 @@ class FriendshipRequestSerializer(serializers.ModelSerializer):
 
 
 class ActivityFeedSerializer(serializers.ModelSerializer):
-
+    time_ago = serializers.SerializerMethodField('get_time')
 
     class Meta:
         model = ActivityFeed 
         fields = "__all__"
+    
+    def get_time(self, instance):
+        return humanize.naturaltime(instance.created_at)
