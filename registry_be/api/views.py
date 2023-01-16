@@ -106,4 +106,4 @@ class ActivityFeedListView(generics.ListAPIView):
         '''
         #print("list pks: ", [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())])
         friends_list = [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())]
-        return ActivityFeed.objects.filter(owner__in=friends_list) 
+        return ActivityFeed.objects.filter(owner__in=friends_list).order_by('-created_at')

@@ -101,6 +101,7 @@ ACTIVITY_FEED_ACTION_CHOICES = (
 )
 
 class ActivityFeed(models.Model):
+    name = models.CharField(max_length=255, blank=False, default=None)
     owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
     action = models.CharField(max_length=255 ,choices=ACTIVITY_FEED_ACTION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
