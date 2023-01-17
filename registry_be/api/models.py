@@ -106,6 +106,8 @@ class ActivityFeed(models.Model):
     action = models.CharField(max_length=255 ,choices=ACTIVITY_FEED_ACTION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    associated_action_id = models.IntegerField()
+    related_to = models.ForeignKey(GiftItem, on_delete=models.SET_NULL, blank=True, null=True)
+
     def __str__(self):
         return f'{self.owner.first_name} - {self.owner.last_name} - {self.action}'
