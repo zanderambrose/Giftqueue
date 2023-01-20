@@ -23,7 +23,7 @@ const Friends = () => {
           className="me-2"
           aria-label="Search"
         />
-        <Button variant="outline-secondary">Search</Button>
+        <Button variant="outline-secondary">fuck</Button>
       </Form>
       {data && (
         <ul>
