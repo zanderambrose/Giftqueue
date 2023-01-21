@@ -1,11 +1,11 @@
 version: "3.9"
 
 services:
-  app:
-    build: ./registry_fe
-    container_name: app
+  frontend:
+    build: ./frontend
+    container_name: frontend
     volumes:
-      - ./registry_fe:/app
+      - ./frontend:/app
     ports:
       - 3000:3000
     environment:
@@ -16,10 +16,10 @@ services:
       - NEXT_PUBLIC_REGISTRY_BASE_URL=$NEXT_PUBLIC_REGISTRY_BASE_URL
       - NEXT_PUBLIC_REGISTRY_API_BASE_URL=$NEXT_PUBLIC_REGISTRY_API_BASE_URL
   backend:
-    build: ./registry_be
+    build: ./backend
     container_name: backend
     volumes:
-      - ./registry_be:/app
+      - ./backend:/app
     ports:
       - 8000:8000
     environment:
@@ -35,6 +35,7 @@ services:
 
   db:
     image: postgres
+    container_name: db
     restart: always
     environment:
       - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
@@ -45,6 +46,7 @@ services:
       - ./postgres/data:/var/lib/postgresql/data
   adminer:
     image: adminer
+    container_name: db_admin
     restart: always
     ports:
       - 8080:8080
