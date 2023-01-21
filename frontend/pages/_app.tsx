@@ -4,9 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "../styles/globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-// Create a client
+// Create TanStack Query Client
 const queryClient = new QueryClient();
 
 function MyApp({
