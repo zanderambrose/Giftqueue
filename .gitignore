@@ -1,6 +1,7 @@
 *.swp
 *.swo
 **/routes.md
+**/frontend.md
 *.env
 **/__pycache__
 __pycache__/
