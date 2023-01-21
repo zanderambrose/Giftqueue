@@ -4,19 +4,23 @@ import Maincontent from "./Maincontent";
 import Navigation from "./Navigation";
 import ProfileSidebar from "./ProfileSidebar";
 
-const Layout = ({ children }: { children: any }) => {
+const Layout = () => {
   return (
     <>
-      <Navigation />
-      <div className="flex flex-row">
-        <div className="basis-1/4">
-          <ProfileSidebar />
+      <div className="flex flex-col h-screen">
+        <div className="h-24">
+          <Navigation />
         </div>
-        <div className="basis-1/2">
-          <Maincontent />
-        </div>
-        <div className="basis-1/4">
-          <ActivityFeedSidebar />
+        <div className="grow flex flex-row">
+          <div className="basis-1/4">
+            <ProfileSidebar />
+          </div>
+          <div className="basis-1/2">
+            <Maincontent />
+          </div>
+          <div className="basis-1/4">
+            <ActivityFeedSidebar />
+          </div>
         </div>
       </div>
     </>
