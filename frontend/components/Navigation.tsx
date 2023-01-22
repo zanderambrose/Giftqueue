@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Navigation = () => {
   return (
@@ -14,7 +16,12 @@ const Navigation = () => {
         <h3>Calendar</h3>
       </div>
       <div className="sidebar-layout">
-        <div className="text-center">Layout</div>
+        <div className="text-center">
+          <div className="flex justify-center items-center">
+            <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            <div className="ml-2">Logout</div>
+          </div>
+        </div>
       </div>
     </nav>
   );
