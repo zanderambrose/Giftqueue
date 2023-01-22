@@ -11,13 +11,13 @@ const Layout = () => {
         <Navigation />
       </div>
       <div className="flex main-content">
-        <div className="basis-1/4">
+        <div className="sidebar-layout">
           <ProfileSidebar />
         </div>
-        <div className="overflow-scroll basis-1/2">
+        <div className="overflow-y-scroll flex-1">
           <Maincontent />
         </div>
-        <div className="basis-1/4">
+        <div className="sidebar-layout">
           <ActivityFeedSidebar />
         </div>
       </div>

@@ -1,3 +1,7 @@
 .main-content {
   height: calc(100vh - 6rem);
 }
+
+.sidebar-layout {
+  width: 300px;
+}
