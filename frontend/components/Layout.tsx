@@ -7,20 +7,18 @@ import ProfileSidebar from "./ProfileSidebar";
 const Layout = () => {
   return (
     <>
-      <div className="flex flex-col h-screen">
-        <div className="h-24">
-          <Navigation />
+      <div className="h-24">
+        <Navigation />
+      </div>
+      <div className="h-screen flex">
+        <div className="basis-1/4">
+          <ProfileSidebar />
         </div>
-        <div className="grow flex flex-row">
-          <div className="basis-1/4">
-            <ProfileSidebar />
-          </div>
-          <div className="basis-1/2">
-            <Maincontent />
-          </div>
-          <div className="basis-1/4">
-            <ActivityFeedSidebar />
-          </div>
+        <div className="overflow-scroll basis-1/2">
+          <Maincontent />
+        </div>
+        <div className="basis-1/4">
+          <ActivityFeedSidebar />
         </div>
       </div>
     </>
