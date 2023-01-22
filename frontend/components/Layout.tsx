@@ -10,7 +10,7 @@ const Layout = () => {
       <div className="h-24">
         <Navigation />
       </div>
-      <div className="h-screen flex">
+      <div className="flex main-content">
         <div className="basis-1/4">
           <ProfileSidebar />
         </div>
