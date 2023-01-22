@@ -10,10 +10,10 @@ const Navigation = () => {
         <Image src="/giftqueueLogo.png" width="78px" height="56px" />
       </div>
       <div className="flex-1 flex justify-around">
-        <h3>Celebration Day</h3>
-        <h3>Giftqueue</h3>
-        <h3>Friends</h3>
-        <h3>Calendar</h3>
+        <h3 className="nav-link nav-link-grow-up">Celebration Day</h3>
+        <h3 className="nav-link nav-link-grow-up">Giftqueue</h3>
+        <h3 className="nav-link nav-link-grow-up">Friends</h3>
+        <h3 className="nav-link nav-link-grow-up">Calendar</h3>
       </div>
       <div className="sidebar-layout">
         <div className="text-center">
