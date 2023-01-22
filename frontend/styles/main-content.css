@@ -24,10 +24,6 @@
   cursor: pointer;
 }
 
-.nav-link:hover {
-  opacity: 1;
-}
-
 .nav-link::before {
   transition: 300ms;
   height: 5px;
@@ -42,6 +38,6 @@
   bottom: 0px;
 }
 
-.nav-link-grow-up:hover::before {
+.nav-link-grow-up::before {
   height: 5px;
 }
