@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RecoilRoot } from "recoil";
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
@@ -23,9 +24,11 @@ function MyApp({
 }>) {
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
+      <RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
+      </RecoilRoot>
     </SessionProvider>
   );
 }
