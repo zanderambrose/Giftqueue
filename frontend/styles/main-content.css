@@ -1,5 +1,11 @@
+:root {
+  --navigation-height: 88px;
+}
+.navigation-layout {
+  height: var(--navigation-height);
+}
 .main-content {
-  height: calc(100vh - 6rem);
+  height: calc(100vh - var(--navigation-height));
 }
 
 .sidebar-layout {

@@ -7,7 +7,7 @@ import ProfileSidebar from "./ProfileSidebar";
 const Layout = () => {
   return (
     <>
-      <div className="h-24">
+      <div className="navigation-layout">
         <Navigation />
       </div>
       <div className="flex main-content">
