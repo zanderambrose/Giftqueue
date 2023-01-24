@@ -7,7 +7,17 @@
 .main-content {
   height: calc(100vh - var(--navigation-height));
 }
+.min-height-content {
+  min-height: calc(100vh - var(--navigation-height));
+}
 
+.main-content-bg {
+  background-color: #fafafa;
+}
+
+.nav-shadow {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
 .sidebar-layout {
   width: 300px;
 }

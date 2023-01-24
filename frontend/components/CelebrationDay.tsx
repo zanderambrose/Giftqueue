@@ -1,9 +1,10 @@
-import React from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChampagneGlasses } from "@fortawesome/free-solid-svg-icons";
 import BtnPrimary from "./buttons/BtnPrimary";
 
 const CelebrationDay = () => {
+  const [hasEvents, setHasEvents] = useState<boolean>(false);
   return (
     <div>
       <FontAwesomeIcon icon={faChampagneGlasses} />

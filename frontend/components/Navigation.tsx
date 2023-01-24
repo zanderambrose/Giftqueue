@@ -11,7 +11,7 @@ const Navigation = () => {
     setNavState(navItemState);
   };
   return (
-    <nav className="h-full flex items-center border-2 border-black">
+    <nav className="h-full flex items-center nav-shadow">
       <div className="sidebar-layout">
         <Image src="/giftqueueLogo.png" width="78px" height="56px" />
       </div>

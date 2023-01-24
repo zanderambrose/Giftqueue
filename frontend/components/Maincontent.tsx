@@ -9,7 +9,7 @@ import Giftqueue from "./Giftqueue";
 const Maincontent = () => {
   const navState = useRecoilValue(navigationState);
   return (
-    <main className="border-2 border-blue-600">
+    <main className="min-height-content main-content-bg">
       {navState === "day" && <CelebrationDay />}
       {navState === "giftqueue" && <Giftqueue />}
       {navState === "friends" && <Friends />}

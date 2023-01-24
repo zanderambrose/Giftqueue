@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProfileSidebar = () => {
-  return <div className="border-2 border-rose-600 ">ProfileSidebar</div>;
+  return <div className="min-height-content">ProfileSidebar</div>;
 };
 
 export default ProfileSidebar;
