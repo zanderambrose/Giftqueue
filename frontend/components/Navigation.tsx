@@ -13,7 +13,12 @@ const Navigation = () => {
   return (
     <nav className="h-full flex items-center nav-shadow">
       <div className="sidebar-layout">
-        <Image src="/giftqueueLogo.png" width="78px" height="56px" />
+        <Image
+          src="/giftqueueLogo.png"
+          width={"78"}
+          height={"56"}
+          alt={"giftqueue logo"}
+        />
       </div>
       <div className="flex-1 flex justify-around">
         <h3

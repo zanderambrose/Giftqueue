@@ -1,6 +1,9 @@
 :root {
   --navigation-height: 88px;
 }
+* {
+  font-family: "Montserrat";
+}
 .navigation-layout {
   height: var(--navigation-height);
 }
