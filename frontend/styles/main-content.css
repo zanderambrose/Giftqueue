@@ -69,3 +69,10 @@
   background-color: var(--purple-main);
   margin: 0 auto;
 }
+.main-Btn {
+  width: 80%;
+  margin: 0 auto;
+  background-color: var(--purple-main);
+  padding: 1rem;
+  color: white;
+}
