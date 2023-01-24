@@ -1,5 +1,6 @@
 :root {
   --navigation-height: 88px;
+  --purple-main: #aa96da;
 }
 * {
   font-family: "Montserrat";
@@ -39,14 +40,14 @@
   cursor: pointer;
 }
 .nav-link-grow-up {
-  color: #aa96da;
+  color: var(--purple-main);
 }
 .nav-link::before {
   transition: 300ms;
   height: 5px;
   content: "";
   position: absolute;
-  background-color: #aa96da;
+  background-color: var(--purple-main);
 }
 
 .nav-link-grow-up::before {
