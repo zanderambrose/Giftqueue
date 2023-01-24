@@ -59,3 +59,13 @@
 .nav-link-grow-up::before {
   height: 5px;
 }
+
+/* BtnPrimary */
+.btn-primary {
+  width: 180px;
+  position: relative;
+  top: 20px;
+  padding: 1rem;
+  background-color: var(--purple-main);
+  margin: 0 auto;
+}

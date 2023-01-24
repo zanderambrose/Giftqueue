@@ -1,17 +1,21 @@
-import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChampagneGlasses } from "@fortawesome/free-solid-svg-icons";
-import BtnPrimary from "./buttons/BtnPrimary";
+import { useState } from "react";
+import NoItemDefaultCard from "./NoItemDefaultCard";
 
 const CelebrationDay = () => {
   const [hasEvents, setHasEvents] = useState<boolean>(false);
   return (
-    <div>
-      <FontAwesomeIcon icon={faChampagneGlasses} />
-      <h1>No celebration days entered yet.</h1>
-      <p>Share your lovely moments with your friends.</p>
-      <BtnPrimary text="Add New Event" />
-    </div>
+    <>
+      {!hasEvents ? (
+        <NoItemDefaultCard
+          icon={faChampagneGlasses}
+          headingText="No celebration days entered yet!"
+          subText="Share your lovely moments with your friends!"
+        />
+      ) : (
+        <h2>you got elements</h2>
+      )}
+    </>
   );
 };
 
