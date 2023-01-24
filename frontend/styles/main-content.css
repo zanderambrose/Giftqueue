@@ -38,13 +38,15 @@
   opacity: 0.75;
   cursor: pointer;
 }
-
+.nav-link-grow-up {
+  color: #aa96da;
+}
 .nav-link::before {
   transition: 300ms;
   height: 5px;
   content: "";
   position: absolute;
-  background-color: #031d44;
+  background-color: #aa96da;
 }
 
 .nav-link-grow-up::before {
