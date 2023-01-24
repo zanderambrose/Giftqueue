@@ -12,6 +12,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; /* eslint-disable import/first */
 import "../styles/globals.css";
 import "../styles/main-content.css";
+import "react-calendar/dist/Calendar.css";
 
 // Create TanStack Query Client
 const queryClient = new QueryClient();

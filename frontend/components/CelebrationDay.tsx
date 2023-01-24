@@ -2,6 +2,7 @@ import { faChampagneGlasses, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import NoItemDefaultCard from "./NoItemDefaultCard";
+import Calendar from "react-calendar";
 
 const CelebrationDay = () => {
   // State for showing users days or default state
@@ -56,6 +57,7 @@ const CelebrationDay = () => {
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
     "
                     />
+                    <Calendar className={"mt-4"} />
                   </form>
                 </div>
                 {/*footer*/}
