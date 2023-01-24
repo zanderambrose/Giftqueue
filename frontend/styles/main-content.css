@@ -28,7 +28,7 @@
   width: 300px;
 }
 .nav-link {
-  font-weight: bold;
+  font-weight: bolder;
   font-size: 14px;
   text-transform: uppercase;
   text-decoration: none;
@@ -53,7 +53,7 @@
 .nav-link-grow-up::before {
   height: 0%;
   width: 100%;
-  bottom: 0px;
+  bottom: -5px;
 }
 
 .nav-link-grow-up::before {
