@@ -57,7 +57,12 @@ const CelebrationDay = () => {
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
     "
                     />
-                    <Calendar className={"mt-4"} />
+                    <label className="block mt-8">
+                      <span className="block text-md font-medium">
+                        Select Date
+                      </span>
+                    </label>
+                    <Calendar />
                   </form>
                 </div>
                 {/*footer*/}
