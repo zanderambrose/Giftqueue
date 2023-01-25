@@ -13,7 +13,7 @@ const ProfileSidebar = () => {
           src={session?.user?.image ?? ""}
           width={"152"}
           height={"152"}
-          alt={"giftqueue logo"}
+          alt={"profile picture"}
           className="block m-auto rounded-2xl"
         />
         <h1 className="mt-8 text-base font-black">{session?.user?.name}</h1>
