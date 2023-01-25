@@ -1,6 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserGroup, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faUserGroup,
+  faAngleDown,
+  faEarthAmericas,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ActivityFeedSidebar = () => {
   return (
@@ -15,6 +19,19 @@ const ActivityFeedSidebar = () => {
           <FontAwesomeIcon icon={faAngleDown} />
         </div>
       </div>
+      <div className="relative top-10 mt-8 flex justify-center items-center">
+        <FontAwesomeIcon
+          style={{ color: "#aa96da" }}
+          size="4x"
+          icon={faEarthAmericas}
+        />
+      </div>
+      <p
+        className="text-center relative top-10 mt-8 italic"
+        style={{ color: "#aa96da" }}
+      >
+        Nothing new yet!
+      </p>
     </div>
   );
 };
