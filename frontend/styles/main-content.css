@@ -76,3 +76,7 @@
   padding: 1rem;
   color: white;
 }
+
+.giftQueueModal {
+  max-height: 95%;
+}
