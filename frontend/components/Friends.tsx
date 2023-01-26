@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import FriendCard from "./FriendCard";
 
 const Friends = () => {
   return (
@@ -22,6 +23,13 @@ const Friends = () => {
           name="search"
         />
       </label>
+      <p className="mt-4 relative right-2">
+        <span style={{ color: "#aa96da" }}>212</span> Contacts found in your
+        google account!
+      </p>
+      <div className="mt-4">
+        <FriendCard />
+      </div>
     </div>
   );
 };

@@ -80,3 +80,10 @@
 .giftQueueModal {
   max-height: 95%;
 }
+
+.friendCard {
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  width: 237px;
+  height: 250px;
+  text-align: center;
+}
