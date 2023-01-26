@@ -1,0 +1,89 @@
+:root {
+  --navigation-height: 88px;
+  --purple-main: #aa96da;
+}
+* {
+  font-family: "Montserrat";
+}
+.navigation-layout {
+  height: var(--navigation-height);
+}
+.main-content {
+  height: calc(100vh - var(--navigation-height));
+}
+.min-height-content {
+  min-height: calc(100vh - var(--navigation-height));
+}
+
+.main-content-bg {
+  background-color: #fafafa;
+}
+
+.nav-shadow {
+  z-index: 2;
+  position: relative;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+.sidebar-layout {
+  width: 300px;
+}
+.nav-link {
+  font-weight: bolder;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000000;
+  padding: 30px 0px;
+  display: inline-block;
+  position: relative;
+  opacity: 0.75;
+  cursor: pointer;
+}
+.nav-link-grow-up {
+  color: var(--purple-main);
+}
+.nav-link::before {
+  transition: 300ms;
+  height: 5px;
+  content: "";
+  position: absolute;
+  background-color: var(--purple-main);
+}
+
+.nav-link-grow-up::before {
+  height: 0%;
+  width: 100%;
+  bottom: -5px;
+}
+
+.nav-link-grow-up::before {
+  height: 5px;
+}
+
+/* BtnPrimary */
+.btn-primary {
+  width: 180px;
+  position: relative;
+  top: 20px;
+  padding: 1rem;
+  background-color: var(--purple-main);
+  margin: 0 auto;
+}
+.main-Btn {
+  width: 80%;
+  margin: 0 auto;
+  background-color: var(--purple-main);
+  padding: 1rem;
+  color: white;
+}
+
+.giftQueueModal {
+  max-height: 95%;
+}
+
+.friendCard {
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  width: 237px;
+  height: 250px;
+  text-align: center;
+}
