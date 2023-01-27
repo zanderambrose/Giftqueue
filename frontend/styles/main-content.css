@@ -18,6 +18,10 @@
 .main-content-bg {
   background-color: #fafafa;
 }
+.main-content-inner-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
 .nav-shadow {
   z-index: 2;

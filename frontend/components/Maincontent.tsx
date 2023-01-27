@@ -10,10 +10,12 @@ const Maincontent = () => {
   const navState = useRecoilValue(navigationState);
   return (
     <main className="min-height-content main-content-bg">
-      {navState === "day" && <CelebrationDay />}
-      {navState === "giftqueue" && <Giftqueue />}
-      {navState === "friends" && <Friends />}
-      {navState === "calendar" && <Calendar />}
+      <div className="main-content-inner-container">
+        {navState === "day" && <CelebrationDay />}
+        {navState === "giftqueue" && <Giftqueue />}
+        {navState === "friends" && <Friends />}
+        {navState === "calendar" && <Calendar />}
+      </div>
     </main>
   );
 };
