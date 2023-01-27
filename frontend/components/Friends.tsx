@@ -27,7 +27,11 @@ const Friends = () => {
         <span style={{ color: "#aa96da" }}>212</span> Contacts found in your
         google account!
       </p>
-      <div className="mt-4">
+      <div className="mt-4 friendListCardGrid">
+        <FriendCard />
+        <FriendCard />
+        <FriendCard />
+        <FriendCard />
         <FriendCard />
       </div>
     </div>

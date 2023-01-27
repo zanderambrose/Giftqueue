@@ -83,7 +83,12 @@
 
 .friendCard {
   box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
-  width: 237px;
   height: 250px;
   text-align: center;
+}
+
+.friendListCardGrid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
