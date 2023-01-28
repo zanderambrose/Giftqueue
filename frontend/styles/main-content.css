@@ -142,3 +142,18 @@
   align-items: center;
   width: 100%;
 }
+
+.deleteModalDeleteBtn {
+  border: 2px solid red;
+  border-radius: 4px;
+  padding: 1rem 3rem;
+  color: red;
+}
+
+.deleteModalCancelBtn {
+  border: 2px solid red;
+  border-radius: 4px;
+  padding: 1rem 3rem;
+  background-color: red;
+  color: white;
+}

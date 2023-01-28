@@ -144,15 +144,28 @@ const CelebrationDay = () => {
                   Delete Event
                 </h3>
                 {/*body*/}
-                <div className="relative px-6 flex-auto"></div>
+                <div className="relative px-6 flex-auto">
+                  <p className="muted text-sm my-6 w-4/5 text-center mx-auto">
+                    You are about to delete the registered event. Are you sure
+                    that you would like to delete it? Note your friend list may
+                    see this update!
+                  </p>
+                </div>
                 {/*footer*/}
-                <div className="text-center block p-6">
+                <div className="flex flex-row items-center justify-center mb-6">
                   <button
-                    className="main-Btn hover:opacity-80"
+                    className="deleteModalDeleteBtn mr-2"
                     type="button"
                     onClick={() => setAddFirstDayModal(false)}
                   >
-                    Confirm
+                    Delete
+                  </button>
+                  <button
+                    className="deleteModalCancelBtn ml-2"
+                    type="button"
+                    onClick={() => setAddFirstDayModal(false)}
+                  >
+                    Cancel
                   </button>
                 </div>
               </div>
