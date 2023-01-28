@@ -1,17 +1,24 @@
 import React from "react";
 import Image from "next/image";
+import BtnPrimary from "./buttons/BtnPrimary";
 
 const FriendCard = () => {
   return (
     <div className="friendCard">
-      <Image
-        src={"/placeholderFriend.jpg"}
-        width={"74"}
-        height={"74"}
-        alt="profile"
-        className="rounded-2xl mx-auto"
-      />
-      <h1>friend card</h1>
+      <div className="mt-4">
+        <Image
+          src={"/placeholderFriend.jpg"}
+          width={"74"}
+          height={"74"}
+          alt="profile"
+          className="rounded-2xl mx-auto"
+        />
+      </div>
+      <h1 className="mt-4 text-lg">Zander Ambrose</h1>
+      <p className="text-sm text-slate-400">Not a friend yet</p>
+      <div className="friendRequestBtn hover:opacity-80">
+        <button className="text-white">Send friend request</button>
+      </div>
     </div>
   );
 };

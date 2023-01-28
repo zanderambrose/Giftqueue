@@ -80,24 +80,6 @@ const Giftqueue = () => {
       focus:invalid:border-pink-500 focus:invalid:ring-pink-500
     "
                       />
-                      <input
-                        type="text"
-                        placeholder="URL (optional)"
-                        className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
-                      />
-                      <input
-                        type="text"
-                        placeholder="URL (optional)"
-                        className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
-                      />
                     </label>
                     <label className="block mt-4">
                       <span className="block text-md font-medium">
@@ -133,7 +115,7 @@ const Giftqueue = () => {
                     </label>
                     <textarea
                       id="message"
-                      rows={6}
+                      rows={3}
                       className="mt-4 block p-2.5 w-full text-md shadow-sm placeholder-slate-400 rounded-lg border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1"
                       placeholder="General Notes"
                     ></textarea>

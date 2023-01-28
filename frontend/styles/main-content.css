@@ -73,6 +73,12 @@
   background-color: var(--purple-main);
   margin: 0 auto;
 }
+.friendRequestBtn {
+  background-color: var(--purple-main);
+  margin: 2rem auto 0 auto;
+  padding: 0.5rem;
+  width: 80%;
+}
 .main-Btn {
   width: 80%;
   margin: 0 auto;
