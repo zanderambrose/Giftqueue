@@ -146,14 +146,14 @@
 .deleteModalDeleteBtn {
   border: 2px solid red;
   border-radius: 4px;
-  padding: 1rem 3rem;
+  padding: 1rem 4rem;
   color: red;
 }
 
 .deleteModalCancelBtn {
   border: 2px solid red;
   border-radius: 4px;
-  padding: 1rem 3rem;
+  padding: 1rem 4rem;
   background-color: red;
   color: white;
 }

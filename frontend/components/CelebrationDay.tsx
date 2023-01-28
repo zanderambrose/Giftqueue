@@ -145,11 +145,22 @@ const CelebrationDay = () => {
                 </h3>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <p className="muted text-sm my-6 w-4/5 text-center mx-auto">
+                  <p className="muted text-sm my-6 w-10/12 text-center mx-auto">
                     You are about to delete the registered event. Are you sure
                     that you would like to delete it? Note your friend list may
                     see this update!
                   </p>
+                  <div className="text-center mb-8">
+                    <input
+                      type="checkbox"
+                      className="text-center mr-2"
+                      name="friend-notify"
+                      id="friend-notify"
+                    />
+                    <label htmlFor="friend-notify">
+                      Don't notify my friends
+                    </label>
+                  </div>
                 </div>
                 {/*footer*/}
                 <div className="flex flex-row items-center justify-center mb-6">
