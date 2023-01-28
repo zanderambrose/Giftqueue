@@ -14,13 +14,10 @@ const FriendCard = () => {
         />
       </div>
       <h1 className="mt-4 text-lg">Zander Ambrose</h1>
-      <p className="text-sm muted">Friends since Feb-2023</p>
-      <p className="italic text-sm text-black mt-4">
-        Nearest Upcoming event: 11-2-2023
-      </p>
-      <p>
-        (<span className="text-sm gqp px-1 italic">21 days remaining</span>)
-      </p>
+      <p className="text-sm text-slate-400">Not a friend yet</p>
+      <div className="friendRequestBtn hover:opacity-80">
+        <button className="text-white">Send friend request</button>
+      </div>
     </div>
   );
 };

@@ -5,6 +5,12 @@
 * {
   font-family: "Montserrat";
 }
+.gqp {
+  color: var(--purple-main);
+}
+.muted {
+  color: #8b8b8b;
+}
 .navigation-layout {
   height: var(--navigation-height);
 }
