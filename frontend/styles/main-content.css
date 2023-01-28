@@ -109,3 +109,20 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(237px, 1fr));
 }
+
+.dateCard {
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  height: 95px;
+  width: 85px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.friendEventCard {
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  height: 95px;
+  padding: 1.5rem;
+}
