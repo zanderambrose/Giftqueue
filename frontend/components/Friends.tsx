@@ -10,9 +10,8 @@ const Friends = () => {
       <label className="relative block mt-4">
         <span className="absolute inset-y-0 left-0 flex items-center pl-2">
           <FontAwesomeIcon
-            className="relative left-1"
+            className="relative left-1 gqp"
             size="lg"
-            style={{ color: "#aa96da" }}
             icon={faSearch}
           />
         </span>
@@ -24,8 +23,7 @@ const Friends = () => {
         />
       </label>
       <p className="mt-4 relative right-2">
-        <span style={{ color: "#aa96da" }}>212</span> Contacts found in your
-        google account!
+        <span className="gqp">212</span> Contacts found in your google account!
       </p>
       <div className="mt-4 friendListCardGrid">
         <FriendCard />

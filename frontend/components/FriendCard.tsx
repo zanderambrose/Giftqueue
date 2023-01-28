@@ -1,9 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 
 const FriendCard = () => {
   return (
-    <div className="friendCard">
+    <div className="friendCard relative">
+      <FontAwesomeIcon
+        className="absolute top-4 right-6"
+        size="lg"
+        icon={faEllipsisVertical}
+      />
       <div className="mt-4">
         <Image
           src={"/placeholderFriend.jpg"}
