@@ -16,6 +16,10 @@ const CelebrationDay = () => {
 
   // State for celebration day modal
   const [addFirstDayModal, setAddFirstDayModal] = useState(false);
+
+  // State for Delete Event Modal
+  const [deleteEventModal, setDeleteEventModal] = useState(true);
+
   return (
     <>
       {hasEvents ? (
@@ -29,12 +33,31 @@ const CelebrationDay = () => {
         <div className="relative top-10 px-8">
           <div className="celebration-day-header">
             <h1 className="text-lg relative right-2">This Week</h1>
-            <button className="btn-add-new rounded relative left-2">
+            <button
+              onClick={() => setAddFirstDayModal(true)}
+              className="btn-add-new rounded relative left-2"
+            >
               <FontAwesomeIcon className="relative right-2" icon={faPlus} />
               Add New Event
             </button>
           </div>
           {/* TODO - extract this into its own component */}
+          <div className="flex flex-row gap-x-4 mt-4">
+            <div>
+              <DateCard />
+            </div>
+            <div className="flex-1">
+              <MyEventCard />
+            </div>
+          </div>
+          <div className="flex flex-row gap-x-4 mt-4">
+            <div>
+              <DateCard />
+            </div>
+            <div className="flex-1">
+              <MyEventCard />
+            </div>
+          </div>
           <div className="flex flex-row gap-x-4 mt-4">
             <div>
               <DateCard />
@@ -91,6 +114,37 @@ const CelebrationDay = () => {
                     <Calendar />
                   </form>
                 </div>
+                {/*footer*/}
+                <div className="text-center block p-6">
+                  <button
+                    className="main-Btn hover:opacity-80"
+                    type="button"
+                    onClick={() => setAddFirstDayModal(false)}
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+      {deleteEventModal ? (
+        <>
+          <div
+            onClick={() => setDeleteEventModal(false)}
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-5/12 my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <h3 className="mt-6 text-lg font-semibold text-center">
+                  Delete Event
+                </h3>
+                {/*body*/}
+                <div className="relative px-6 flex-auto"></div>
                 {/*footer*/}
                 <div className="text-center block p-6">
                   <button
