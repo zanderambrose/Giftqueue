@@ -1,8 +1,14 @@
-import { faChampagneGlasses, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChampagneGlasses,
+  faX,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import NoItemDefaultCard from "./NoItemDefaultCard";
 import Calendar from "react-calendar";
+import DateCard from "./DateCard";
+import MyEventCard from "./MyEventCard";
 
 const CelebrationDay = () => {
   // State for showing users days or default state
@@ -12,7 +18,7 @@ const CelebrationDay = () => {
   const [addFirstDayModal, setAddFirstDayModal] = useState(false);
   return (
     <>
-      {!hasEvents ? (
+      {hasEvents ? (
         <NoItemDefaultCard
           icon={faChampagneGlasses}
           headingText="No celebration days entered yet!"
@@ -20,7 +26,24 @@ const CelebrationDay = () => {
           setModalToShow={setAddFirstDayModal}
         />
       ) : (
-        <h2>you got elements</h2>
+        <div className="relative top-10 px-8">
+          <div className="celebration-day-header">
+            <h1 className="text-lg relative right-2">This Week</h1>
+            <button className="btn-add-new rounded relative left-2">
+              <FontAwesomeIcon className="relative right-2" icon={faPlus} />
+              Add New Event
+            </button>
+          </div>
+          {/* TODO - extract this into its own component */}
+          <div className="flex flex-row gap-x-4 mt-4">
+            <div>
+              <DateCard />
+            </div>
+            <div className="flex-1">
+              <MyEventCard />
+            </div>
+          </div>
+        </div>
       )}
       {addFirstDayModal ? (
         <>
@@ -28,7 +51,7 @@ const CelebrationDay = () => {
             onClick={() => setAddFirstDayModal(false)}
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
-            <div className="relative w-4/12 my-6 mx-auto max-w-3xl">
+            <div className="relative w-5/12 my-6 mx-auto max-w-3xl">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}

@@ -79,6 +79,12 @@
   background-color: var(--purple-main);
   margin: 0 auto;
 }
+.btn-add-new {
+  padding: 0.75rem 2.5rem;
+  background-color: var(--purple-main);
+  color: white;
+}
+
 .friendRequestBtn {
   background-color: var(--purple-main);
   margin: 2rem auto 0 auto;
@@ -127,4 +133,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.celebration-day-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
