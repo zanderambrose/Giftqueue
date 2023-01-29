@@ -14,7 +14,7 @@ const ActivitySidebarEventCard = () => {
         />
         <p className="ml-2">Zander Ambrose</p>
       </div>
-      <p className="italic text-sm mt-4">Added new event in their calendar!</p>
+      <p className="italic text-sm mt-2">Added new event in their calendar!</p>
       <p className="italic text-sm">"My Birthday"</p>
       <span className="muted float-right text-sm">12 min ago</span>
     </div>
