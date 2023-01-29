@@ -162,3 +162,19 @@
   background-color: red;
   color: white;
 }
+.friendRequestAcceptBtn {
+  background-color: var(--purple-main);
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  border-radius: 8px;
+  color: white;
+  height: 43px;
+  width: 120px;
+}
+.friendRequestDeclineBtn {
+  background-color: white;
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  border-radius: 8px;
+  color: black;
+  height: 43px;
+  width: 120px;
+}
