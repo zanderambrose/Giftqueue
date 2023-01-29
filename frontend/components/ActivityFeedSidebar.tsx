@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserGroup,
   faAngleDown,
   faEarthAmericas,
 } from "@fortawesome/free-solid-svg-icons";
+import ActivitySidebarEventCard from "./ActivitySidebarEventCard";
+import ActivitySidebarFriendRequestCard from "./ActivitySidebarFriendRequestCard";
 
 const ActivityFeedSidebar = () => {
+  const [activityData, setActivityData] = useState(false);
   return (
     <div className="min-height-content">
       <div className="relative top-10 pb-8 border-b-2">
@@ -19,19 +22,25 @@ const ActivityFeedSidebar = () => {
           <FontAwesomeIcon icon={faAngleDown} />
         </div>
       </div>
-      <div className="relative top-10 mt-8 flex justify-center items-center">
-        <FontAwesomeIcon
-          style={{ color: "#aa96da" }}
-          size="4x"
-          icon={faEarthAmericas}
-        />
+      <div className="relative top-10 mt-8">
+        {activityData ? (
+          <>
+            <div className="flex justify-center items-center">
+              <FontAwesomeIcon
+                className="gqp"
+                size="4x"
+                icon={faEarthAmericas}
+              />
+            </div>
+            <p className="text-center mt-8 italic gqp">Nothing new yet!</p>
+          </>
+        ) : (
+          <div className="">
+            <ActivitySidebarEventCard />
+            {/* <ActivitySidebarFriendRequestCard /> */}
+          </div>
+        )}
       </div>
-      <p
-        className="text-center relative top-10 mt-8 italic"
-        style={{ color: "#aa96da" }}
-      >
-        Nothing new yet!
-      </p>
     </div>
   );
 };
