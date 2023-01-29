@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faListCheck, faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faListCheck,
+  faX,
+  faPlus,
+  faTrashCan,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 import NoItemDefaultCard from "./NoItemDefaultCard";
 
 const Giftqueue = () => {
@@ -12,7 +18,7 @@ const Giftqueue = () => {
 
   return (
     <>
-      {!hasGifts ? (
+      {hasGifts ? (
         <NoItemDefaultCard
           icon={faListCheck}
           headingText="No items in your giftqueue"
@@ -20,7 +26,31 @@ const Giftqueue = () => {
           setModalToShow={setAddFirstItemModal}
         />
       ) : (
-        <h2>you got elements</h2>
+        <div className="relative top-10 px-8">
+          <div className="celebration-day-header">
+            <h1 className="text-lg relative right-2">Related Giftqueue</h1>
+            <button className="btn-add-new rounded relative left-2">
+              <FontAwesomeIcon className="relative right-2" icon={faPlus} />
+              Add New Event
+            </button>
+          </div>
+          <div className="myGiftqueueCard mt-4">
+            <div className="w-full mx-6 flex flex-row justify-between items-center">
+              <div>
+                <h3>Item 1 Name</h3>
+                <p>Related to [Event title], [12 days remaining]</p>
+              </div>
+              <div>
+                <FontAwesomeIcon
+                  size="lg"
+                  className="muted mr-6"
+                  icon={faTrashCan}
+                />
+                <FontAwesomeIcon size="lg" className="gqp" icon={faPen} />
+              </div>
+            </div>
+          </div>
+        </div>
       )}
       {addFirstItemModal ? (
         <>

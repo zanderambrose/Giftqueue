@@ -18,7 +18,7 @@ const CelebrationDay = () => {
   const [addFirstDayModal, setAddFirstDayModal] = useState(false);
 
   // State for Delete Event Modal
-  const [deleteEventModal, setDeleteEventModal] = useState(true);
+  const [deleteEventModal, setDeleteEventModal] = useState(false);
 
   return (
     <>

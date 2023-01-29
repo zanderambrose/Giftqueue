@@ -135,6 +135,14 @@
   align-items: center;
 }
 
+.myGiftqueueCard {
+  box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
+  height: 95px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .celebration-day-header {
   display: flex;
   flex-direction: row;
