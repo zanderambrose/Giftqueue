@@ -35,7 +35,13 @@ const ActivityFeedSidebar = () => {
             <p className="text-center mt-8 italic gqp">Nothing new yet!</p>
           </>
         ) : (
-          <div className="">
+          <div>
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
             <ActivitySidebarEventCard />
             <ActivitySidebarEventCard />
             <ActivitySidebarEventCard />
