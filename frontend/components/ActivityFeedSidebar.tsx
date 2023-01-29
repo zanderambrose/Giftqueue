@@ -37,6 +37,8 @@ const ActivityFeedSidebar = () => {
         ) : (
           <div className="">
             <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
+            <ActivitySidebarEventCard />
             {/* <ActivitySidebarFriendRequestCard /> */}
           </div>
         )}

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ActivitySidebarEventCard = () => {
   return (
-    <div className="w-9/12 mx-auto">
+    <div className="w-9/12 mx-auto mb-8">
       <div className="flex flex-row items-center">
         <Image
           src={"/placeholderFriend.jpg"}
