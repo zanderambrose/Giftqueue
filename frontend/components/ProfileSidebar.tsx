@@ -10,7 +10,8 @@ const ProfileSidebar = () => {
     <div className="min-height-content">
       <div className="text-center relative top-10 w-10/12 mx-auto pb-8 border-b-2">
         <Image
-          src={session?.user?.image ?? ""}
+          src={"/placeholderFriend.jpg"}
+          // src={session?.user?.image ?? ""}
           width={"152"}
           height={"152"}
           alt={"profile picture"}
