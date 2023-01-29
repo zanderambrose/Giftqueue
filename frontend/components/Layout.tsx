@@ -14,10 +14,10 @@ const Layout = () => {
         <div className="sidebar-layout">
           <ProfileSidebar />
         </div>
-        <div className="overflow-y-scroll flex-1 mb-6">
+        <div className="overflow-y-scroll flex-1">
           <Maincontent />
         </div>
-        <div className="sidebar-layout overflow-y-scroll mb-6">
+        <div className="sidebar-layout overflow-y-scroll">
           <ActivityFeedSidebar />
         </div>
       </div>
