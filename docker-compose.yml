@@ -4,8 +4,6 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend
-    volumes:
-      - ./frontend:/app
     ports:
       - 3000:3000
     environment:
@@ -18,8 +16,6 @@ services:
   backend:
     build: ./backend
     container_name: backend
-    volumes:
-      - ./backend:/app
     ports:
       - 8000:8000
     environment:
@@ -43,10 +39,16 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./postgres/data:/var/lib/postgresql/data
-  adminer:
-    image: adminer
-    container_name: db_admin
-    restart: always
-    ports:
-      - 8080:8080
+      - fractal-app-volume:/data 
+  link:
+    environment:
+      EXPOSE: frontend:3000 
+    volumes:
+      - fractal-link-volume:/root/.local/share/caddy
+volumes:
+  fractal-app-volume:
+    external: true
+    name: $APP_VOLUME_NAME
+  fractal-link-volume:
+    external: true
+    name: $LINK_VOLUME_NAME
