@@ -16,15 +16,15 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
       return true;
     },
     async session({ session, user, token }: any) {
-      console.log("Id Token: ", token.accessToken as string)
-      session.accessToken = token.accessToken as string
+      console.log("Id Token: ", token.accessToken as string);
+      session.accessToken = token.accessToken as string;
       session.user = token.user;
       return session;
     },
