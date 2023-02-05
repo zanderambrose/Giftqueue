@@ -18,6 +18,20 @@ export const useGiftqueueApi = () => {
         throw new Error(error.message);
       }
     },
+    editGiftqueueItem: async (items: Partial<IGiftqueueSerializer>) => {
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/3/`,
+          { name: items.name },
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   };
 };
 

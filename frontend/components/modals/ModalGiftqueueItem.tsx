@@ -6,13 +6,37 @@ import {
 } from "../../recoil/modal/giftqueueItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useGiftqueueApi } from "../../util/clientApi";
+import { IGiftqueueSerializer } from "../../util/typesClientApi";
 
 const ModalGiftqueueItem = () => {
+  const queryClient = useQueryClient();
+
+  const { editGiftqueueItem } = useGiftqueueApi();
+
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
     useRecoilState(giftqueueItem);
 
+  const mutation = useMutation({
+    mutationFn: (items: Partial<IGiftqueueSerializer>) => {
+      return editGiftqueueItem(items);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+    },
+  });
+
   const handleModalReset = () => {
     setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
+  };
+
+  const handleModalRequest = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (giftqueueItemModalShow.uuid) {
+      mutation.mutate({ name: "Touch Me" });
+    }
+    handleModalReset();
   };
 
   useEffect(() => {
@@ -43,12 +67,7 @@ const ModalGiftqueueItem = () => {
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      alert("hello form submit");
-                    }}
-                  >
+                  <form onSubmit={(e) => handleModalRequest(e)}>
                     <label className="block">
                       <span className="block text-md font-medium">
                         Item Name
@@ -115,19 +134,20 @@ const ModalGiftqueueItem = () => {
                       className="mt-4 block p-2.5 w-full text-md shadow-sm placeholder-slate-400 rounded-lg border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1"
                       placeholder="General Notes"
                     ></textarea>
+                    <div className="text-center block p-6">
+                      <button
+                        className="main-Btn hover:opacity-80"
+                        type="submit"
+                      >
+                        Confirm
+                      </button>
+                    </div>
                   </form>
-                </div>
-                {/*footer*/}
-                <div className="text-center block p-6">
-                  <button className="main-Btn hover:opacity-80" type="button">
-                    Confirm
-                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-          <h1>true</h1>{" "}
         </>
       ) : null}
     </>
