@@ -4,10 +4,17 @@ import { navigationState, TNavOptions } from "../recoil/navigationState";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 
 const Navigation = () => {
   const [navState, setNavState] = useRecoilState(navigationState);
+  const router = useRouter();
   const handleNavStateChange = (navItemState: TNavOptions) => {
+    // when user navigates, always bring them back to main url
+    // url only changes on friend detail page to /[username]
+    if (router.pathname !== "/") {
+      router.push("/");
+    }
     setNavState(navItemState);
   };
   return (
