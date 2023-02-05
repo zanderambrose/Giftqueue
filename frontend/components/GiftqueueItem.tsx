@@ -2,6 +2,8 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import { IGiftqueueSerializer } from "../util/typesClientApi";
+import { useSetRecoilState } from "recoil";
+import { giftqueueItem } from "../recoil/modal/giftqueueItem";
 
 const GiftqueueItem = ({
   name,
@@ -11,6 +13,17 @@ const GiftqueueItem = ({
   owner,
   related_to,
 }: IGiftqueueSerializer) => {
+  const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
+  const handleEditItemClick = () => {
+    setGiftqueueItemModalShow((currVal) => {
+      return {
+        ...currVal,
+        isOpen: true,
+        uuid: id,
+      };
+    });
+  };
+
   return (
     <div key={id} className="myGiftqueueCard mt-4">
       <div className="flex flex-row">
@@ -25,7 +38,12 @@ const GiftqueueItem = ({
               className="muted mr-6"
               icon={faTrashCan}
             />
-            <FontAwesomeIcon size="lg" className="gqp" icon={faPen} />
+            <FontAwesomeIcon
+              onClick={() => handleEditItemClick()}
+              size="lg"
+              className="gqp"
+              icon={faPen}
+            />
           </div>
         </div>
       </div>
