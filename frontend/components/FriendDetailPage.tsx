@@ -115,7 +115,7 @@ const FriendDetailPage = () => {
                 <DateCard />
               </div>
               <div className="flex-1">
-                <MyEventCard />
+                <MyEventCard canEdit={false} />
               </div>
             </div>
             <div className="flex flex-row gap-x-4 mt-4">
@@ -123,7 +123,7 @@ const FriendDetailPage = () => {
                 <DateCard />
               </div>
               <div className="flex-1">
-                <MyEventCard />
+                <MyEventCard canEdit={false} />
               </div>
             </div>
             <div className="flex flex-row gap-x-4 mt-4">
@@ -131,7 +131,7 @@ const FriendDetailPage = () => {
                 <DateCard />
               </div>
               <div className="flex-1">
-                <MyEventCard />
+                <MyEventCard canEdit={false} />
               </div>
             </div>
           </>
@@ -149,14 +149,6 @@ const FriendDetailPage = () => {
                   <div>
                     <h3>Item 1 Name</h3>
                     <p>Related to [Event title], [12 days remaining]</p>
-                  </div>
-                  <div>
-                    <FontAwesomeIcon
-                      size="lg"
-                      className="muted mr-6"
-                      icon={faTrashCan}
-                    />
-                    <FontAwesomeIcon size="lg" className="gqp" icon={faPen} />
                   </div>
                 </div>
               </div>
