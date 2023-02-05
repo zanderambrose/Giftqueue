@@ -142,10 +142,6 @@ const FriendDetailPage = () => {
           <>
             <div className="celebration-day-header">
               <h1 className="text-lg relative right-2">Related Giftqueue</h1>
-              <button className="btn-add-new rounded relative left-2">
-                <FontAwesomeIcon className="relative right-2" icon={faPlus} />
-                Add New Event
-              </button>
             </div>
             {/* TODO - extract this out into its own component */}
             <div className="myGiftqueueCard mt-4">
