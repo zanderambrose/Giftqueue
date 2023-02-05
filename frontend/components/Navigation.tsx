@@ -1,6 +1,9 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { navigationState, TNavOptions } from "../recoil/navigationState";
+import {
+  navigationState,
+  TNavOptions,
+} from "../recoil/navigation/navigationState";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
