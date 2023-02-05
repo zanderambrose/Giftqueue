@@ -1,5 +1,5 @@
 export interface IGiftqueueSerializer {
-  id: number;
+  id: string;
   name: string;
   notes: string | null;
   owner: number;
