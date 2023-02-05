@@ -4,7 +4,6 @@ import {
   faArrowLeft,
   faTrashCan,
   faPen,
-  faPlus,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -99,7 +98,7 @@ const FriendDetailPage = () => {
             }
             onClick={() => handleNavStateChange("friends")}
           >
-            Friend List
+            Friends
           </h3>
         </div>
       </div>

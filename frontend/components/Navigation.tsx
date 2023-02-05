@@ -17,10 +17,16 @@ const Navigation = () => {
     }
     setNavState(navItemState);
   };
+
+  const handleRouteHome = () => {
+    router.push("/");
+    setNavState("giftqueue");
+  };
+
   return (
     <nav className="h-full flex items-center nav-shadow">
       <div className="sidebar-layout">
-        <div className="ml-8">
+        <div onClick={() => handleRouteHome()} className="ml-8">
           <Image
             src="/giftqueueLogo.png"
             width={"78"}
@@ -32,19 +38,19 @@ const Navigation = () => {
       <div className="flex-1 flex justify-around">
         <h3
           className={
-            navState === "day" ? "nav-link nav-link-grow-up" : "nav-link"
-          }
-          onClick={() => handleNavStateChange("day")}
-        >
-          Celebration Day
-        </h3>
-        <h3
-          className={
             navState === "giftqueue" ? "nav-link nav-link-grow-up" : "nav-link"
           }
           onClick={() => handleNavStateChange("giftqueue")}
         >
           Giftqueue
+        </h3>
+        <h3
+          className={
+            navState === "day" ? "nav-link nav-link-grow-up" : "nav-link"
+          }
+          onClick={() => handleNavStateChange("day")}
+        >
+          Celebration Day
         </h3>
         <h3
           className={
