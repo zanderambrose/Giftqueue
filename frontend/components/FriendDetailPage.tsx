@@ -1,10 +1,19 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTrashCan,
+  faPen,
+  faPlus,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import { navigationState } from "../recoil/navigationState";
+import DateCard from "./DateCard";
+import MyEventCard from "./MyEventCard";
+import FriendCard from "./FriendCard";
 
 export type TFriendDetailNavOptions = "day" | "giftqueue" | "friends";
 
@@ -93,6 +102,116 @@ const FriendDetailPage = () => {
             Friend List
           </h3>
         </div>
+      </div>
+
+      <div className="relative top-10 px-8 mt-8">
+        {friendDetailNavState === "day" && (
+          <>
+            <div className="celebration-day-header">
+              <h1 className="text-lg relative right-2">This Week</h1>
+            </div>
+            {/* TODO - extract this into its own component */}
+            <div className="flex flex-row gap-x-4 mt-4">
+              <div>
+                <DateCard />
+              </div>
+              <div className="flex-1">
+                <MyEventCard />
+              </div>
+            </div>
+            <div className="flex flex-row gap-x-4 mt-4">
+              <div>
+                <DateCard />
+              </div>
+              <div className="flex-1">
+                <MyEventCard />
+              </div>
+            </div>
+            <div className="flex flex-row gap-x-4 mt-4">
+              <div>
+                <DateCard />
+              </div>
+              <div className="flex-1">
+                <MyEventCard />
+              </div>
+            </div>
+          </>
+        )}
+
+        {friendDetailNavState === "giftqueue" && (
+          <>
+            <div className="celebration-day-header">
+              <h1 className="text-lg relative right-2">Related Giftqueue</h1>
+              <button className="btn-add-new rounded relative left-2">
+                <FontAwesomeIcon className="relative right-2" icon={faPlus} />
+                Add New Event
+              </button>
+            </div>
+            {/* TODO - extract this out into its own component */}
+            <div className="myGiftqueueCard mt-4">
+              <div className="flex flex-row">
+                <div className="w-full flex flex-row justify-between items-center">
+                  <div>
+                    <h3>Item 1 Name</h3>
+                    <p>Related to [Event title], [12 days remaining]</p>
+                  </div>
+                  <div>
+                    <FontAwesomeIcon
+                      size="lg"
+                      className="muted mr-6"
+                      icon={faTrashCan}
+                    />
+                    <FontAwesomeIcon size="lg" className="gqp" icon={faPen} />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="muted">Where to buy:</p>
+                <div className="flex flex-row items-center gap-4">
+                  <span>Link 1</span>
+                  <span>Link 2</span>
+                  <span>Link 3</span>
+                  <span>Link 4</span>
+                </div>
+              </div>
+              <div className="mt-4">
+                <p className="muted">Notes:</p>
+                <p>I need a size XL because I'm a really big boiiiiiii</p>
+              </div>
+            </div>
+          </>
+        )}
+        {friendDetailNavState === "friends" && (
+          <>
+            <h1 className="text-lg relative right-2">Friends List</h1>
+            <label className="relative block mt-4">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                <FontAwesomeIcon
+                  className="relative left-1 gqp"
+                  size="lg"
+                  icon={faSearch}
+                />
+              </span>
+              <input
+                className="placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-md"
+                placeholder="Search for friends"
+                type="text"
+                name="search"
+              />
+            </label>
+            <p className="mt-4 relative right-2">
+              <span className="gqp">212</span> Contacts found in your google
+              account!
+            </p>
+            <div className="mt-4 friendListCardGrid">
+              <FriendCard />
+              <FriendCard />
+              <FriendCard />
+              <FriendCard />
+              <FriendCard />
+            </div>
+          </>
+        )}
       </div>
     </>
   );
