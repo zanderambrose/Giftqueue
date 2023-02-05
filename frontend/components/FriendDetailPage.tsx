@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
+export type TFriendDetailNavOptions = "day" | "giftqueue" | "friends";
+
 const FriendDetailPage = () => {
+  const [friendDetailNavState, setFriendDetailNavState] =
+    useState<TFriendDetailNavOptions>("giftqueue");
+  const handleNavStateChange = (navItemState: TFriendDetailNavOptions) => {
+    setFriendDetailNavState(navItemState);
+  };
   return (
     <>
-      <div className="rounded-lg w-4/5 m-auto relative top-10 bg-white">
+      <div className="rounded-lg w-11/12 m-auto relative top-10 bg-white">
         <div className="p-20">
           <div className="flex items-center absolute left-4 top-4 cursor-pointer">
             <FontAwesomeIcon size="1x" icon={faArrowLeft} />
@@ -35,6 +42,41 @@ const FriendDetailPage = () => {
               <p>Friends</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="rounded-lg w-11/12 mx-auto mt-4 relative top-10 bg-white">
+        <div className="flex-1 flex justify-around">
+          <h3
+            className={
+              friendDetailNavState === "giftqueue"
+                ? "nav-link nav-link-grow-up"
+                : "nav-link"
+            }
+            onClick={() => handleNavStateChange("giftqueue")}
+          >
+            Giftqueue
+          </h3>
+          <h3
+            className={
+              friendDetailNavState === "day"
+                ? "nav-link nav-link-grow-up"
+                : "nav-link"
+            }
+            onClick={() => handleNavStateChange("day")}
+          >
+            Celebrations
+          </h3>
+          <h3
+            className={
+              friendDetailNavState === "friends"
+                ? "nav-link nav-link-grow-up"
+                : "nav-link"
+            }
+            onClick={() => handleNavStateChange("friends")}
+          >
+            Friend List
+          </h3>
         </div>
       </div>
     </>
