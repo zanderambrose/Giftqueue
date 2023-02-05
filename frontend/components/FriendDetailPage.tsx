@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
-import { navigationState } from "../recoil/navigationState";
+import { navigationState } from "../recoil/navigation/navigationState";
 import DateCard from "./DateCard";
 import MyEventCard from "./MyEventCard";
 import FriendCard from "./FriendCard";

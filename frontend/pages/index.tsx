@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Layout from "../components/Layout";
-import ModalGiftqueueItem from "../components/modals/ModalGiftqueueItem";
 
 const Home: NextPage = () => {
   return (
@@ -12,9 +11,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/giftqueue.ico" />
       </Head>
       <Layout />
-
-      {/* Modals */}
-      <ModalGiftqueueItem />
     </>
   );
 };
