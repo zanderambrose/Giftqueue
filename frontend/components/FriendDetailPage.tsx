@@ -2,20 +2,35 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { navigationState, TNavOptions } from "../recoil/navigationState";
 
 export type TFriendDetailNavOptions = "day" | "giftqueue" | "friends";
 
 const FriendDetailPage = () => {
+  const [navState, setNavState] = useRecoilState(navigationState);
+  const router = useRouter();
+
   const [friendDetailNavState, setFriendDetailNavState] =
     useState<TFriendDetailNavOptions>("giftqueue");
   const handleNavStateChange = (navItemState: TFriendDetailNavOptions) => {
     setFriendDetailNavState(navItemState);
   };
+
+  const handleBackToFriendsListClick = () => {
+    router.push("/");
+    setNavState("friends");
+  };
+
   return (
     <>
       <div className="rounded-lg w-11/12 m-auto relative top-10 bg-white">
         <div className="p-20">
-          <div className="flex items-center absolute left-4 top-4 cursor-pointer">
+          <div
+            onClick={() => handleBackToFriendsListClick()}
+            className="flex items-center absolute left-4 top-4 cursor-pointer"
+          >
             <FontAwesomeIcon size="1x" icon={faArrowLeft} />
             <p className="ml-2 text-sm">Back to Friend list</p>
           </div>
