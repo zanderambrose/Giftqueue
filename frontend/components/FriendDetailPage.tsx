@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
-import { navigationState, TNavOptions } from "../recoil/navigationState";
+import { useSetRecoilState } from "recoil";
+import { navigationState } from "../recoil/navigationState";
 
 export type TFriendDetailNavOptions = "day" | "giftqueue" | "friends";
 
 const FriendDetailPage = () => {
-  const [navState, setNavState] = useRecoilState(navigationState);
+  const setNavState = useSetRecoilState(navigationState);
   const router = useRouter();
 
   const [friendDetailNavState, setFriendDetailNavState] =
