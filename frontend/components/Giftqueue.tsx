@@ -8,17 +8,25 @@ import {
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import NoItemDefaultCard from "./NoItemDefaultCard";
+import { useQuery } from "@tanstack/react-query";
+import { useGiftqueueApi } from "../util/clientApi";
+import GiftqueueItem from "./GiftqueueItem";
 
 const Giftqueue = () => {
+  const { getGiftqueueItems } = useGiftqueueApi();
   // State for showing users giftqueue or default state
-  const [hasGifts, setHasGifts] = useState<boolean>(false);
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["myGiftqueueItems"],
+    queryFn: getGiftqueueItems,
+  });
 
   //State for showing default add item modal
   const [addFirstItemModal, setAddFirstItemModal] = useState(false);
 
   return (
     <>
-      {hasGifts ? (
+      {console.log(data)}
+      {!data ? (
         <NoItemDefaultCard
           icon={faListCheck}
           headingText="No items in your giftqueue"
@@ -34,38 +42,9 @@ const Giftqueue = () => {
               Add New Event
             </button>
           </div>
-          {/* TODO - extract this out into its own component */}
-          <div className="myGiftqueueCard mt-4">
-            <div className="flex flex-row">
-              <div className="w-full flex flex-row justify-between items-center">
-                <div>
-                  <h3>Item 1 Name</h3>
-                  <p>Related to [Event title], [12 days remaining]</p>
-                </div>
-                <div>
-                  <FontAwesomeIcon
-                    size="lg"
-                    className="muted mr-6"
-                    icon={faTrashCan}
-                  />
-                  <FontAwesomeIcon size="lg" className="gqp" icon={faPen} />
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <p className="muted">Where to buy:</p>
-              <div className="flex flex-row items-center gap-4">
-                <span>Link 1</span>
-                <span>Link 2</span>
-                <span>Link 3</span>
-                <span>Link 4</span>
-              </div>
-            </div>
-            <div className="mt-4">
-              <p className="muted">Notes:</p>
-              <p>I need a size XL because I'm a really big boiiiiiii</p>
-            </div>
-          </div>
+          {data?.map((item) => {
+            return <GiftqueueItem {...item} />;
+          })}
         </div>
       )}
       {addFirstItemModal ? (
