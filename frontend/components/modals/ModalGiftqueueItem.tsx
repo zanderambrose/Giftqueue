@@ -9,8 +9,25 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
 import { TGiftqueueDetailSerializer } from "../../util/typesClientApi";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type ModalGiftqueueItemInputs = {
+  name: string;
+  link: string | string[];
+  notes: string;
+  relatedTo: string;
+};
 
 const ModalGiftqueueItem = () => {
+  // REACT HOOK FORMS
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<ModalGiftqueueItemInputs>();
+  const onSubmit: SubmitHandler<ModalGiftqueueItemInputs> = (data) => {};
+
   const queryClient = useQueryClient();
   const { editGiftqueueItem } = useGiftqueueApi();
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
@@ -71,6 +88,7 @@ const ModalGiftqueueItem = () => {
                         Item Name
                       </span>
                       <input
+                        {...register("name")}
                         type="text"
                         placeholder="Title"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -85,6 +103,7 @@ const ModalGiftqueueItem = () => {
                         Item Links
                       </span>
                       <input
+                        {...register("link")}
                         type="text"
                         placeholder="URL"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -99,6 +118,7 @@ const ModalGiftqueueItem = () => {
                         When do you wish to have this item
                       </span>
                       <input
+                        {...register("relatedTo")}
                         type="text"
                         placeholder="Anytime"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -127,6 +147,7 @@ const ModalGiftqueueItem = () => {
                       </button>
                     </label>
                     <textarea
+                      {...register("notes")}
                       id="message"
                       rows={3}
                       className="mt-4 block p-2.5 w-full text-md shadow-sm placeholder-slate-400 rounded-lg border border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-1"
