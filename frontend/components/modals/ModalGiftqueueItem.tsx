@@ -10,7 +10,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
 import { TGiftqueueDetailSerializer } from "../../util/typesClientApi";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 
 type ModalGiftqueueItemInputs = {
   name: string;
@@ -26,7 +25,7 @@ const ModalGiftqueueItem = () => {
     handleSubmit,
     watch,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ModalGiftqueueItemInputs>();
 
   const queryClient = useQueryClient();
@@ -88,43 +87,25 @@ const ModalGiftqueueItem = () => {
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
                   <form onSubmit={handleSubmit(handleModalRequest)}>
-                    {/* <form onSubmit={(e) => handleModalRequest(e)}> */}
                     <label className="block">
                       <span className="block text-md font-medium">
                         Item Name
                       </span>
                       <input
+                        disabled={isSubmitting}
                         {...register("name")}
                         type="text"
                         placeholder="Title"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
-                      {/* <ErrorMessage
-                        errors={errors}
-                        name="name"
-                        render={({ messages }) =>
-                          messages &&
-                          Object.entries(messages).map(([type, message]) => {
-                            console.log("type: ", type, "message: ", message);
-                            return (
-                              <span className="text-red-600" key={type}>
-                                <FontAwesomeIcon
-                                  icon={["fas", "triangle-exclamation"]}
-                                  fixedWidth
-                                />
-                                {message}
-                              </span>
-                            );
-                          })
-                        }
-                      /> */}
                     </label>
                     <label className="block mt-4">
                       <span className="block text-md font-medium">
                         Item Links
                       </span>
                       <input
+                        disabled={isSubmitting}
                         {...register("link")}
                         type="text"
                         placeholder="URL"
@@ -140,6 +121,7 @@ const ModalGiftqueueItem = () => {
                         When do you wish to have this item
                       </span>
                       <input
+                        disabled={isSubmitting}
                         {...register("relatedTo")}
                         type="text"
                         placeholder="Anytime"
@@ -150,6 +132,7 @@ const ModalGiftqueueItem = () => {
     "
                       />
                       <input
+                        disabled={isSubmitting}
                         type="text"
                         placeholder="Related to Event"
                         className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -169,6 +152,7 @@ const ModalGiftqueueItem = () => {
                       </button>
                     </label>
                     <textarea
+                      disabled={isSubmitting}
                       {...register("notes")}
                       id="message"
                       rows={3}
@@ -177,6 +161,7 @@ const ModalGiftqueueItem = () => {
                     ></textarea>
                     <div className="text-center block p-6">
                       <button
+                        disabled={isSubmitting}
                         className="main-Btn hover:opacity-80"
                         type="submit"
                       >
