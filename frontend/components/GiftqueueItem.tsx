@@ -23,7 +23,6 @@ const GiftqueueItem = ({
       };
     });
   };
-
   return (
     <div key={id} className="myGiftqueueCard mt-4">
       <div className="flex flex-row">
@@ -47,7 +46,7 @@ const GiftqueueItem = ({
           </div>
         </div>
       </div>
-      {url && (
+      {url && url.length > 0 && (
         <div className="mt-4">
           <p className="muted">Where to buy:</p>
           <div className="flex flex-row items-center gap-4">

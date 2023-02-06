@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import {
+  IGiftqueueItemCreate,
   IGiftqueueSerializer,
   TGiftqueueDetailSerializer,
 } from "./typesClientApi";
@@ -12,6 +13,20 @@ export const useGiftqueueApi = () => {
       try {
         const response = await axios.get<IGiftqueueSerializer[]>(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/`,
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+    createGiftqueueItem: async (items: IGiftqueueItemCreate) => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/`,
+          { name: items.name },
           {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }

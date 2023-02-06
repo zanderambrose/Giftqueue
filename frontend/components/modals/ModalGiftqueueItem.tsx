@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
-import { TGiftqueueDetailSerializer } from "../../util/typesClientApi";
+import {
+  IGiftqueueItemCreate,
+  TGiftqueueDetailSerializer,
+} from "../../util/typesClientApi";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type ModalGiftqueueItemInputs = {
@@ -29,13 +32,21 @@ const ModalGiftqueueItem = () => {
   } = useForm<ModalGiftqueueItemInputs>();
 
   const queryClient = useQueryClient();
-  const { editGiftqueueItem } = useGiftqueueApi();
+  const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
     useRecoilState(giftqueueItem);
 
-  const mutation = useMutation({
+  const patchMutation = useMutation({
     mutationFn: (items: TGiftqueueDetailSerializer) => {
       return editGiftqueueItem(items);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+    },
+  });
+  const createMutation = useMutation({
+    mutationFn: (items: IGiftqueueItemCreate) => {
+      return createGiftqueueItem(items);
     },
     onSuccess: (data, variables, context) => {
       queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
@@ -46,11 +57,22 @@ const ModalGiftqueueItem = () => {
     data
   ) => {
     console.log("data from form: ", data);
-    // e.preventDefault();
-    // if (giftqueueItemModalShow.uuid) {
-    //   mutation.mutate({ uuid: giftqueueItemModalShow.uuid, name: "Touch Me" });
-    // }
-    // handleModalReset();
+    // If there is a uuid, we are PATCHING an item
+    if (giftqueueItemModalShow.uuid) {
+      patchMutation.mutate({
+        uuid: giftqueueItemModalShow.uuid,
+        name: "Touch Me",
+      });
+    } else {
+      // We are creating an item since we do not have uuid
+      createMutation.mutate({
+        name: data.name,
+        url: data.link,
+        notes: data.notes,
+        related_to: data.relatedTo,
+      });
+    }
+    handleModalReset();
   };
 
   // Reset on component unmount
@@ -93,7 +115,10 @@ const ModalGiftqueueItem = () => {
                       </span>
                       <input
                         disabled={isSubmitting}
-                        {...register("name")}
+                        {...register("name", {
+                          validate: () =>
+                            giftqueueItemModalShow.uuid === undefined,
+                        })}
                         type="text"
                         placeholder="Title"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -110,10 +135,7 @@ const ModalGiftqueueItem = () => {
                         type="text"
                         placeholder="URL"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
                     </label>
                     <label className="block mt-4">
@@ -126,27 +148,18 @@ const ModalGiftqueueItem = () => {
                         type="text"
                         placeholder="Anytime"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
                       <input
                         disabled={isSubmitting}
                         type="text"
                         placeholder="Related to Event"
                         className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
                       <button
                         className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       >
                         Select Event
                       </button>
