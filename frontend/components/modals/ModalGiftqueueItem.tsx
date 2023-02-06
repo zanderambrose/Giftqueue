@@ -57,7 +57,6 @@ const ModalGiftqueueItem = () => {
   const handleModalRequest: SubmitHandler<ModalGiftqueueItemInputs> = async (
     data
   ) => {
-    console.log("data from form: ", data);
     // If there is a uuid, we are PATCHING an item
     if (giftqueueItemModalShow.uuid) {
       patchMutation.mutate({
