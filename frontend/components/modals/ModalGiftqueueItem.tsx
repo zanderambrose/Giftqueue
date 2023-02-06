@@ -28,6 +28,7 @@ const ModalGiftqueueItem = () => {
     handleSubmit,
     watch,
     reset,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<ModalGiftqueueItemInputs>();
 
@@ -61,7 +62,7 @@ const ModalGiftqueueItem = () => {
     if (giftqueueItemModalShow.uuid) {
       patchMutation.mutate({
         uuid: giftqueueItemModalShow.uuid,
-        name: "Touch Me",
+        name: data.name,
       });
     } else {
       // We are creating an item since we do not have uuid
@@ -81,6 +82,7 @@ const ModalGiftqueueItem = () => {
   }, []);
   const handleModalReset = () => {
     reset();
+    clearErrors();
     setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
   };
 
@@ -115,15 +117,17 @@ const ModalGiftqueueItem = () => {
                       </span>
                       <input
                         disabled={isSubmitting}
-                        {...register("name", {
-                          validate: () =>
-                            giftqueueItemModalShow.uuid === undefined,
-                        })}
+                        {...register("name")}
                         type="text"
                         placeholder="Title"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
+                      {errors.name && (
+                        <span className="mt-2 text-red-600">
+                          {errors.name.message}
+                        </span>
+                      )}
                     </label>
                     <label className="block mt-4">
                       <span className="block text-md font-medium">
