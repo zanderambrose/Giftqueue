@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
 import { TGiftqueueDetailSerializer } from "../../util/typesClientApi";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 type ModalGiftqueueItemInputs = {
   name: string;
@@ -24,9 +25,9 @@ const ModalGiftqueueItem = () => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<ModalGiftqueueItemInputs>();
-  const onSubmit: SubmitHandler<ModalGiftqueueItemInputs> = (data) => {};
 
   const queryClient = useQueryClient();
   const { editGiftqueueItem } = useGiftqueueApi();
@@ -42,12 +43,15 @@ const ModalGiftqueueItem = () => {
     },
   });
 
-  const handleModalRequest = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (giftqueueItemModalShow.uuid) {
-      mutation.mutate({ uuid: giftqueueItemModalShow.uuid, name: "Touch Me" });
-    }
-    handleModalReset();
+  const handleModalRequest: SubmitHandler<ModalGiftqueueItemInputs> = async (
+    data
+  ) => {
+    console.log("data from form: ", data);
+    // e.preventDefault();
+    // if (giftqueueItemModalShow.uuid) {
+    //   mutation.mutate({ uuid: giftqueueItemModalShow.uuid, name: "Touch Me" });
+    // }
+    // handleModalReset();
   };
 
   // Reset on component unmount
@@ -55,6 +59,7 @@ const ModalGiftqueueItem = () => {
     return () => handleModalReset();
   }, []);
   const handleModalReset = () => {
+    reset();
     setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
   };
 
@@ -82,7 +87,8 @@ const ModalGiftqueueItem = () => {
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <form onSubmit={(e) => handleModalRequest(e)}>
+                  <form onSubmit={handleSubmit(handleModalRequest)}>
+                    {/* <form onSubmit={(e) => handleModalRequest(e)}> */}
                     <label className="block">
                       <span className="block text-md font-medium">
                         Item Name
@@ -92,11 +98,27 @@ const ModalGiftqueueItem = () => {
                         type="text"
                         placeholder="Title"
                         className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500
-    "
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                       />
+                      {/* <ErrorMessage
+                        errors={errors}
+                        name="name"
+                        render={({ messages }) =>
+                          messages &&
+                          Object.entries(messages).map(([type, message]) => {
+                            console.log("type: ", type, "message: ", message);
+                            return (
+                              <span className="text-red-600" key={type}>
+                                <FontAwesomeIcon
+                                  icon={["fas", "triangle-exclamation"]}
+                                  fixedWidth
+                                />
+                                {message}
+                              </span>
+                            );
+                          })
+                        }
+                      /> */}
                     </label>
                     <label className="block mt-4">
                       <span className="block text-md font-medium">
