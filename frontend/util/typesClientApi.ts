@@ -6,3 +6,7 @@ export interface IGiftqueueSerializer {
   related_to: number;
   url: string[];
 }
+
+export type TGiftqueueDetailSerializer = {
+  uuid: string;
+} & Partial<IGiftqueueSerializer>;

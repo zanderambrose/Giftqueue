@@ -8,18 +8,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
-import { IGiftqueueSerializer } from "../../util/typesClientApi";
+import { TGiftqueueDetailSerializer } from "../../util/typesClientApi";
 
 const ModalGiftqueueItem = () => {
   const queryClient = useQueryClient();
-
   const { editGiftqueueItem } = useGiftqueueApi();
-
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
     useRecoilState(giftqueueItem);
 
   const mutation = useMutation({
-    mutationFn: (items: Partial<IGiftqueueSerializer>) => {
+    mutationFn: (items: TGiftqueueDetailSerializer) => {
       return editGiftqueueItem(items);
     },
     onSuccess: (data, variables, context) => {
@@ -27,21 +25,21 @@ const ModalGiftqueueItem = () => {
     },
   });
 
-  const handleModalReset = () => {
-    setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
-  };
-
   const handleModalRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (giftqueueItemModalShow.uuid) {
-      mutation.mutate({ name: "Touch Me" });
+      mutation.mutate({ uuid: giftqueueItemModalShow.uuid, name: "Touch Me" });
     }
     handleModalReset();
   };
 
+  // Reset on component unmount
   useEffect(() => {
     return () => handleModalReset();
   }, []);
+  const handleModalReset = () => {
+    setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
+  };
 
   return (
     <>
