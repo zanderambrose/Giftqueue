@@ -4,13 +4,27 @@ import {
   defaultDeleteItemState,
   deleteItemModal,
 } from "../../recoil/modal/deleteItem";
+import { useGiftqueueApi } from "../../util/clientApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ModalDeleteItem = () => {
+  const queryClient = useQueryClient();
+  const { deleteGiftqueueItem } = useGiftqueueApi();
+  const deleteMutation = useMutation({
+    mutationFn: (uuid: string) => {
+      return deleteGiftqueueItem(uuid);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+      setDeleteModalItemShow(defaultDeleteItemState);
+    },
+  });
+
   const [deleteItemModalShow, setDeleteModalItemShow] =
     useRecoilState(deleteItemModal);
 
   const handleDeleteClick = () => {
-    setDeleteModalItemShow(defaultDeleteItemState);
+    deleteMutation.mutate(deleteItemModalShow.uuid!);
   };
 
   const handleCancelClick = () => {

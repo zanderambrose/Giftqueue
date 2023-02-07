@@ -50,6 +50,19 @@ export const useGiftqueueApi = () => {
         throw new Error(error.message);
       }
     },
+    deleteGiftqueueItem: async (itemUuid: string) => {
+      try {
+        const response = await axios.delete(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/${itemUuid}/`,
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   };
 };
 
