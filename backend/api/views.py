@@ -51,11 +51,12 @@ class GiftItemViewSet(viewsets.ModelViewSet):
 
 
     def create(self, request, *args, **kwargs):
-        name = request.data.get('name')
         owner = self.request.user.id
-        #owner = 19 
+        name = request.data.get('name')
         url = request.data.get('url', None)
-        json_date = {"name": name, 'owner': owner}
+        notes = request.data.get('notes', None)
+        related_to = request.data.get('related_to', None)
+        json_date = {"name": name, 'owner': owner, "notes": notes, "related_to": related_to}
         serializer = self.get_serializer(data=json_date)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

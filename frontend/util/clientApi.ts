@@ -26,7 +26,7 @@ export const useGiftqueueApi = () => {
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/`,
-          { name: items.name },
+          { ...items },
           {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
