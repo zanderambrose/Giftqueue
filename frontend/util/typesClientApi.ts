@@ -1,8 +1,8 @@
 export interface IGiftqueueSerializer {
   id: string;
+  owner: number;
   name: string;
   notes: string | null;
-  owner: number;
   related_to: string;
   url: string[];
 }
@@ -16,4 +16,4 @@ export interface IGiftqueueItemCreate {
 
 export type TGiftqueueDetailSerializer = {
   uuid: string;
-} & Partial<IGiftqueueSerializer>;
+} & Partial<IGiftqueueItemCreate>;
