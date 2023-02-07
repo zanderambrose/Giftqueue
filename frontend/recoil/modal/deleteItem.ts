@@ -12,7 +12,7 @@ export const defaultDeleteItemState = {
   setIsOpen: () => {},
 };
 
-export const giftqueueItem = atom<IDeleteItem>({
-  key: "giftqueueItem",
+export const deleteItemModal = atom<IDeleteItem>({
+  key: "deleteItemModal",
   default: defaultDeleteItemState,
 });

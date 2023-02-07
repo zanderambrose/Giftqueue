@@ -8,6 +8,7 @@ import FriendDetailPage from "./FriendDetailPage";
 import Giftqueue from "./Giftqueue";
 import { useRouter } from "next/router";
 import ModalGiftqueueItem from "./modals/ModalGiftqueueItem";
+import ModalDeleteItem from "./modals/ModalDeleteItem";
 
 const Maincontent = () => {
   const navState = useRecoilValue(navigationState);
@@ -30,6 +31,7 @@ const Maincontent = () => {
       </main>
       {/* Modals */}
       <ModalGiftqueueItem />
+      <ModalDeleteItem />
     </>
   );
 };
