@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
-import { navigationState } from "../recoil/navigationState";
+import { navigationState } from "../recoil/navigation/navigationState";
 
 const FriendProfile: NextPage = () => {
   const router = useRouter();
