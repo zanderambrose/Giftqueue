@@ -6,11 +6,37 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Calendar from "react-calendar";
+import { useRecoilState } from "recoil";
+import {
+  defaultCelebrationDayModalState,
+  celebrationDayModal,
+} from "../../recoil/modal/celebrationDay";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useGiftqueueApi } from "../../util/clientApi";
 
+type ModalCelebrationDayInputs = {
+  name: string;
+  date: string;
+};
 export const ModalCelebrationDay = () => {
+  // REACT HOOK FORMS
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<ModalCelebrationDayInputs>();
+
+  const queryClient = useQueryClient();
+  const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
+  const [celebrationDayModalShow, setCelebrationDayModalShow] =
+    useRecoilState(celebrationDayModal);
   return (
     <>
-      {true ? (
+      {celebrationDayModalShow.isOpen ? (
         <>
           <div
             // onClick={() => setAddFirstDayModal(false)}
