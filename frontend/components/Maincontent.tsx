@@ -9,6 +9,7 @@ import Giftqueue from "./Giftqueue";
 import { useRouter } from "next/router";
 import ModalGiftqueueItem from "./modals/ModalGiftqueueItem";
 import ModalDeleteItem from "./modals/ModalDeleteItem";
+import { ModalCelebrationDay } from "./modals/ModalCelebrationDay";
 
 const Maincontent = () => {
   const navState = useRecoilValue(navigationState);
@@ -31,6 +32,7 @@ const Maincontent = () => {
       </main>
       {/* Modals */}
       <ModalGiftqueueItem />
+      <ModalCelebrationDay />
       <ModalDeleteItem />
     </>
   );

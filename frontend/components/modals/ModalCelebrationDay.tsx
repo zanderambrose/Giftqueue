@@ -34,6 +34,13 @@ export const ModalCelebrationDay = () => {
   const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
   const [celebrationDayModalShow, setCelebrationDayModalShow] =
     useRecoilState(celebrationDayModal);
+
+  const handleModalReset = () => {
+    reset();
+    clearErrors();
+    setCelebrationDayModalShow(defaultCelebrationDayModalState);
+  };
+
   return (
     <>
       {celebrationDayModalShow.isOpen ? (
@@ -50,7 +57,7 @@ export const ModalCelebrationDay = () => {
                   <h3 className="text-lg font-semibold">Add New Event</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    // onClick={() => setAddFirstDayModal(false)}
+                    onClick={handleModalReset}
                   >
                     <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                       <FontAwesomeIcon className="text-black" icon={faX} />

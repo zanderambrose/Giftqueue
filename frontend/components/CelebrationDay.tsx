@@ -4,13 +4,27 @@ import { useState } from "react";
 import NoItemDefaultCard from "./NoItemDefaultCard";
 import DateCard from "./DateCard";
 import MyEventCard from "./MyEventCard";
+import { useRecoilState } from "recoil";
+import {
+  defaultCelebrationDayModalState,
+  celebrationDayModal,
+} from "../recoil/modal/celebrationDay";
 
 const CelebrationDay = () => {
   // State for showing users days or default state
   const [hasEvents, setHasEvents] = useState<boolean>(false);
 
-  // State for celebration day modal
-  const [addFirstDayModal, setAddFirstDayModal] = useState(false);
+  const handleAddNewDayClick = () => {
+    setCelebrationDayModalShow((currVal) => {
+      return {
+        ...currVal,
+        isOpen: true,
+      };
+    });
+  };
+
+  const [celebrationDayModalShow, setCelebrationDayModalShow] =
+    useRecoilState(celebrationDayModal);
 
   return (
     <>
@@ -26,7 +40,7 @@ const CelebrationDay = () => {
           <div className="celebration-day-header">
             <h1 className="text-lg relative right-2">This Week</h1>
             <button
-              onClick={() => setAddFirstDayModal(true)}
+              onClick={() => handleAddNewDayClick()}
               className="btn-add-new rounded relative left-2"
             >
               <FontAwesomeIcon className="relative right-2" icon={faPlus} />
