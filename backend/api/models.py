@@ -63,6 +63,10 @@ class RegistryUser(AbstractUser, TimeStampMixin):
 class Friendship(TimeStampMixin, models.Model):
     profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
     profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
+    # add a status column to define sent/pending/accepted
+    # date fields describing when the status actions have been taken
+    # use this to trigger helpful initiations to user
+    # who unfriended who
     is_accepted = models.BooleanField(default=False)
     date_accepted = models.DateTimeField(blank=True, null=True)
 
