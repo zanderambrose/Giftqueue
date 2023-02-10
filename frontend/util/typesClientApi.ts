@@ -17,3 +17,8 @@ export interface IGiftqueueItemCreate {
 export type TGiftqueueDetailSerializer = {
   uuid: string;
 } & Partial<IGiftqueueItemCreate>;
+
+export interface ICelebrationSerializer {
+  name: string;
+  date: string;
+}

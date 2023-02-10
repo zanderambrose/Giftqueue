@@ -1,19 +1,15 @@
 import { faChampagneGlasses, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import NoItemDefaultCard from "./NoItemDefaultCard";
 import DateCard from "./DateCard";
 import MyEventCard from "./MyEventCard";
-import { useRecoilState } from "recoil";
-import {
-  defaultCelebrationDayModalState,
-  celebrationDayModal,
-} from "../recoil/modal/celebrationDay";
+import { useSetRecoilState } from "recoil";
+import { celebrationDayModal } from "../recoil/modal/celebrationDay";
+import { useCelebrationApi } from "../util/clientApi";
+import { useQuery } from "@tanstack/react-query";
 
 const CelebrationDay = () => {
-  // State for showing users days or default state
-  const [hasEvents, setHasEvents] = useState<boolean>(false);
-
+  const setCelebrationDayModalShow = useSetRecoilState(celebrationDayModal);
   const handleAddNewDayClick = () => {
     setCelebrationDayModalShow((currVal) => {
       return {
@@ -23,17 +19,20 @@ const CelebrationDay = () => {
     });
   };
 
-  const [celebrationDayModalShow, setCelebrationDayModalShow] =
-    useRecoilState(celebrationDayModal);
+  const { getCelebrationDays } = useCelebrationApi();
+  // State for showing users celebrations or default state
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["myCelebrations"],
+    queryFn: getCelebrationDays,
+  });
 
   return (
     <>
-      {!hasEvents ? (
+      {!data ? (
         <NoItemDefaultCard
           icon={faChampagneGlasses}
           headingText="No celebration days entered yet!"
           subText="Share your lovely moments with your friends!"
-          // setModalToShow={setAddFirstDayModal}
         />
       ) : (
         <div className="relative top-10 px-8">

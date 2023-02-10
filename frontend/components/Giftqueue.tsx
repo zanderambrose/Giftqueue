@@ -5,7 +5,7 @@ import NoItemDefaultCard from "./NoItemDefaultCard";
 import { useQuery } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../util/clientApi";
 import GiftqueueItem from "./GiftqueueItem";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
 
 const Giftqueue = () => {
