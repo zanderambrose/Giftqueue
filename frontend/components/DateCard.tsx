@@ -8,7 +8,7 @@ const DateCard = ({ date: celebrationDate }: { date: string }) => {
   useEffect(() => {
     // Replace the years input with current year
     // TODO - programatically add current year instead of hardcode 2023
-    const currentYearDate = celebrationDate.replace(/^.{4}/g, "2023");
+    const currentYearDate = celebrationDate?.replace(/^.{4}/g, "2023");
     const formattedDate = date.format(
       new Date(currentYearDate),
       "ddd, MMM DD YYYY"
