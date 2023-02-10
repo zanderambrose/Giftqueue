@@ -7,7 +7,7 @@ export const CelebrationItem = ({ name, date }: ICelebrationSerializer) => {
   return (
     <div className="flex flex-row gap-x-4 mt-4">
       <div>
-        <DateCard />
+        <DateCard date={date} />
       </div>
       <div className="flex-1">
         <MyEventCard name={name} />
