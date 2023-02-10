@@ -114,5 +114,18 @@ export const useCelebrationApi = () => {
         throw new Error(error.message);
       }
     },
+    deleteCelebrationItem: async (itemUuid: string) => {
+      try {
+        const response = await axios.delete(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/${itemUuid}/`,
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   };
 };
