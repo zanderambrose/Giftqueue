@@ -112,26 +112,26 @@ const FriendDetailPage = () => {
             {/* TODO - extract this into its own component */}
             <div className="flex flex-row gap-x-4 mt-4">
               <div>
-                <DateCard />
+                <DateCard date="2023-01-01" />
               </div>
               <div className="flex-1">
-                <MyEventCard canEdit={false} />
+                <MyEventCard
+                  name={"placeholderName"}
+                  id={"placehlderId"}
+                  canEdit={false}
+                />
               </div>
             </div>
             <div className="flex flex-row gap-x-4 mt-4">
               <div>
-                <DateCard />
+                <DateCard date="2023-01-01" />
               </div>
               <div className="flex-1">
-                <MyEventCard canEdit={false} />
-              </div>
-            </div>
-            <div className="flex flex-row gap-x-4 mt-4">
-              <div>
-                <DateCard />
-              </div>
-              <div className="flex-1">
-                <MyEventCard canEdit={false} />
+                <MyEventCard
+                  name={"placeholderName"}
+                  id={"placehlderId"}
+                  canEdit={false}
+                />
               </div>
             </div>
           </>
