@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import {
+  TCelebrationCreate,
   ICelebrationSerializer,
   IGiftqueueItemCreate,
   IGiftqueueSerializer,
   TGiftqueueDetailSerializer,
+  TCelebrationDetail,
 } from "./typesClientApi";
 
 export const useGiftqueueApi = () => {
@@ -84,11 +86,25 @@ export const useCelebrationApi = () => {
         throw new Error(error.message);
       }
     },
-    createCelebration: async (items: IGiftqueueItemCreate) => {
+    createCelebration: async (items: TCelebrationCreate) => {
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/`,
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/`,
           { ...items },
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+    editCelebrationItem: async (items: TCelebrationDetail) => {
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/${items.uuid}/`,
+          { name: items.name },
           {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }

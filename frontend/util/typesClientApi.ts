@@ -19,6 +19,14 @@ export type TGiftqueueDetailSerializer = {
 } & Partial<IGiftqueueItemCreate>;
 
 export interface ICelebrationSerializer {
+  id: string;
+  owner: string;
   name: string;
   date: string;
 }
+
+export type TCelebrationCreate = Omit<ICelebrationSerializer, "id" | "owner">;
+
+export type TCelebrationDetail = {
+  uuid: string;
+} & Partial<TCelebrationCreate>;

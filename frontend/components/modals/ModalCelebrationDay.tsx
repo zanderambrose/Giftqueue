@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  faChampagneGlasses,
-  faX,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Calendar from "react-calendar";
 import { useRecoilState } from "recoil";
@@ -13,7 +9,11 @@ import {
 } from "../../recoil/modal/celebrationDay";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useGiftqueueApi } from "../../util/clientApi";
+import { useCelebrationApi } from "../../util/clientApi";
+import {
+  TCelebrationCreate,
+  TCelebrationDetail,
+} from "../../util/typesClientApi";
 
 type ModalCelebrationDayInputs = {
   name: string;
@@ -31,9 +31,45 @@ export const ModalCelebrationDay = () => {
   } = useForm<ModalCelebrationDayInputs>();
 
   const queryClient = useQueryClient();
-  const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
+  const { createCelebration, editCelebrationItem } = useCelebrationApi();
   const [celebrationDayModalShow, setCelebrationDayModalShow] =
     useRecoilState(celebrationDayModal);
+
+  const patchMutation = useMutation({
+    mutationFn: (items: TCelebrationDetail) => {
+      return editCelebrationItem(items);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["myCelebrations"] });
+    },
+  });
+  const createMutation = useMutation({
+    mutationFn: (items: TCelebrationCreate) => {
+      return createCelebration(items);
+    },
+    onSuccess: (data, variables, context) => {
+      queryClient.invalidateQueries({ queryKey: ["myCelebrations"] });
+    },
+  });
+
+  const handleModalRequest: SubmitHandler<ModalCelebrationDayInputs> = async (
+    data
+  ) => {
+    // If there is a uuid, we are PATCHING an item
+    if (celebrationDayModalShow.uuid) {
+      patchMutation.mutate({
+        uuid: celebrationDayModalShow.uuid,
+        name: data.name,
+      });
+    } else {
+      // We are creating an item since we do not have uuid
+      createMutation.mutate({
+        name: data.name,
+        date: data.date,
+      });
+    }
+    handleModalReset();
+  };
 
   const handleModalReset = () => {
     reset();
