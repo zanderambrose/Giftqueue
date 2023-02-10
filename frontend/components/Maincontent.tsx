@@ -9,6 +9,7 @@ import Giftqueue from "./Giftqueue";
 import { useRouter } from "next/router";
 import ModalGiftqueueItem from "./modals/ModalGiftqueueItem";
 import ModalDeleteGiftqueueItem from "./modals/ModalDeleteGiftqueueItem";
+import ModalDeleteCelebrationItem from "./modals/ModalDeleteCelebrationItem";
 import { ModalCelebrationDay } from "./modals/ModalCelebrationDay";
 
 const Maincontent = () => {
@@ -34,6 +35,7 @@ const Maincontent = () => {
       <ModalGiftqueueItem />
       <ModalCelebrationDay />
       <ModalDeleteGiftqueueItem />
+      <ModalDeleteCelebrationItem />
     </>
   );
 };

@@ -1,27 +1,25 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import {
-  defaultDeleteItemState,
-  deleteGiftqueueItemModal,
-} from "../../recoil/modal/deleteGiftqueueItem";
-import { useGiftqueueApi } from "../../util/clientApi";
+import { deleteCelebrationItemModal } from "../../recoil/modal/deleteCelebrationItem";
+import { defaultDeleteItemState } from "../../recoil/modal/deleteGiftqueueItem";
+import { useCelebrationApi } from "../../util/clientApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ModalDeleteGiftqueueItem = () => {
   const queryClient = useQueryClient();
-  const { deleteGiftqueueItem } = useGiftqueueApi();
+  const { deleteCelebrationItem } = useCelebrationApi();
   const deleteMutation = useMutation({
     mutationFn: (uuid: string) => {
-      return deleteGiftqueueItem(uuid);
+      return deleteCelebrationItem(uuid);
     },
     onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+      queryClient.invalidateQueries({ queryKey: ["myCelebrations"] });
       setDeleteModalItemShow(defaultDeleteItemState);
     },
   });
 
   const [deleteItemModalShow, setDeleteModalItemShow] = useRecoilState(
-    deleteGiftqueueItemModal
+    deleteCelebrationItemModal
   );
 
   const handleDeleteClick = () => {
@@ -42,7 +40,7 @@ const ModalDeleteGiftqueueItem = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <h3 className="mt-6 text-lg font-semibold text-center">
-                  Delete Giftqueue Item
+                  Delete Celebration Item
                 </h3>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
