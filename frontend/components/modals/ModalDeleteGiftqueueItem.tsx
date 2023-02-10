@@ -2,12 +2,12 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import {
   defaultDeleteItemState,
-  deleteItemModal,
-} from "../../recoil/modal/deleteItem";
+  deleteGiftqueueItemModal,
+} from "../../recoil/modal/deleteGiftqueueItem";
 import { useGiftqueueApi } from "../../util/clientApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const ModalDeleteItem = () => {
+const ModalDeleteGiftqueueItem = () => {
   const queryClient = useQueryClient();
   const { deleteGiftqueueItem } = useGiftqueueApi();
   const deleteMutation = useMutation({
@@ -20,8 +20,9 @@ const ModalDeleteItem = () => {
     },
   });
 
-  const [deleteItemModalShow, setDeleteModalItemShow] =
-    useRecoilState(deleteItemModal);
+  const [deleteItemModalShow, setDeleteModalItemShow] = useRecoilState(
+    deleteGiftqueueItemModal
+  );
 
   const handleDeleteClick = () => {
     deleteMutation.mutate(deleteItemModalShow.uuid!);
@@ -89,4 +90,4 @@ const ModalDeleteItem = () => {
   );
 };
 
-export default ModalDeleteItem;
+export default ModalDeleteGiftqueueItem;

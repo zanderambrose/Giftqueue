@@ -8,7 +8,7 @@ import FriendDetailPage from "./FriendDetailPage";
 import Giftqueue from "./Giftqueue";
 import { useRouter } from "next/router";
 import ModalGiftqueueItem from "./modals/ModalGiftqueueItem";
-import ModalDeleteItem from "./modals/ModalDeleteItem";
+import ModalDeleteGiftqueueItem from "./modals/ModalDeleteGiftqueueItem";
 import { ModalCelebrationDay } from "./modals/ModalCelebrationDay";
 
 const Maincontent = () => {
@@ -33,7 +33,7 @@ const Maincontent = () => {
       {/* Modals */}
       <ModalGiftqueueItem />
       <ModalCelebrationDay />
-      <ModalDeleteItem />
+      <ModalDeleteGiftqueueItem />
     </>
   );
 };

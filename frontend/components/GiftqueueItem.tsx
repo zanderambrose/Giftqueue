@@ -4,7 +4,7 @@ import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import { IGiftqueueSerializer } from "../util/typesClientApi";
 import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
-import { deleteItemModal } from "../recoil/modal/deleteItem";
+import { deleteGiftqueueItemModal } from "../recoil/modal/deleteGiftqueueItem";
 
 const GiftqueueItem = ({
   name,
@@ -15,7 +15,7 @@ const GiftqueueItem = ({
   related_to,
 }: IGiftqueueSerializer) => {
   const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
-  const setDeleteItemShow = useSetRecoilState(deleteItemModal);
+  const setDeleteItemShow = useSetRecoilState(deleteGiftqueueItemModal);
   const handleEditItemClick = () => {
     setGiftqueueItemModalShow((currVal) => {
       return {
