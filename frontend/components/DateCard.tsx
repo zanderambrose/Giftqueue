@@ -2,8 +2,9 @@ import React from "react";
 import date from "date-and-time";
 
 const DateCard = ({ date: celebrationDate }: { date: string }) => {
+  const currentYearDate = celebrationDate.replace(/^.{4}/g, "2023");
   const formattedDate = date.format(
-    new Date(celebrationDate),
+    new Date(currentYearDate),
     "ddd,MMM DD YYYY"
   );
   console.log(formattedDate);
