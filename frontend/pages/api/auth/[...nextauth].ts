@@ -23,12 +23,14 @@ export default NextAuth({
       return true;
     },
     async session({ session, user, token }: any) {
+      console.log("SESSION CALLBACK");
       console.log("Id Token: ", token.accessToken as string);
       session.accessToken = token.accessToken as string;
       session.user = token.user;
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }: any) {
+      console.log("JWT CALLBACK");
       if (account) {
         token.accessToken = account.id_token;
         token.refreshToken = account.refresh_token;
