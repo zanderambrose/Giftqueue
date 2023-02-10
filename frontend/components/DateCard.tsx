@@ -18,6 +18,7 @@ const DateCard = ({ date: celebrationDate }: { date: string }) => {
     setDayNumber(dateValuesArr[2]);
     setWeekday(formattedDate.substring(0, 3));
   }, []);
+
   return (
     <div className="dateCard">
       <p>{weekday}</p>

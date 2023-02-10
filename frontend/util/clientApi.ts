@@ -70,7 +70,7 @@ export const useGiftqueueApi = () => {
 export const useCelebrationApi = () => {
   const { data: session } = useSession();
   return {
-    getCelebrationDays: async () => {
+    getCelebrations: async () => {
       try {
         const response = await axios.get<ICelebrationSerializer[]>(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/`,
@@ -79,6 +79,20 @@ export const useCelebrationApi = () => {
           }
         );
         console.log(response);
+        return response.data;
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+    createCelebration: async (items: IGiftqueueItemCreate) => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/`,
+          { ...items },
+          {
+            headers: { Authorization: `Bearer ${session?.accessToken}` },
+          }
+        );
         return response.data;
       } catch (error: any) {
         throw new Error(error.message);

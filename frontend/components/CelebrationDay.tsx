@@ -18,11 +18,11 @@ const CelebrationDay = () => {
     });
   };
 
-  const { getCelebrationDays } = useCelebrationApi();
+  const { getCelebrations } = useCelebrationApi();
   // State for showing users celebrations or default state
   const { isLoading, error, data } = useQuery({
     queryKey: ["myCelebrations"],
-    queryFn: getCelebrationDays,
+    queryFn: getCelebrations,
   });
 
   return (
