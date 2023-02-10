@@ -1,12 +1,11 @@
 import { faChampagneGlasses, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NoItemDefaultCard from "./NoItemDefaultCard";
-import DateCard from "./DateCard";
-import MyEventCard from "./MyEventCard";
 import { useSetRecoilState } from "recoil";
 import { celebrationDayModal } from "../recoil/modal/celebrationDay";
 import { useCelebrationApi } from "../util/clientApi";
 import { useQuery } from "@tanstack/react-query";
+import { CelebrationItem } from "./CelebrationItem";
 
 const CelebrationDay = () => {
   const setCelebrationDayModalShow = useSetRecoilState(celebrationDayModal);
@@ -47,30 +46,9 @@ const CelebrationDay = () => {
             </button>
           </div>
           {/* TODO - extract this into its own component */}
-          <div className="flex flex-row gap-x-4 mt-4">
-            <div>
-              <DateCard />
-            </div>
-            <div className="flex-1">
-              <MyEventCard />
-            </div>
-          </div>
-          <div className="flex flex-row gap-x-4 mt-4">
-            <div>
-              <DateCard />
-            </div>
-            <div className="flex-1">
-              <MyEventCard />
-            </div>
-          </div>
-          <div className="flex flex-row gap-x-4 mt-4">
-            <div>
-              <DateCard />
-            </div>
-            <div className="flex-1">
-              <MyEventCard />
-            </div>
-          </div>
+          {data?.map((item) => {
+            return <CelebrationItem {...item} />;
+          })}
         </div>
       )}
     </>
