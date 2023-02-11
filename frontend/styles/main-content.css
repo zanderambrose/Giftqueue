@@ -34,6 +34,9 @@
   position: relative;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
+.nav-mobile {
+  display: none;
+}
 .sidebar-layout {
   width: 300px;
 }
@@ -194,6 +197,16 @@
     display: none;
   }
   .handle-responsive-margin {
-    left: 10px;
+    left: 0px;
+  }
+}
+@media (max-width: 640px) {
+  .nav-mobile-hidden {
+    display: none;
+  }
+  .nav-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
