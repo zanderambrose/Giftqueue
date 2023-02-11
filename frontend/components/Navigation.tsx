@@ -87,6 +87,7 @@ const Navigation = () => {
       <nav className="h-full nav-shadow nav-mobile">
         <FontAwesomeIcon className="ml-6" size="2x" icon={faBars} />
         <Image
+          onClick={() => handleRouteHome()}
           src="/giftqueueLogo.png"
           width={"78"}
           height={"56"}

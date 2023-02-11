@@ -55,6 +55,15 @@
   opacity: 0.75;
   cursor: pointer;
 }
+.mobile-nav-link {
+  text-decoration: none;
+  /* color: #000000; */
+  /* padding: 30px 0px; */
+  /* display: inline-block; */
+  /* position: relative; */
+  opacity: 0.75;
+  cursor: pointer;
+}
 .nav-link-grow-up {
   color: var(--purple-main);
 }
