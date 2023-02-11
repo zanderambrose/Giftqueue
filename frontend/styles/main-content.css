@@ -178,3 +178,22 @@
   height: 43px;
   width: 120px;
 }
+
+@media (max-width: 1024px) {
+  .sidebar-left-hidden {
+    display: none;
+  }
+  .handle-responsive-margin {
+    margin-left: 4rem;
+    position: relative;
+    left: 50px;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar-right-hidden {
+    display: none;
+  }
+  .handle-responsive-margin {
+    left: 10px;
+  }
+}

@@ -28,17 +28,16 @@ const Navigation = () => {
 
   return (
     <nav className="h-full flex items-center nav-shadow">
-      <div className="sidebar-layout">
-        <div onClick={() => handleRouteHome()} className="ml-8">
-          <Image
-            src="/giftqueueLogo.png"
-            width={"78"}
-            height={"56"}
-            alt={"giftqueue logo"}
-          />
-        </div>
+      <div onClick={() => handleRouteHome()} className="absolute left-2">
+        <Image
+          src="/giftqueueLogo.png"
+          width={"78"}
+          height={"56"}
+          alt={"giftqueue logo"}
+        />
       </div>
-      <div className="flex-1 flex justify-around">
+      <div className="sidebar-layout sidebar-left-hidden"></div>
+      <div className="flex-1 flex justify-around handle-responsive-margin">
         <h3
           className={
             navState === "giftqueue" ? "nav-link nav-link-grow-up" : "nav-link"
@@ -53,7 +52,7 @@ const Navigation = () => {
           }
           onClick={() => handleNavStateChange("day")}
         >
-          Celebration Day
+          Celebrations
         </h3>
         <h3
           className={
@@ -72,7 +71,7 @@ const Navigation = () => {
           Calendar
         </h3>
       </div>
-      <div className="sidebar-layout">
+      <div className="sidebar-layout sidebar-right-hidden">
         <div className="text-center">
           <div className="flex justify-center items-center cursor-pointer">
             <FontAwesomeIcon icon={faArrowRightFromBracket} />
