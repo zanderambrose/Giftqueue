@@ -19,7 +19,7 @@ const ActivityFeedSidebar = () => {
     <>
       {isActivityFeedSidebarOpen ? (
         <div
-          className={`h-full min-h-full bg-white top-0 right-0 absolute z-10 w-10/12`}
+          className={`h-screen min-h-screen overflow-y-scroll bg-white top-0 right-0 absolute z-10 w-10/12`}
         >
           <span
             onClick={() => setIsActivityFeedSidebarOpen(false)}
