@@ -27,7 +27,7 @@ export const MobileNavigation = () => {
   };
 
   return (
-    <div className="bottom-mobile-nav">
+    <div className="bottom-mobile-nav mobile-nav-shadow">
       <FontAwesomeIcon
         size="xl"
         className={
