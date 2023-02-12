@@ -3,6 +3,9 @@ import ActivityFeedSidebar from "./ActivityFeedSidebar";
 import Maincontent from "./Maincontent";
 import Navigation from "./Navigation";
 import ProfileSidebar from "./ProfileSidebar";
+import { MobileNavigation } from "./MobileNavigation";
+import MobileProfileSidebar from "./MobileProfileSidebar";
+import MobileActivityFeedSidebar from "./MobileActivityFeedSidebar";
 
 const Layout = () => {
   return (
@@ -11,16 +14,19 @@ const Layout = () => {
         <Navigation />
       </div>
       <div className="flex main-content">
-        <div className="sidebar-layout">
+        <div className="sidebar-layout sidebar-left-hidden">
           <ProfileSidebar />
         </div>
         <div className="overflow-y-scroll flex-1">
           <Maincontent />
         </div>
-        <div className="sidebar-layout overflow-y-scroll">
+        <div className="sidebar-layout overflow-y-scroll sidebar-right-hidden">
           <ActivityFeedSidebar />
         </div>
       </div>
+      <MobileNavigation />
+      <MobileProfileSidebar />
+      <MobileActivityFeedSidebar />
     </>
   );
 };

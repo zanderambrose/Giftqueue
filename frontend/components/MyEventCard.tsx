@@ -51,13 +51,13 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
             <FontAwesomeIcon
               onClick={handleDeleteItemClick}
               size="lg"
-              className="muted mr-6"
+              className="muted mr-6 hover:opacity-80"
               icon={faTrashCan}
             />
             <FontAwesomeIcon
               onClick={handleEditItemClick}
               size="lg"
-              className="gqp"
+              className="gqp hover:opacity-80"
               icon={faPen}
             />
           </div>
