@@ -9,8 +9,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { faBell, faBars } from "@fortawesome/free-solid-svg-icons";
+import { modalProfileSidebar } from "../recoil/modal/modalProfileSidebar";
 
 const Navigation = () => {
+  const [isProfileSidebarOpen, setIsProfileSidebarOpen] =
+    useRecoilState(modalProfileSidebar);
+
   const [navState, setNavState] = useRecoilState(navigationState);
   const router = useRouter();
   const handleNavStateChange = (navItemState: TNavOptions) => {
@@ -85,7 +89,12 @@ const Navigation = () => {
         </div>
       </nav>
       <nav className="h-full nav-shadow nav-mobile">
-        <FontAwesomeIcon className="ml-6" size="2x" icon={faBars} />
+        <FontAwesomeIcon
+          onClick={() => setIsProfileSidebarOpen(true)}
+          className="ml-6"
+          size="2x"
+          icon={faBars}
+        />
         <Image
           onClick={() => handleRouteHome()}
           src="/giftqueueLogo.png"
