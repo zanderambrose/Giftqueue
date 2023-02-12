@@ -7,6 +7,7 @@ import {
   faGift,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
+import { modalProfileSidebar } from "../recoil/modal/modalProfileSidebar";
 import {
   navigationState,
   TNavOptions,
@@ -14,6 +15,9 @@ import {
 import { useRouter } from "next/router";
 
 export const MobileNavigation = () => {
+  const [isProfileSidebarOpen, setIsProfileSidebarOpen] =
+    useRecoilState(modalProfileSidebar);
+
   const [navState, setNavState] = useRecoilState(navigationState);
   const router = useRouter();
 
