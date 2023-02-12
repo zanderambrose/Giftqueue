@@ -41,7 +41,7 @@ const Giftqueue = () => {
             <h1 className="text-lg relative right-2">Related Giftqueue</h1>
             <button
               onClick={() => handleAddNewItemClick()}
-              className="btn-add-new rounded relative left-2"
+              className="btn-add-new rounded relative left-2 hover:opacity-80"
             >
               <FontAwesomeIcon className="relative right-2" icon={faPlus} />
               {window.screen.width > 640 ? "Add New Event" : "Add New"}
