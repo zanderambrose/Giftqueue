@@ -44,8 +44,8 @@ const NoItemDefaultCard = ({
 
   return (
     <>
-      <div className="rounded-lg w-4/5 m-auto relative top-10 bg-white">
-        <div className="p-20 text-center">
+      <div className="rounded-lg w-11/12 md:w-10/12 lg:4/5 m-auto relative top-10 bg-white">
+        <div className="p-10 md:p-15 lg:p-20 text-center">
           <FontAwesomeIcon className="gqp" size="5x" icon={icon} />
           <h1 className="font-black mt-4">{headingText}</h1>
           <p>{subText}</p>
