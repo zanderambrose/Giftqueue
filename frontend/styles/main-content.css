@@ -236,4 +236,7 @@
     width: 100%;
     padding: 2rem 0;
   }
+  .btn-add-new {
+    padding: 0.75rem 1.5rem;
+  }
 }

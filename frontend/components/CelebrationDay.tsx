@@ -42,7 +42,7 @@ const CelebrationDay = () => {
               className="btn-add-new rounded relative left-2"
             >
               <FontAwesomeIcon className="relative right-2" icon={faPlus} />
-              Add New Event
+              {window.screen.width > 640 ? "Add New Event" : "Add New"}
             </button>
           </div>
           {/* TODO - extract this into its own component */}

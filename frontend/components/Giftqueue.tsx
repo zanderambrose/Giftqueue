@@ -44,7 +44,7 @@ const Giftqueue = () => {
               className="btn-add-new rounded relative left-2"
             >
               <FontAwesomeIcon className="relative right-2" icon={faPlus} />
-              Add New Item
+              {window.screen.width > 640 ? "Add New Event" : "Add New"}
             </button>
           </div>
           {data?.map((item) => {
