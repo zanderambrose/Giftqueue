@@ -5,6 +5,7 @@ import Navigation from "./Navigation";
 import ProfileSidebar from "./ProfileSidebar";
 import { MobileNavigation } from "./MobileNavigation";
 import MobileProfileSidebar from "./MobileProfileSidebar";
+import MobileActivityFeedSidebar from "./MobileActivityFeedSidebar";
 
 const Layout = () => {
   return (
@@ -25,6 +26,7 @@ const Layout = () => {
       </div>
       <MobileNavigation />
       <MobileProfileSidebar />
+      <MobileActivityFeedSidebar />
     </>
   );
 };
