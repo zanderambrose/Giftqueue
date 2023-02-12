@@ -15,7 +15,9 @@ const MobileProfileSidebar = () => {
   return (
     <>
       {isProfileSidebarOpen ? (
-        <div className="h-full min-h-full bg-white top-0 left-0 absolute z-10 w-10/12">
+        <div
+          className={`h-full min-h-full bg-white top-0 left-0 absolute z-10 w-10/12`}
+        >
           <span
             onClick={() => setIsProfileSidebarOpen(false)}
             className="p-4 z-20 absolute top-4 right-4 text-black block cursor-pointer hover:opacity-80"
