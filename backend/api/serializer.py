@@ -35,6 +35,7 @@ class GiftItemUrlSerializer(serializers.ModelSerializer):
 
 class GiftItemAllSerializer(serializers.ModelSerializer):
     url = GiftItemUrlSerializer(read_only=True, many=True, source='giftitemurl_set')
+    related_to = CelebrationDaySerializer()
    
     def to_representation(self, instance):
         ret = super(GiftItemAllSerializer, self).to_representation(instance)
