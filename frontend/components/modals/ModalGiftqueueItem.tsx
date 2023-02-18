@@ -84,7 +84,7 @@ const ModalGiftqueueItem = () => {
         name: data.name,
         url: data.link,
         notes: data.notes,
-        related_to: "",
+        related_to: relatedCelebrationPicked?.id ?? undefined,
       });
     }
     handleModalReset();

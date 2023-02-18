@@ -3,7 +3,7 @@ export interface IGiftqueueSerializer {
   owner: number;
   name: string;
   notes: string | null;
-  related_to: string;
+  related_to: ICelebrationSerializer;
   url: string[];
 }
 

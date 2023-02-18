@@ -40,7 +40,9 @@ const GiftqueueItem = ({
         <div className="w-full flex flex-row justify-between items-center">
           <div>
             <h3>{name}</h3>
-            {related_to && <p>Related to {related_to}, [12 days remaining]</p>}
+            {related_to && (
+              <p>Related to {related_to.name}, [12 days remaining]</p>
+            )}
           </div>
           <div>
             <FontAwesomeIcon
