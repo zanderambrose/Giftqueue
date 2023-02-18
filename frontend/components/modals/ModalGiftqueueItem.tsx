@@ -281,8 +281,11 @@ const ModalGiftqueueItem = () => {
                                 e.preventDefault();
                               }}
                               disabled={isSubmitting}
-                              className="text-left mb-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:purple focus:ring-1 focus:purple"
+                              className={`text-left mb-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400 ${
+                                relatedCelebrationPicked?.id === item.id
+                                  ? "ring-gqp ring-1 bg-gqp2"
+                                  : null
+                              }`}
                             >
                               <FontAwesomeIcon
                                 className={`${
