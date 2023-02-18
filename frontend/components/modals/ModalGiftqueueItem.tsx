@@ -169,8 +169,11 @@ const ModalGiftqueueItem = () => {
                               setRelatedCelebrationPicked(undefined);
                             }}
                             disabled={isSubmitting}
-                            className={`text-left mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:gqp focus:ring-1 focus:gqp`}
+                            className={`text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400 ${
+                              giftqueueFor === "anytime"
+                                ? "ring-gqp ring-1 bg-gqp2"
+                                : null
+                            }`}
                           >
                             <FontAwesomeIcon
                               className={`${
@@ -192,8 +195,11 @@ const ModalGiftqueueItem = () => {
                               setGiftqueueFor("related");
                             }}
                             disabled={isSubmitting}
-                            className="text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:purple focus:ring-1 focus:purple"
+                            className={`text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400 ${
+                              giftqueueFor === "related"
+                                ? "ring-gqp ring-1 bg-gqp2"
+                                : null
+                            }`}
                           >
                             <FontAwesomeIcon
                               className={`${
