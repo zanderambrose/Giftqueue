@@ -10,8 +10,8 @@ import {
   faCircle,
   faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useGiftqueueApi } from "../../util/clientApi";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCelebrationApi, useGiftqueueApi } from "../../util/clientApi";
 import {
   IGiftqueueItemCreate,
   TGiftqueueDetailSerializer,
@@ -41,8 +41,12 @@ const ModalGiftqueueItem = () => {
   const [isRelatedToViewOpen, setIsRelatedToViewOpen] = useState(false);
   const queryClient = useQueryClient();
   const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
+  const { getCelebrations } = useCelebrationApi();
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
     useRecoilState(giftqueueItem);
+  const { error, data } = useQuery({
+    queryFn: getCelebrations,
+  });
 
   const patchMutation = useMutation({
     mutationFn: (items: TGiftqueueDetailSerializer) => {
@@ -248,29 +252,35 @@ const ModalGiftqueueItem = () => {
                     </div>
                     {/*body*/}
                     <div className="relative px-6 flex-auto">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setGiftqueueFor("related");
-                        }}
-                        disabled={isSubmitting}
-                        className="text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
+                      {data?.map((item) => {
+                        return (
+                          <div key={item.id}>
+                            <button
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setGiftqueueFor("related");
+                              }}
+                              disabled={isSubmitting}
+                              className="text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:purple focus:ring-1 focus:purple"
-                      >
-                        <FontAwesomeIcon
-                          className={`${
-                            giftqueueFor === "related"
-                              ? "gqp"
-                              : "text-slate-300"
-                          } mr-4`}
-                          icon={
-                            giftqueueFor === "related"
-                              ? faCircleCheck
-                              : faCircle
-                          }
-                        />
-                        Related To Event
-                      </button>
+                            >
+                              <FontAwesomeIcon
+                                className={`${
+                                  giftqueueFor === "related"
+                                    ? "gqp"
+                                    : "text-slate-300"
+                                } mr-4`}
+                                icon={
+                                  giftqueueFor === "related"
+                                    ? faCircleCheck
+                                    : faCircle
+                                }
+                              />
+                              {item.name}
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                     <div className="text-center block p-6">
                       <button
