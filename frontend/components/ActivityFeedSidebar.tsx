@@ -11,7 +11,7 @@ import ActivitySidebarFriendRequestCard from "./ActivitySidebarFriendRequestCard
 const ActivityFeedSidebar = () => {
   const [activityData, setActivityData] = useState(false);
   return (
-    <div className="min-height-content">
+    <div>
       <div className="relative top-10 pb-8 border-b-2">
         <div className="flex mx-auto items-center justify-center w-full">
           <FontAwesomeIcon icon={faUserGroup} />

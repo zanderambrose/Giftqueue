@@ -17,9 +17,6 @@
 .main-content {
   height: calc(100vh - var(--navigation-height));
 }
-.min-height-content {
-  min-height: calc(100vh - var(--navigation-height));
-}
 
 .main-content-bg {
   background-color: #fafafa;

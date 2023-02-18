@@ -7,7 +7,7 @@ import { faChampagneGlasses } from "@fortawesome/free-solid-svg-icons";
 const ProfileSidebar = () => {
   const { data: session } = useSession();
   return (
-    <div className="min-height-content">
+    <div>
       <div className="text-center relative top-10 w-10/12 mx-auto pb-8 border-b-2">
         <Image
           src={"/placeholderFriend.jpg"}
