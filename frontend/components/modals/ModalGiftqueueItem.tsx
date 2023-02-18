@@ -40,6 +40,10 @@ const ModalGiftqueueItem = () => {
   );
   const [isRelatedToViewOpen, setIsRelatedToViewOpen] = useState(false);
   const queryClient = useQueryClient();
+  const [relatedCelebrationPicked, setRelatedCelebrationPicked] = useState<
+    undefined | { id: string; name: string }
+  >(undefined);
+
   const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
   const { getCelebrations } = useCelebrationApi();
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
@@ -95,6 +99,7 @@ const ModalGiftqueueItem = () => {
     clearErrors();
     setGiftqueueFor("anytime");
     setIsRelatedToViewOpen(false);
+    setRelatedCelebrationPicked(undefined);
     setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
   };
 
@@ -161,6 +166,7 @@ const ModalGiftqueueItem = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setGiftqueueFor("anytime");
+                              setRelatedCelebrationPicked(undefined);
                             }}
                             disabled={isSubmitting}
                             className={`text-left mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -202,6 +208,11 @@ const ModalGiftqueueItem = () => {
                               }
                             />
                             Related To Event
+                            {relatedCelebrationPicked && (
+                              <span className="text-small muted ml-2">
+                                ({relatedCelebrationPicked.name})
+                              </span>
+                            )}
                           </button>
                           <button
                             disabled={giftqueueFor === "anytime" ? true : false}
@@ -257,21 +268,24 @@ const ModalGiftqueueItem = () => {
                           <div key={item.id}>
                             <button
                               onClick={(e) => {
+                                setRelatedCelebrationPicked({
+                                  name: item.name,
+                                  id: item.id,
+                                });
                                 e.preventDefault();
-                                setGiftqueueFor("related");
                               }}
                               disabled={isSubmitting}
-                              className="text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
+                              className="text-left mb-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:purple focus:ring-1 focus:purple"
                             >
                               <FontAwesomeIcon
                                 className={`${
-                                  giftqueueFor === "related"
+                                  relatedCelebrationPicked?.id === item.id
                                     ? "gqp"
                                     : "text-slate-300"
                                 } mr-4`}
                                 icon={
-                                  giftqueueFor === "related"
+                                  relatedCelebrationPicked?.id === item.id
                                     ? faCircleCheck
                                     : faCircle
                                 }
@@ -282,7 +296,7 @@ const ModalGiftqueueItem = () => {
                         );
                       })}
                     </div>
-                    <div className="text-center block p-6">
+                    <div className="text-center block pb-6 px-6">
                       <button
                         onClick={() => setIsRelatedToViewOpen(false)}
                         className="main-Btn hover:opacity-80"
