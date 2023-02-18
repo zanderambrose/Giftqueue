@@ -89,6 +89,8 @@ const ModalGiftqueueItem = () => {
   const handleModalReset = () => {
     reset();
     clearErrors();
+    setGiftqueueFor("anytime");
+    setIsRelatedToViewOpen(false);
     setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
   };
 
