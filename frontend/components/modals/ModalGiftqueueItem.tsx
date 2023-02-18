@@ -1,11 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
   giftqueueItem,
   defaultGiftqueueItemModalState,
 } from "../../recoil/modal/giftqueueItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+import {
+  faX,
+  faCircle,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../../util/clientApi";
 import {
@@ -32,6 +36,9 @@ const ModalGiftqueueItem = () => {
     formState: { errors, isSubmitting },
   } = useForm<ModalGiftqueueItemInputs>();
 
+  const [giftqueueFor, setGiftqueueFor] = useState<"anytime" | "related">(
+    "anytime"
+  );
   const queryClient = useQueryClient();
   const { editGiftqueueItem, createGiftqueueItem } = useGiftqueueApi();
   const [giftqueueItemModalShow, setGiftqueueItemModalShow] =
@@ -145,24 +152,58 @@ const ModalGiftqueueItem = () => {
                       <span className="block text-md font-medium">
                         When do you wish to have this item
                       </span>
-                      <input
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setGiftqueueFor("anytime");
+                        }}
                         disabled={isSubmitting}
                         {...register("relatedTo")}
-                        type="text"
-                        placeholder="Anytime"
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                      />
-                      <input
-                        disabled={isSubmitting}
-                        type="text"
-                        placeholder="Related to Event"
-                        className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                      />
+                        className={`text-left mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
+      focus:gqp focus:ring-1 focus:gqp`}
+                      >
+                        <FontAwesomeIcon
+                          className={`${
+                            giftqueueFor === "anytime"
+                              ? "gqp"
+                              : "text-slate-300"
+                          } mr-4`}
+                          icon={
+                            giftqueueFor === "anytime"
+                              ? faCircleCheck
+                              : faCircle
+                          }
+                        />
+                        Anytime
+                      </button>
                       <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setGiftqueueFor("related");
+                        }}
+                        disabled={isSubmitting}
+                        className="text-left mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
+      focus:outline-none focus:purple focus:ring-1 focus:purple"
+                      >
+                        <FontAwesomeIcon
+                          className={`${
+                            giftqueueFor === "related"
+                              ? "gqp"
+                              : "text-slate-300"
+                          } mr-4`}
+                          icon={
+                            giftqueueFor === "related"
+                              ? faCircleCheck
+                              : faCircle
+                          }
+                        />
+                        Related To Event
+                      </button>
+                      <button
+                        disabled={giftqueueFor === "anytime" ? true : false}
+                        onClick={(e) => e.preventDefault()}
                         className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+      focus:outline-none focus:gqp focus:ring-1 focus:gqp disabled:opacity-25"
                       >
                         Select Event
                       </button>
