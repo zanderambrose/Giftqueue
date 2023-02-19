@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics, mixins
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipListSerializer, FriendshipRequestSerializer, ActivityFeedSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipListSerializer, FriendshipRequestSerializer, ActivityFeedSerializer, GiftItemGETSerializer 
 from django.http.request import QueryDict
 from django.db.models import Q
 
@@ -43,7 +43,11 @@ class CelebrationDayViewSet(OwnedViewSet):
 
 class GiftItemViewSet(viewsets.ModelViewSet):
     queryset = GiftItem.objects.all()
-    serializer_class = GiftItemAllSerializer
+    
+    def get_serializer_class(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return GiftItemGETSerializer 
+        return GiftItemAllSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()

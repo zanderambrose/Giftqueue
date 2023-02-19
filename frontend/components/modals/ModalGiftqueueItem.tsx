@@ -56,7 +56,7 @@ const ModalGiftqueueItem = () => {
     mutationFn: (items: TGiftqueueDetailSerializer) => {
       return editGiftqueueItem(items);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
     },
   });
@@ -64,26 +64,39 @@ const ModalGiftqueueItem = () => {
     mutationFn: (items: IGiftqueueItemCreate) => {
       return createGiftqueueItem(items);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
     },
   });
 
   const handleModalRequest: SubmitHandler<ModalGiftqueueItemInputs> = async (
-    data
+    submitData
   ) => {
     // If there is a uuid, we are PATCHING an item
     if (giftqueueItemModalShow.uuid) {
-      patchMutation.mutate({
+      let patchDict: TGiftqueueDetailSerializer = {
         uuid: giftqueueItemModalShow.uuid,
-        name: data.name,
-      });
+      };
+      if (submitData.name) {
+        patchDict["name"] = submitData.name;
+      }
+      if (submitData.link) {
+        patchDict["url"] = submitData.link;
+      }
+      if (submitData.notes) {
+        patchDict["notes"] = submitData.notes;
+      }
+      if (relatedCelebrationPicked) {
+        patchDict["related_to"] = relatedCelebrationPicked.id;
+      }
+      console.log("PATCH DICT: ", patchDict);
+      patchMutation.mutate(patchDict);
     } else {
       // We are creating an item since we do not have uuid
       createMutation.mutate({
-        name: data.name,
-        url: data.link,
-        notes: data.notes,
+        name: submitData.name,
+        url: submitData.link,
+        notes: submitData.notes,
         related_to: relatedCelebrationPicked?.id ?? undefined,
       });
     }

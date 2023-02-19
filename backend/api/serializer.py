@@ -35,10 +35,30 @@ class GiftItemUrlSerializer(serializers.ModelSerializer):
 
 class GiftItemAllSerializer(serializers.ModelSerializer):
     url = GiftItemUrlSerializer(read_only=True, many=True, source='giftitemurl_set')
-    related_to = CelebrationDaySerializer()
    
     def to_representation(self, instance):
         ret = super(GiftItemAllSerializer, self).to_representation(instance)
+
+        # remove 'is_purchased' field if owner is requestings
+        user_id = self.context['request'].user.id
+        if user_id and user_id == ret['owner']:
+            del ret['is_purchased']
+
+        # return the modified representation
+        return ret
+
+
+    class Meta:
+        model = GiftItem
+        fields = ('name', "owner", "is_purchased", "url", "id", "notes", "related_to")
+
+
+class GiftItemGETSerializer(serializers.ModelSerializer):
+    url = GiftItemUrlSerializer(read_only=True, many=True, source='giftitemurl_set')
+    related_to = CelebrationDaySerializer()
+   
+    def to_representation(self, instance):
+        ret = super(GiftItemGETSerializer, self).to_representation(instance)
 
         # remove 'is_purchased' field if owner is requestings
         user_id = self.context['request'].user.id
