@@ -92,13 +92,21 @@ const ModalGiftqueueItem = () => {
       console.log("PATCH DICT: ", patchDict);
       patchMutation.mutate(patchDict);
     } else {
-      // We are creating an item since we do not have uuid
-      createMutation.mutate({
+      let postDict: IGiftqueueItemCreate = {
         name: submitData.name,
-        url: submitData.link,
-        notes: submitData.notes,
-        related_to: relatedCelebrationPicked?.id ?? undefined,
-      });
+      };
+      if (submitData.link) {
+        postDict["url"] = submitData.link;
+      }
+      if (submitData.notes) {
+        postDict["notes"] = submitData.notes;
+      }
+      if (relatedCelebrationPicked) {
+        postDict["related_to"] = relatedCelebrationPicked.id;
+      }
+      console.log("POST DICT: ", postDict);
+      // We are creating an item since we do not have uuid
+      createMutation.mutate(postDict);
     }
     handleModalReset();
   };
