@@ -11,7 +11,8 @@ const DateCard = ({ date: celebrationDate }: { date: string }) => {
     const currentYearDate = celebrationDate?.replace(/^.{4}/g, "2023");
     const formattedDate = date.format(
       new Date(currentYearDate),
-      "ddd, MMM DD YYYY"
+      "ddd, MMM DD YYYY",
+      true
     );
     const dateValuesArr = formattedDate.split(" ");
     setMonth(dateValuesArr[1]);
