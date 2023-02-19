@@ -5,6 +5,7 @@ import { IGiftqueueSerializer } from "../util/typesClientApi";
 import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
 import { deleteGiftqueueItemModal } from "../recoil/modal/deleteGiftqueueItem";
+import { howMuchTimeUntil } from "../util/dateHelper";
 
 const GiftqueueItem = ({
   name,
@@ -41,7 +42,12 @@ const GiftqueueItem = ({
           <div>
             <h3>{name}</h3>
             {related_to && (
-              <p>Related to {related_to.name}, [12 days remaining]</p>
+              <p>
+                Related to {related_to.name}{" "}
+                {howMuchTimeUntil(related_to.date) < 30 &&
+                  howMuchTimeUntil(related_to.date) > 0 &&
+                  `, ${howMuchTimeUntil(related_to.date)} days remaining`}
+              </p>
             )}
           </div>
           <div>
