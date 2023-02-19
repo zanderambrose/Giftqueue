@@ -70,6 +70,13 @@ class GiftItemViewSet(viewsets.ModelViewSet):
             GiftItemUrl.objects.create(url=url, gift_item=gift_item)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
+    def partial_update(self, request, *args, **kwargs):
+        url = request.data.get('url', None)
+        if url is not None:
+            gift_item = GiftItem.objects.get(pk=kwargs.get('pk'))
+            GiftItemUrl.objects.create(url=url, gift_item=gift_item)
+        return super().partial_update(request, *args, **kwargs)
+
 class FriendlistListView(generics.ListAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipListSerializer
