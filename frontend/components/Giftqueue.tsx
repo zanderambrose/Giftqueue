@@ -48,7 +48,7 @@ const Giftqueue = () => {
             </button>
           </div>
           {data?.map((item) => {
-            return <GiftqueueItem {...item} />;
+            return <GiftqueueItem key={item.id} {...item} />;
           })}
         </div>
       )}

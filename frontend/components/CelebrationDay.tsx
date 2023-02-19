@@ -47,7 +47,7 @@ const CelebrationDay = () => {
           </div>
           {/* TODO - extract this into its own component */}
           {data?.map((item) => {
-            return <CelebrationItem {...item} />;
+            return <CelebrationItem key={item.id} {...item} />;
           })}
         </div>
       )}
