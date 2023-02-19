@@ -29,7 +29,7 @@ const Giftqueue = () => {
 
   return (
     <>
-      {!data ? (
+      {!data || data?.length < 1 ? (
         <NoItemDefaultCard
           icon={faListCheck}
           headingText="No items in your giftqueue"

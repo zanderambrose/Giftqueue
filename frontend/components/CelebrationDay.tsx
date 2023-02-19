@@ -27,7 +27,7 @@ const CelebrationDay = () => {
 
   return (
     <>
-      {!data ? (
+      {!data || data?.length < 1 ? (
         <NoItemDefaultCard
           icon={faChampagneGlasses}
           headingText="No celebration days entered yet!"
