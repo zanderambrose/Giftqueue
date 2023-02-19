@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSetRecoilState } from "recoil";
@@ -7,6 +7,8 @@ import {
   celebrationDayModal,
 } from "../recoil/modal/celebrationDay";
 import { deleteCelebrationItemModal } from "../recoil/modal/deleteCelebrationItem";
+import { useQuery } from "@tanstack/react-query";
+import { useGiftqueueApi } from "../util/clientApi";
 
 interface IEventCard {
   name: string;
@@ -37,14 +39,30 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
     });
   };
 
+  const [relatedItems, setRelatedItems] = useState(0);
+  const { getGiftqueueItems } = useGiftqueueApi();
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["myGiftqueueItems"],
+    queryFn: getGiftqueueItems,
+    onSuccess: (data) => {
+      const totalNumber = data.filter((item) => {
+        return item.related_to.id === id;
+      });
+      setRelatedItems(totalNumber.length);
+    },
+  });
+
   return (
     <div className="friendEventCard">
       <div className="w-full mx-6 flex flex-row justify-between items-center">
         <div>
           <h2 className="font-black text-lg">{name}</h2>
-          <p className="text-sm">
-            <span className="text-blue-600">3 </span>items added to my wishlist
-          </p>
+          {relatedItems > 0 && (
+            <p className="text-sm">
+              <span className="text-blue-600">{relatedItems} </span>items added
+              to my wishlist
+            </p>
+          )}
         </div>
         {canEdit && (
           <div>

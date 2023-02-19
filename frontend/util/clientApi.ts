@@ -20,6 +20,7 @@ export const useGiftqueueApi = () => {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
+        console.log(response.data);
         return response.data;
       } catch (error: any) {
         throw new Error(error.message);
@@ -80,7 +81,7 @@ export const useCelebrationApi = () => {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
-        console.log(response);
+        // console.log(response);
         return response.data;
       } catch (error: any) {
         throw new Error(error.message);
