@@ -39,7 +39,7 @@ export const ModalCelebrationDay = () => {
     mutationFn: (items: TCelebrationDetail) => {
       return editCelebrationItem(items);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myCelebrations"] });
     },
   });
@@ -47,7 +47,7 @@ export const ModalCelebrationDay = () => {
     mutationFn: (items: TCelebrationCreate) => {
       return createCelebration(items);
     },
-    onSuccess: (data, variables, context) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["myCelebrations"] });
     },
   });
