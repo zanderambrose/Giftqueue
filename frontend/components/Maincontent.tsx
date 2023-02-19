@@ -17,7 +17,7 @@ const Maincontent = () => {
   const router = useRouter();
   return (
     <>
-      <main className="main-content-bg">
+      <main className="main-content-min main-content-bg">
         <div className="main-content-inner-container">
           {router.pathname == "/" ? (
             <>
