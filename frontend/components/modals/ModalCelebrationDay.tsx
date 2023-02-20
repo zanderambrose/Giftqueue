@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Calendar from "react-calendar";
@@ -14,6 +14,7 @@ import {
   TCelebrationCreate,
   TCelebrationDetail,
 } from "../../util/typesClientApi";
+import { formatDateSending } from "../../util/dateHelper";
 
 type ModalCelebrationDayInputs = {
   name: string;
@@ -29,6 +30,7 @@ export const ModalCelebrationDay = () => {
     clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<ModalCelebrationDayInputs>();
+  const [dateSelected, setDateSelected] = useState(new Date());
 
   const queryClient = useQueryClient();
   const { createCelebration, editCelebrationItem } = useCelebrationApi();
@@ -65,7 +67,7 @@ export const ModalCelebrationDay = () => {
       // We are creating an item since we do not have uuid
       createMutation.mutate({
         name: data.name,
-        date: data.date,
+        date: formatDateSending(dateSelected),
       });
     }
     handleModalReset();
@@ -102,14 +104,9 @@ export const ModalCelebrationDay = () => {
                 </div>
                 {/*body*/}
                 <div className="relative px-6 flex-auto">
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      alert("hello form submit");
-                    }}
-                  >
+                  <form onSubmit={handleSubmit(handleModalRequest)}>
                     <input
-                      {...(register("name"), { required: true })}
+                      {...register("name", { required: true })}
                       type="text"
                       placeholder="Enter Event Title"
                       className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
@@ -120,18 +117,16 @@ export const ModalCelebrationDay = () => {
                         Select Date
                       </span>
                     </label>
-                    <Calendar />
+                    <Calendar onChange={setDateSelected} value={dateSelected} />
+                    <div className="text-center block p-6">
+                      <button
+                        className="main-Btn hover:opacity-80"
+                        type="submit"
+                      >
+                        Confirm
+                      </button>
+                    </div>
                   </form>
-                </div>
-                {/*footer*/}
-                <div className="text-center block p-6">
-                  <button
-                    className="main-Btn hover:opacity-80"
-                    type="button"
-                    // onClick={() => setAddFirstDayModal(false)}
-                  >
-                    Confirm
-                  </button>
                 </div>
               </div>
             </div>

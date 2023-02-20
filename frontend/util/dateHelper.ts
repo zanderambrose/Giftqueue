@@ -6,3 +6,8 @@ export const howMuchTimeUntil = (stringDate: string) => {
   const timeInDays = date.subtract(dateOfCelebration, new Date()).toDays();
   return Math.round(timeInDays);
 };
+
+export const formatDateSending = (inputDate: Date) => {
+  const formatDate = date.format(inputDate, "YYYY/MM/DD");
+  return formatDate.replaceAll("/", "-");
+};
