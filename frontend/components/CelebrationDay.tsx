@@ -45,7 +45,6 @@ const CelebrationDay = () => {
               {window.screen.width > 640 ? "Add New Event" : "Add New"}
             </button>
           </div>
-          {/* TODO - extract this into its own component */}
           {data?.map((item) => {
             return <CelebrationItem key={item.id} {...item} />;
           })}
