@@ -70,9 +70,10 @@ const GiftqueueItem = ({
         <div className="mt-4">
           <p className="muted">Where to buy:</p>
           <div className="flex flex-row items-center gap-4">
-            {url.map((url) => {
+            {url.map((url, idx) => {
               return (
                 <a
+                  key={`${url}${idx}`}
                   target={"_blank"}
                   rel={"noreferrer"}
                   className="text-sky-400"
