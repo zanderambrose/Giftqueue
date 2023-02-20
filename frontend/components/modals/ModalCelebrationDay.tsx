@@ -82,6 +82,11 @@ export const ModalCelebrationDay = () => {
     setDateSelected(new Date());
   };
 
+  const handleIsRequired = (): boolean => {
+    if (celebrationDayModalShow.uuid) return false;
+    return true;
+  };
+
   return (
     <>
       {celebrationDayModalShow.isOpen ? (
@@ -109,7 +114,7 @@ export const ModalCelebrationDay = () => {
                 <div className="relative px-6 flex-auto">
                   <form onSubmit={handleSubmit(handleModalRequest)}>
                     <input
-                      {...register("name", { required: true })}
+                      {...register("name", { required: handleIsRequired() })}
                       type="text"
                       placeholder="Enter Event Title"
                       className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
