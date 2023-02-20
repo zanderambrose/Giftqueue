@@ -59,10 +59,12 @@ export const ModalCelebrationDay = () => {
   ) => {
     // If there is a uuid, we are PATCHING an item
     if (celebrationDayModalShow.uuid) {
-      patchMutation.mutate({
+      const patchDict: TCelebrationDetail = {
         uuid: celebrationDayModalShow.uuid,
-        name: data.name,
-      });
+      };
+      if (data.name) patchDict["name"] = data.name;
+      if (dateSelected) patchDict["date"] = formatDateSending(dateSelected);
+      patchMutation.mutate(patchDict);
     } else {
       // We are creating an item since we do not have uuid
       createMutation.mutate({
@@ -77,6 +79,7 @@ export const ModalCelebrationDay = () => {
     reset();
     clearErrors();
     setCelebrationDayModalShow(defaultCelebrationDayModalState);
+    setDateSelected(new Date());
   };
 
   return (

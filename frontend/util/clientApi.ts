@@ -102,10 +102,11 @@ export const useCelebrationApi = () => {
       }
     },
     editCelebrationItem: async (items: TCelebrationDetail) => {
+      console.log("all items passed", items);
       try {
         const response = await axios.patch(
-          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/${items.uuid}/`,
-          { name: items.name },
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/${items.uuid}/`,
+          { ...items },
           {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
