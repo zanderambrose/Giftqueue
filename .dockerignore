@@ -5,3 +5,5 @@ venv/
 # Python files
 *.pyc
 __pycache__
+
+**/db.sqlite

@@ -11,8 +11,10 @@ import { useRouter } from "next/router";
 import { faBell, faBars } from "@fortawesome/free-solid-svg-icons";
 import { modalProfileSidebar } from "../recoil/modal/modalProfileSidebar";
 import { modalActivityFeedSidebar } from "../recoil/modal/modalActivityFeedSidebar";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Navigation = () => {
+  const { data: session } = useSession();
   const [isProfileSidebarOpen, setIsProfileSidebarOpen] =
     useRecoilState(modalProfileSidebar);
   const [isActivityFeedSidebarOpen, setIsActivityFeedSidebarOpen] =
@@ -84,10 +86,23 @@ const Navigation = () => {
         </div>
         <div className="sidebar-layout sidebar-right-hidden">
           <div className="text-center">
-            <div className="flex justify-center items-center cursor-pointer">
-              <FontAwesomeIcon icon={faArrowRightFromBracket} />
-              <div className="ml-2">Logout</div>
-            </div>
+            {!session ? (
+              <div
+                onClick={() => signIn("google")}
+                className="flex justify-center items-center cursor-pointer"
+              >
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                <div className="ml-2">Login</div>
+              </div>
+            ) : (
+              <div
+                onClick={() => signOut()}
+                className="flex justify-center items-center cursor-pointer"
+              >
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                <div className="ml-2">Logout</div>
+              </div>
+            )}
           </div>
         </div>
       </nav>
