@@ -2,27 +2,32 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import FriendCard from "./FriendCard";
-// import { useSession } from "next-auth/react";
-// import axios from "axios";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const Friends = () => {
-  // const { data: session } = useSession();
-  // const [contacts, setContacts] = useState([]);
-  // useEffect(() => {
-  //   const accessToken = session?.accessToken;
-  //   axios
-  //     .get(
-  //       `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses&access_token=${accessToken}`
-  //     )
-  //     .then((response) => {
-  //       console.log("Friend response: ", response);
-  //       // Set contacts state with response data
-  //       setContacts(response.data.connections);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [session]);
+  const { data: session } = useSession();
+  const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+    const accessToken = session?.accessToken;
+    axios
+      .get(
+        `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Friend response: ", response);
+        // Set contacts state with response data
+        setContacts(response.data.connections);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [session]);
 
   return (
     <div className="relative top-10 px-8">

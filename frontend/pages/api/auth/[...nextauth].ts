@@ -12,6 +12,8 @@ export default NextAuth({
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
+          scope:
+            "openid email profile https://www.googleapis.com/auth/contacts.readonly",
         },
       },
     }),
@@ -20,6 +22,10 @@ export default NextAuth({
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
+      console.log("user: ", user);
+      console.log("account: ", account);
+      console.log("profile: ", profile);
+      console.log("email: ", email);
       return true;
     },
     async session({ session, user, token }: any) {
