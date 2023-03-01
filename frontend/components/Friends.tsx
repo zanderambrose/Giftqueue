@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import FriendCard from "./FriendCard";
-import { useSession } from "next-auth/react";
 import axios from "axios";
 
 const Friends = () => {
-  const { data: session } = useSession();
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
     const googleFetchFunction = async () => {
@@ -19,7 +17,7 @@ const Friends = () => {
       }
     };
     googleFetchFunction();
-  }, [session]);
+  }, []);
 
   return (
     <div className="relative top-10 px-8">
