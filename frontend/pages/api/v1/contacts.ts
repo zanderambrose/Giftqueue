@@ -1,15 +1,26 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
+import axios from "axios";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // If you don't have NEXTAUTH_SECRET set, you will have to pass your secret as `secret` to `getToken`
   const token = await getToken({ req });
   if (token) {
     // Signed in
-    console.log("JSON Web Token", JSON.stringify(token, null, 2));
+    const response = await axios.get(
+      `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses`,
+      //   `https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.google_auth}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    res.status(200).json(response.data);
+  } else {
+    res.status(401);
   }
-  res.status(200).json({ name: "John Doe" });
 }

@@ -42,6 +42,7 @@ export default NextAuth({
         token.refreshToken = account.refresh_token;
         token.expires = (account.expires_at as number) * 1000;
         token.user = user;
+        token.google_auth = account.access_token;
       }
       if (Date.now() < token.expires) {
         return token;

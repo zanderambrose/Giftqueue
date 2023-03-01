@@ -11,18 +11,9 @@ const Friends = () => {
   useEffect(() => {
     const googleFetchFunction = async () => {
       try {
-        const response = await axios.get(
-          // `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses`,
-          `https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses`,
-          {
-            headers: {
-              Authorization: `Bearer ya29.a0AVvZVsqtx4BsahKU-PAuKNw8teHMXsjzWnghyaj0EABSXEIfYi9GBvWgqFs0oJRqa6qF89Ph32TRm70tkVT3qhkC_fYr5sSfFhwG8bliKxKL6PBddioCiFCEsmNbvbNCqXAIF39l9nbbzT86xRtMc8_BP7M3aCgYKAcASARESFQGbdwaI4yx9lh7orvdGgU2rPlpn4w0163`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(response.data);
-        return response.data;
+        const response = await axios.get("/api/v1/contacts");
+        console.log(response);
+        return response;
       } catch (error: any) {
         console.log(error);
       }

@@ -32,6 +32,7 @@ export async function refreshAccessToken(token: any) {
       accessToken: refreshedTokens.id_token,
       expires: Date.now() + refreshedTokens.expires_in * 1000,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
+      google_auth: refreshedTokens.access_token,
     };
   } catch (error) {
     console.log(error);
