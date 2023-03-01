@@ -9,24 +9,25 @@ const Friends = () => {
   const { data: session } = useSession();
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
-    const accessToken = session?.accessToken;
-    axios
-      .get(
-        `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("Friend response: ", response);
-        // Set contacts state with response data
-        setContacts(response.data.connections);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const googleFetchFunction = async () => {
+      try {
+        const response = await axios.get(
+          // `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses`,
+          `https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses`,
+          {
+            headers: {
+              Authorization: `Bearer ya29.a0AVvZVsqtx4BsahKU-PAuKNw8teHMXsjzWnghyaj0EABSXEIfYi9GBvWgqFs0oJRqa6qF89Ph32TRm70tkVT3qhkC_fYr5sSfFhwG8bliKxKL6PBddioCiFCEsmNbvbNCqXAIF39l9nbbzT86xRtMc8_BP7M3aCgYKAcASARESFQGbdwaI4yx9lh7orvdGgU2rPlpn4w0163`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log(response.data);
+        return response.data;
+      } catch (error: any) {
+        console.log(error);
+      }
+    };
+    googleFetchFunction();
   }, [session]);
 
   return (

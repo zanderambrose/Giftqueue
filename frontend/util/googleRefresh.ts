@@ -18,6 +18,10 @@ export async function refreshAccessToken(token: any) {
     });
 
     const refreshedTokens = await response.json();
+    console.log(
+      "RESPONSE FROM OAUTH REFRESH*****************:",
+      refreshedTokens
+    );
 
     if (!response.ok) {
       throw refreshedTokens;
