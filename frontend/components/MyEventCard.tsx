@@ -45,7 +45,7 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
   const [relatedItemsData, setRelatedItemsData] =
     useState<IGiftqueueSerializer[]>();
   const { getGiftqueueItems } = useGiftqueueApi();
-  const { isLoading, error, data } = useQuery({
+  useQuery({
     queryKey: ["myGiftqueueItems"],
     queryFn: getGiftqueueItems,
     onSuccess: (data) => {
@@ -54,7 +54,6 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
       });
       setRelatedItems(totalNumber.length);
       setRelatedItemsData(totalNumber);
-      console.log("filtered data: ", totalNumber);
     },
   });
 
@@ -68,8 +67,13 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
             <h2 className="font-black text-lg">{name}</h2>
             {relatedItems > 0 && (
               <p className="text-sm">
-                <span className="text-blue-600">{relatedItems} </span>items
-                added to my wishlist
+                <span
+                  onClick={() => setRelatedGiftqueueModal(true)}
+                  className="text-blue-600 cursor-pointer hover:opacity-80"
+                >
+                  {relatedItems}{" "}
+                </span>
+                items added to my wishlist
               </p>
             )}
           </div>
@@ -91,11 +95,13 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
           )}
         </div>
       </div>
-      <ModalRelatedGiftqueueItem
-        isOpen={relatedGiftqueueModal}
-        setIsOpen={setRelatedGiftqueueModal}
-        giftqueueItemData={relatedItemsData}
-      />
+      {relatedItemsData && (
+        <ModalRelatedGiftqueueItem
+          isOpen={relatedGiftqueueModal}
+          setIsOpen={setRelatedGiftqueueModal}
+          giftqueueItemData={relatedItemsData}
+        />
+      )}
     </>
   );
 };
