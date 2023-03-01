@@ -20,7 +20,6 @@ export const useGiftqueueApi = () => {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
-        console.log(response.data);
         return response.data;
       } catch (error: any) {
         throw new Error(error.message);
@@ -81,7 +80,6 @@ export const useCelebrationApi = () => {
             headers: { Authorization: `Bearer ${session?.accessToken}` },
           }
         );
-        // console.log(response);
         return response.data;
       } catch (error: any) {
         throw new Error(error.message);
@@ -102,7 +100,6 @@ export const useCelebrationApi = () => {
       }
     },
     editCelebrationItem: async (items: TCelebrationDetail) => {
-      console.log("all items passed", items);
       try {
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/${items.uuid}/`,
