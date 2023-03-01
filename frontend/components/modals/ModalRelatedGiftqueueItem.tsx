@@ -8,12 +8,14 @@ interface IRelatedGqProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   giftqueueItemData: IGiftqueueSerializer[];
+  name: string;
 }
 
 export const ModalRelatedGiftqueueItem = ({
   isOpen,
   setIsOpen,
   giftqueueItemData,
+  name,
 }: IRelatedGqProps) => {
   return (
     <>
@@ -25,10 +27,14 @@ export const ModalRelatedGiftqueueItem = ({
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5">
-                  <h3 className="text-lg font-semibold">
-                    [Event title] Giftqueue
-                  </h3>
-                  <p>3 items are added to my giftqueue</p>
+                  <div className="flex flex-col">
+                    <h3 className="text-lg font-semibold">{name} Giftqueue</h3>
+                    <p>
+                      {giftqueueItemData.length}{" "}
+                      {giftqueueItemData.length > 1 ? "items" : "item"}
+                      &nbsp;added to my giftqueue
+                    </p>
+                  </div>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setIsOpen(false)}

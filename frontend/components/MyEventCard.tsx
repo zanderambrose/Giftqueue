@@ -100,6 +100,7 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
           isOpen={relatedGiftqueueModal}
           setIsOpen={setRelatedGiftqueueModal}
           giftqueueItemData={relatedItemsData}
+          name={name}
         />
       )}
     </>
