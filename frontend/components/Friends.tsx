@@ -54,6 +54,7 @@ const Friends = () => {
                   key={contact.metadata.sources[0].id}
                   name={contact.names[0].displayName}
                   image={contact.photos[0].url}
+                  isFriend={false}
                 />
               );
             }
