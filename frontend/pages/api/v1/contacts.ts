@@ -11,8 +11,7 @@ export default async function handler(
     if (token) {
       // Signed in
       const response = await axios.get(
-        `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,clientData`,
-        //   `https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses`,
+        `https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses,phoneNumbers,photos,metadata`,
         {
           headers: {
             Authorization: `Bearer ${token.google_auth}`,

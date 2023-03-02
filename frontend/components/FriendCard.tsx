@@ -4,12 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
-const FriendCard = () => {
+interface IFriendCardProps {
+  name: string;
+  image: string;
+}
+
+const FriendCard = ({ name, image }: IFriendCardProps) => {
+  let placeholderNameForTesting = "zander";
   const router = useRouter();
   // This will be set up as props passed in from data fetch
-  let name = "zander";
   const handleFriendDetailPage = () => {
-    router.push(`/${name}`);
+    router.push(`/${placeholderNameForTesting}`);
   };
   return (
     <div className="friendCard relative">
@@ -20,7 +25,7 @@ const FriendCard = () => {
       />
       <div className="mt-4">
         <Image
-          src={"/placeholderFriend.jpg"}
+          src={image}
           width={"74"}
           height={"74"}
           alt="profile"
@@ -28,7 +33,7 @@ const FriendCard = () => {
           onClick={() => handleFriendDetailPage()}
         />
       </div>
-      <h1 className="mt-4 text-lg">Zander Ambrose</h1>
+      <h1 className="mt-4 text-lg">{name}</h1>
       <p className="text-sm muted">Friends since Feb-2023</p>
       <p className="italic text-sm text-black mt-4">
         Nearest Upcoming event: 11-2-2023

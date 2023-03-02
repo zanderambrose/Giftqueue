@@ -191,11 +191,11 @@ const FriendDetailPage = () => {
               account!
             </p>
             <div className="mt-4 friendListCardGrid">
+              {/* <FriendCard />
               <FriendCard />
               <FriendCard />
               <FriendCard />
-              <FriendCard />
-              <FriendCard />
+              <FriendCard /> */}
             </div>
           </>
         )}
