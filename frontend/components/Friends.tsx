@@ -6,12 +6,14 @@ import axios from "axios";
 
 const Friends = () => {
   const [contacts, setContacts] = useState<any[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
   useEffect(() => {
     const googleFetchFunction = async () => {
       try {
         const response = await axios.get("/api/v1/contacts");
         // console.log(response);
         setContacts(response.data.connections);
+        setIsFetching(false);
         return response;
       } catch (error: any) {
         console.log(error);
@@ -38,27 +40,30 @@ const Friends = () => {
           name="search"
         />
       </label>
-      <p className="mt-4 relative right-2">
-        <span className="gqp">
-          {contacts && contacts.length > 0 ? contacts.length : ""}
-        </span>{" "}
-        Contacts found in your google account!
-      </p>
+      {isFetching && <h2 className="mt-4">Loading...</h2>}
       {contacts && contacts.length > 0 && (
-        <div className="mt-4 friendListCardGrid">
-          {contacts.map((contact) => {
-            if (contact.names && contact.photos) {
-              console.log(contact);
-              return (
-                <FriendCard
-                  key={contact.metadata.sources[0].id}
-                  name={contact.names[0].displayName}
-                  image={contact.photos[0].url}
-                  isFriend={false}
-                />
-              );
-            }
-          })}
+        <div>
+          <p className="mt-4 relative right-2">
+            <span className="gqp">
+              {contacts && contacts.length > 0 ? contacts.length : ""}
+            </span>{" "}
+            Contacts found in your google account!
+          </p>
+          <div className="mt-4 friendListCardGrid">
+            {contacts.map((contact) => {
+              if (contact.names && contact.photos) {
+                console.log(contact);
+                return (
+                  <FriendCard
+                    key={contact.metadata.sources[0].id}
+                    name={contact.names[0].displayName}
+                    image={contact.photos[0].url}
+                    isFriend={false}
+                  />
+                );
+              }
+            })}
+          </div>
         </div>
       )}
     </div>
