@@ -128,3 +128,16 @@ class GetGiftqueueUserBySub(viewsets.ViewSet):
         user = get_object_or_404(RegistryUser, sub=pk)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+
+
+class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    
+    def get_queryset(self):
+        user = self.request.query_params.get("user", None)
+
+        if user is not None:
+            return RegistryUser.objects.filter(Q(first_name__icontains=user)|Q(last_name__icontains=user)| Q(email__icontains = user))
+
+        else:
+            return RegistryUser.objects.all()

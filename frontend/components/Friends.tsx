@@ -3,10 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import FriendCard from "./FriendCard";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const Friends = () => {
+  const { data: session } = useSession();
   const [contacts, setContacts] = useState<any[]>([]);
   const [isFetching, setIsFetching] = useState(true);
+  const [queryState, setQueryState] = useState("");
   useEffect(() => {
     const googleFetchFunction = async () => {
       try {
@@ -22,6 +25,31 @@ const Friends = () => {
     googleFetchFunction();
   }, []);
 
+  const handleSearchInputChange = (e: any) => {
+    setQueryState(e.target.value);
+  };
+
+  const handleSearchGiftqueueUsers = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/search?user=${queryState}`,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        }
+      );
+      console.log("USER SEARCH: ", response);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    if (queryState) {
+      console.log("QUERY STATE NOW SEARCHING...");
+      handleSearchGiftqueueUsers();
+    }
+  }, [queryState]);
+
   return (
     <div className="relative top-10 px-8">
       <h1 className="text-lg relative right-2">Friends List</h1>
@@ -36,6 +64,8 @@ const Friends = () => {
         <input
           className="placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-md"
           placeholder="Search for friends"
+          value={queryState}
+          onChange={(e) => handleSearchInputChange(e)}
           type="text"
           name="search"
         />
