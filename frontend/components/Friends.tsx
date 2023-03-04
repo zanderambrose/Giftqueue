@@ -41,7 +41,7 @@ const Friends = () => {
         />
       </label>
       {isFetching && <h2 className="mt-4">Loading...</h2>}
-      {contacts && contacts.length > 0 && (
+      {contacts && contacts.length > 0 ? (
         <div>
           <p className="mt-4 relative right-2">
             <span className="gqp">
@@ -65,6 +65,13 @@ const Friends = () => {
             })}
           </div>
         </div>
+      ) : (
+        <>
+          <p className="mt-4 relative right-2">
+            <span className="gqp">0</span> contacts found in your google
+            account!
+          </p>
+        </>
       )}
     </div>
   );
