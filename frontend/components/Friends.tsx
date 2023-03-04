@@ -59,6 +59,7 @@ const Friends = () => {
                     name={contact.names[0].displayName}
                     image={contact.photos[0].url}
                     isFriend={false}
+                    sub={contact.metadata.sources[1]?.id}
                   />
                 );
               }

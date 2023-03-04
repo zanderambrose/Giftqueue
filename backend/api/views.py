@@ -4,6 +4,7 @@ from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friends
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipListSerializer, FriendshipRequestSerializer, ActivityFeedSerializer, GiftItemGETSerializer 
 from django.http.request import QueryDict
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 class FriendsViewSet(viewsets.ModelViewSet):
@@ -119,3 +120,11 @@ class ActivityFeedListView(generics.ListAPIView):
         #print("list pks: ", [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())])
         friends_list = [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())]
         return ActivityFeed.objects.filter(owner__in=friends_list).order_by('-created_at')[:10]
+
+
+class GetGiftqueueUserBySub(viewsets.ViewSet):
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        user = get_object_or_404(RegistryUser, sub=pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)

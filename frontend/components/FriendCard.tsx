@@ -1,22 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 interface IFriendCardProps {
   name: string;
   image: string;
   isFriend?: boolean;
+  sub?: string;
 }
 
-const FriendCard = ({ name, image, isFriend }: IFriendCardProps) => {
+const FriendCard = ({ name, image, isFriend, sub }: IFriendCardProps) => {
+  const { data: session } = useSession();
   let placeholderNameForTesting = "zander";
   const router = useRouter();
   // This will be set up as props passed in from data fetch
   const handleFriendDetailPage = () => {
     router.push(`/${placeholderNameForTesting}`);
   };
+
+  const handleGetGiftqueueUserBySub = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/v1/user/sub/${sub}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        }
+      );
+      console.log("giftqueue by sub: ", response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (sub) {
+      console.log("sub exists");
+      handleGetGiftqueueUserBySub();
+    }
+  }, []);
+
   return (
     <div className="friendCard relative">
       <FontAwesomeIcon
@@ -34,6 +62,7 @@ const FriendCard = ({ name, image, isFriend }: IFriendCardProps) => {
           onClick={() => handleFriendDetailPage()}
         />
       </div>
+      <p>{sub && "sub: " + sub}</p>
       <h1 className="mt-4 text-lg">{name}</h1>
       {isFriend ? (
         <>
