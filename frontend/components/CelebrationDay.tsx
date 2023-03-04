@@ -36,7 +36,7 @@ const CelebrationDay = () => {
       ) : (
         <div className="relative top-10 px-8">
           <div className="celebration-day-header">
-            <h1 className="text-lg relative right-2">This Week</h1>
+            <h1 className="text-lg relative right-2">Your Celebrations</h1>
             <button
               onClick={() => handleAddNewDayClick()}
               className="btn-add-new rounded relative left-2 hover:opacity-80"
