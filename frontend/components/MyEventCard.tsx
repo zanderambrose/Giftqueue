@@ -50,7 +50,7 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
     queryFn: getGiftqueueItems,
     onSuccess: (data) => {
       const totalNumber = data.filter((item) => {
-        return item.related_to.id === id;
+        return item.related_to?.id === id;
       });
       setRelatedItems(totalNumber.length);
       setRelatedItemsData(totalNumber);
