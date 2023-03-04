@@ -77,7 +77,8 @@ const Friends = () => {
             <span className="gqp">
               {contacts && contacts.length > 0 ? contacts.length : ""}
             </span>{" "}
-            Contacts found in your google account!
+            {contacts.length === 1 ? "Contact" : "Contacts"} found in your
+            google account!
           </p>
           <div className="mt-4 friendListCardGrid">
             {contacts.map((contact) => {
