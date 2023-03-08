@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { navigationState } from "../recoil/navigation/navigationState";
+import useWithAuth from "../components/auth/withAuth";
 
 const FriendProfile: NextPage = () => {
   const router = useRouter();
@@ -27,4 +28,4 @@ const FriendProfile: NextPage = () => {
   );
 };
 
-export default FriendProfile;
+export default useWithAuth(FriendProfile);
