@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Layout from "../components/Layout";
+import useWithAuth from "../components/auth/withAuth";
 
 const Home: NextPage = () => {
   return (
@@ -15,4 +16,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default useWithAuth(Home);
