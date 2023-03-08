@@ -32,7 +32,7 @@ const Friends = () => {
   const handleSearchGiftqueueUsers = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/v1/user/search?user=${queryState}`,
+        `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/search?user=${queryState}`,
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,
