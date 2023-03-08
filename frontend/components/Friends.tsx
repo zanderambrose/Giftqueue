@@ -4,17 +4,22 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import FriendCard from "./FriendCard";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { TUser } from "../util/typesClientApi";
 
 const Friends = () => {
   const { data: session } = useSession();
   const [contacts, setContacts] = useState<any[]>([]);
   const [isFetching, setIsFetching] = useState(true);
   const [queryState, setQueryState] = useState("");
+  const [giftqueueSearchData, setGiftqueueSearchData] = useState<
+    TUser[] | null
+  >(null);
+
+  // Request for data from google contacts
   useEffect(() => {
     const googleFetchFunction = async () => {
       try {
         const response = await axios.get("/api/v1/contacts");
-        // console.log(response);
         setContacts(response.data.connections);
         setIsFetching(false);
         return response;
@@ -25,10 +30,12 @@ const Friends = () => {
     googleFetchFunction();
   }, []);
 
+  // Search input on change handler
   const handleSearchInputChange = (e: any) => {
     setQueryState(e.target.value);
   };
 
+  // Giftqueue backend search fetch
   const handleSearchGiftqueueUsers = async () => {
     try {
       const response = await axios.get(
@@ -39,13 +46,21 @@ const Friends = () => {
           },
         }
       );
-      console.log("USER SEARCH: ", response);
-    } catch (error) {}
+      // console.log("USER SEARCH: ", response);
+      if (response?.data?.length > 0) {
+        setGiftqueueSearchData(response.data);
+      } else {
+        setGiftqueueSearchData(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    if (queryState) {
-      console.log("QUERY STATE NOW SEARCHING...");
+    if (queryState === "") {
+      setGiftqueueSearchData(null);
+    } else {
       handleSearchGiftqueueUsers();
     }
   }, [queryState]);
@@ -71,7 +86,7 @@ const Friends = () => {
         />
       </label>
       {isFetching && <h2 className="mt-4">Loading...</h2>}
-      {contacts && contacts.length > 0 ? (
+      {contacts && contacts.length > 0 && !giftqueueSearchData ? (
         <div>
           <p className="mt-4 relative right-2">
             <span className="gqp">
@@ -83,7 +98,7 @@ const Friends = () => {
           <div className="mt-4 friendListCardGrid">
             {contacts.map((contact) => {
               if (contact.names && contact.photos) {
-                console.log(contact);
+                // console.log(contact);
                 return (
                   <FriendCard
                     key={contact.metadata.sources[0].id}
@@ -99,10 +114,23 @@ const Friends = () => {
         </div>
       ) : (
         <>
-          <p className="mt-4 relative right-2">
+          {giftqueueSearchData?.map((user) => {
+            console.log("user is: ", user);
+            if (!user.is_superuser) {
+              return (
+                <FriendCard
+                  key={user.id}
+                  name={`${user.first_name} ${user.last_name}`}
+                  image={session?.user?.image ?? ""}
+                  isFriend={false}
+                />
+              );
+            }
+          })}
+          {/* <p className="mt-4 relative right-2">
             <span className="gqp">0</span> contacts found in your google
             account!
-          </p>
+          </p> */}
         </>
       )}
     </div>

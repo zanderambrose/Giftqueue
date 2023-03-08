@@ -30,3 +30,12 @@ export type TCelebrationCreate = Omit<ICelebrationSerializer, "id" | "owner">;
 export type TCelebrationDetail = {
   uuid: string;
 } & Partial<TCelebrationCreate>;
+
+export interface TUser {
+  id: string;
+  days_sinced_joined: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_superuser: boolean;
+}
