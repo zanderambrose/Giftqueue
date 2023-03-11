@@ -1,6 +1,6 @@
 from django.utils.timezone import now
 from rest_framework import serializers
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
 from django.contrib.humanize.templatetags import humanize
 
 
@@ -85,3 +85,32 @@ class ActivityFeedSerializer(serializers.ModelSerializer):
 
     def get_time(self, instance):
         return humanize.naturaltime(instance.created_at)
+
+
+class FriendshipSerializer(serializers.ModelSerializer):
+    friends = UserSerializer(many=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('friends',)
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        user_uuid = str(self.context["request"].user.uuid)
+        return [user for user in rep['friends'] if not user["uuid"] == user_uuid]
+
+
+class FriendRequestListSerializer(serializers.ModelSerializer):
+    requestor = UserSerializer()
+    requestee = UserSerializer()
+
+    class Meta:
+        model = FriendRequest
+        fields = '__all__'
+
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FriendRequest
+        fields = '__all__'

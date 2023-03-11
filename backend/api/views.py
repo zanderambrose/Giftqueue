@@ -1,10 +1,11 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import MethodNotAllowed
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
@@ -106,3 +107,59 @@ class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
 
         else:
             return RegistryUser.objects.all()
+
+
+class FriendshipViewSet(viewsets.ModelViewSet):
+    serializer_class = FriendshipSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            return Friendship.objects.filter(friends__uuid=self.request.user.uuid)
+
+        return Friendship.objects.all()
+    """
+    Friendships should be created on PATCH of status from friendrequest
+    This is handled in post_save signal on friendrequest sender
+    """
+
+    def create(self, request, *args, **kwargs):
+        raise MethodNotAllowed('POST')
+
+
+class FriendRequestViewSet(viewsets.ModelViewSet):
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return FriendRequestListSerializer
+        return FriendRequestSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            return FriendRequest.objects.filter(Q(requestor__uuid=self.request.user.uuid) | Q(requestee__uuid=self.request.user.uuid))
+
+        return FriendRequest.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        requestor = RegistryUser.objects.get(uuid=self.request.user.uuid)
+        requestee = RegistryUser.objects.get(
+            uuid=request.data.get("requestee"))
+        """
+        Guard to ensure no friend request already exists for these users
+        """
+        friendrequests = FriendRequest.objects.filter(
+            Q(requestor=requestor.uuid) & Q(requestee=requestee.uuid) | Q(requestor=requestee.uuid) & Q(requestee=requestor.uuid))
+        if friendrequests.exists():
+            return Response({"error": "friendrequest already exists"}, status=status.HTTP_409_CONFLICT)
+
+        """
+        Guard to ensure no friendship already exists for these users
+        """
+        friendships = Friendship.objects.filter(
+            friends__uuid=self.request.user.uuid)
+        if friendships:
+            friendships_with_friend = friendships.filter(
+                Q(friends__uuid=requestee.uuid))
+            if friendships_with_friend.exists():
+                return Response({"error": "friendship already exists"}, status=status.HTTP_409_CONFLICT)
+        request.data["requestor"] = self.request.user.uuid
+        return super().create(request, *args, **kwargs)
