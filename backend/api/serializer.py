@@ -96,8 +96,8 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
-        user_uuid = str(self.context["request"].user.uuid)
-        return [user for user in rep['friends'] if not user["uuid"] == user_uuid]
+        user_uuid = int(self.context["request"].user.pk)
+        return [user for user in rep['friends'] if not user["id"] == user_uuid]
 
 
 class FriendRequestListSerializer(serializers.ModelSerializer):
