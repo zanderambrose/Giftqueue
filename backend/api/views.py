@@ -68,20 +68,8 @@ class GiftItemViewSet(viewsets.ModelViewSet):
 
 
 class ActivityFeedListView(generics.ListAPIView):
-    queryset = Friendship.objects.all()
+    queryset = ActivityFeed.objects.all()
     serializer_class = ActivityFeedSerializer
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return_queryset = queryset.filter(Q(profile_requestor=self.request.user.id) | Q(
-            profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
-        '''
-        Get List of primary keys for users friends. 
-        '''
-        #print("list pks: ", [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())])
-        friends_list = [x['profile_requestor_id'] if x['profile_requestor_id'] !=
-                        self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())]
-        return ActivityFeed.objects.filter(owner__in=friends_list).order_by('-created_at')[:10]
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
