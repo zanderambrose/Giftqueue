@@ -7,9 +7,30 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ActivitySidebarEventCard from "../ActivitySidebarEventCard";
 import ActivitySidebarFriendRequestCard from "../ActivitySidebarFriendRequestCard";
+import { useQuery } from "@tanstack/react-query";
+import { useActivityFeed, useFriendshipApi } from "../../util/clientApi";
 
 const ActivityFeedData = () => {
-  const [activityData, setActivityData] = useState(false);
+  const { getActivity } = useActivityFeed();
+  const { getFriendRequest } = useFriendshipApi();
+
+  const {
+    isLoading: activityIsLoading,
+    error: activityError,
+    data: activityData,
+  } = useQuery({
+    queryKey: ["myActivity"],
+    queryFn: getActivity,
+  });
+  const {
+    isLoading: friendRequestIsLoading,
+    error: friendRequestError,
+    data: friendRequestData,
+  } = useQuery({
+    queryKey: ["myFriendRequests"],
+    queryFn: getFriendRequest,
+  });
+
   const [activityView, setActivityView] = useState<"activity" | "request">(
     "activity"
   );

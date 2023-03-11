@@ -15,6 +15,6 @@ router.register(r'friendrequest', FriendRequestViewSet,
 
 
 urlpatterns = [
-    path('', include(router.urls)),
     path('activityfeed', ActivityFeedListView.as_view(), name='activityfeed'),
+    path('', include(router.urls)),
 ]
