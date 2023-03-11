@@ -114,7 +114,7 @@ class FriendshipViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == "list":
-            return Friendship.objects.filter(friends__uuid=self.request.user.uuid)
+            return Friendship.objects.filter(friends__pk=self.request.user.id)
 
         return Friendship.objects.all()
     """
@@ -135,19 +135,19 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == "list":
-            return FriendRequest.objects.filter(Q(requestor__uuid=self.request.user.uuid) | Q(requestee__uuid=self.request.user.uuid))
+            return FriendRequest.objects.filter(Q(requestor__pk=self.request.user.pk) | Q(requestee__pk=self.request.user.id))
 
         return FriendRequest.objects.all()
 
     def create(self, request, *args, **kwargs):
-        requestor = RegistryUser.objects.get(uuid=self.request.user.uuid)
+        requestor = RegistryUser.objects.get(pk=self.request.user.id)
         requestee = RegistryUser.objects.get(
-            uuid=request.data.get("requestee"))
+            pk=request.data.get("requestee"))
         """
         Guard to ensure no friend request already exists for these users
         """
         friendrequests = FriendRequest.objects.filter(
-            Q(requestor=requestor.uuid) & Q(requestee=requestee.uuid) | Q(requestor=requestee.uuid) & Q(requestee=requestor.uuid))
+            Q(requestor=requestor.pk) & Q(requestee=requestee.pk) | Q(requestor=requestee.pk) & Q(requestee=requestor.pk))
         if friendrequests.exists():
             return Response({"error": "friendrequest already exists"}, status=status.HTTP_409_CONFLICT)
 
@@ -155,11 +155,11 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
         Guard to ensure no friendship already exists for these users
         """
         friendships = Friendship.objects.filter(
-            friends__uuid=self.request.user.uuid)
+            friends__pk=self.request.user.id)
         if friendships:
             friendships_with_friend = friendships.filter(
-                Q(friends__uuid=requestee.uuid))
+                Q(friends__pk=requestee.pk))
             if friendships_with_friend.exists():
                 return Response({"error": "friendship already exists"}, status=status.HTTP_409_CONFLICT)
-        request.data["requestor"] = self.request.user.uuid
+        request.data["requestor"] = self.request.user.id
         return super().create(request, *args, **kwargs)

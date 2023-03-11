@@ -11,15 +11,15 @@ def friendrequest_post_save(sender, instance, created, **kwargs):
     Creates friendship row if request is accepted
     """
     if instance.status == 'ACCEPTED':
-        user1 = RegistryUser.objects.get(uuid=instance.requestor.uuid)
-        user2 = RegistryUser.objects.get(uuid=instance.requestee.uuid)
+        user1 = RegistryUser.objects.get(pk=instance.requestor.pk)
+        user2 = RegistryUser.objects.get(pk=instance.requestee.pk)
         friendship = Friendship.objects.create()
         friendship.friends.add(user1, user2)
-        instance = FriendRequest.objects.get(uuid=instance.uuid)
+        instance = FriendRequest.objects.get(pk=instance.pk)
         instance.delete()
 
     if instance.status == 'REJECTED':
-        instance = FriendRequest.objects.get(uuid=instance.uuid)
+        instance = FriendRequest.objects.get(pk=instance.pk)
         instance.delete()
 
 
