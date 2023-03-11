@@ -14,9 +14,10 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
-FRONTEND_BASE_URL = os.environ.get("NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
-DATABASE_PASSWORD=os.environ.get('POSTGRES_PASSWORD')
-DATABASE_USER=os.environ.get('POSTGRES_USER')
+FRONTEND_BASE_URL = os.environ.get(
+    "NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
+DATABASE_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+DATABASE_USER = os.environ.get('POSTGRES_USER')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,10 +90,10 @@ WSGI_APPLICATION = 'registry_be.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'zander', 
+        'NAME': 'zander',
         'USER': DATABASE_USER,
         'PASSWORD': DATABASE_PASSWORD,
-        'HOST': 'db', 
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

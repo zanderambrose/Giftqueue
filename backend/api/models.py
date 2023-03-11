@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
 
+
 class TimeStampMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -19,6 +20,7 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+
     def create_user(self, email, password, **extra_fields):
         """
         Create and save a User with the given email and password.
@@ -49,31 +51,20 @@ class CustomUserManager(BaseUserManager):
 class RegistryUser(AbstractUser, TimeStampMixin):
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    sub = models.CharField(max_length= 255,blank=True, null=True)
+    sub = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = CustomUserManager()
-    
+
     def __str__(self):
         return self.email
 
 
-class Friendship(TimeStampMixin, models.Model):
-    profile_requestor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='requestor')
-    profile_acceptor = models.ForeignKey(RegistryUser, on_delete=models.CASCADE, related_name='acceptor')
-    # add a status column to define sent/pending/accepted
-    # date fields describing when the status actions have been taken
-    # use this to trigger helpful initiations to user
-    # who unfriended who
-    is_accepted = models.BooleanField(default=False)
-    date_accepted = models.DateTimeField(blank=True, null=True)
-
-
-class OwnedBaseModel(TimeStampMixin,models.Model):
+class OwnedBaseModel(TimeStampMixin, models.Model):
     name = models.CharField(max_length=255, blank=False, default=None)
-    owner = models.ForeignKey(RegistryUser,on_delete=models.CASCADE)    
+    owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
 
 
 class CelebrationDay(OwnedBaseModel):
@@ -86,32 +77,62 @@ class CelebrationDay(OwnedBaseModel):
 class GiftItem(OwnedBaseModel):
     is_purchased = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
-    related_to = models.ForeignKey(CelebrationDay, on_delete=models.SET_NULL, blank=True, null=True)
+    related_to = models.ForeignKey(
+        CelebrationDay, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.name} - {self.owner.first_name}'
 
 
-class GiftItemUrl(TimeStampMixin,models.Model):
+class GiftItemUrl(TimeStampMixin, models.Model):
     url = models.URLField(max_length=255)
     gift_item = models.ForeignKey(GiftItem, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.gift_item.name} - {self.gift_item.owner}'
 
+
 ACTIVITY_FEED_ACTION_CHOICES = (
     ("GIFT", 'GIFT'),
     ("DAY", "DAY"),
 )
 
+
 class ActivityFeed(models.Model):
     name = models.CharField(max_length=255, blank=False, default=None)
     owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
-    action = models.CharField(max_length=255 ,choices=ACTIVITY_FEED_ACTION_CHOICES)
+    action = models.CharField(
+        max_length=255, choices=ACTIVITY_FEED_ACTION_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     associated_action_id = models.IntegerField()
-    related_to = models.ForeignKey(GiftItem, on_delete=models.SET_NULL, blank=True, null=True)
+    related_to = models.ForeignKey(
+        GiftItem, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return f'{self.owner.first_name} - {self.owner.last_name} - {self.action}'
+
+
+class Friendship(TimeStampMixin, models.Model):
+    friends = models.ManyToManyField(RegistryUser)
+
+    def __str__(self) -> str:
+        users = self.friends.values_list('email', flat=True)
+        return f'{users[0]} - {users[1]}'
+
+
+FRIENDSHIP_STATUS = (
+    ("PENDING", "PENDING"),
+    ("ACCEPTED", "ACCEPTED"),
+    ("REJECTED", "REJECTED"),)
+
+
+class FriendRequest(TimeStampMixin, models.Model):
+    requestor = models.ForeignKey(
+        RegistryUser, on_delete=models.CASCADE, related_name='requestor')
+    requestee = models.ForeignKey(
+        RegistryUser, on_delete=models.CASCADE, related_name='requestee')
+    status = models.CharField(max_length=255, choices=FRIENDSHIP_STATUS)
+
+    def __str__(self) -> str:
+        return f'{self.requestor.email} - {self.requestee.email} - {self.status}'
