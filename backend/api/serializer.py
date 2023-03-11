@@ -111,6 +111,15 @@ class FriendRequestListSerializer(serializers.ModelSerializer):
         model = FriendRequest
         fields = '__all__'
 
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        user_uuid = int(self.context["request"].user.pk)
+        if rep["requestor"]["id"] == user_uuid:
+            del rep["requestor"]
+        if rep["requestee"]["id"] == user_uuid:
+            del rep["requestee"]
+        return rep
+
 
 class FriendRequestSerializer(serializers.ModelSerializer):
 
