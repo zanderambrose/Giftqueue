@@ -1,35 +1,24 @@
 from rest_framework.response import Response
-from rest_framework import viewsets, status, generics, mixins
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, FriendshipListSerializer, FriendshipRequestSerializer, ActivityFeedSerializer, GiftItemGETSerializer 
+from rest_framework import viewsets, status, generics
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
-
-
-class FriendsViewSet(viewsets.ModelViewSet):
-    queryset = RegistryUser.objects.all()
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        queryset = RegistryUser.objects.exclude(id=self.request.user.id).exclude(email='admin@admin.com')
-        name_query_param = self.request.query_params.get('name', None)
-        if (name_query_param):
-            return queryset.filter(Q(first_name__icontains=name_query_param)| Q(last_name__icontains=name_query_param))
-        else:
-            return queryset
+from rest_framework.exceptions import MethodNotAllowed
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
     """
     Add name and owner to request to simplify owned models
     """
+
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(owner=self.request.user.id)
-    
+
     def create(self, request, *args, **kwargs):
-        if isinstance(request.data, QueryDict): # optional
+        if isinstance(request.data, QueryDict):  # optional
             request.data._mutable = True
         request.data['name'] = request.data.get('name')
         request.data['owner'] = request.user.id
@@ -44,16 +33,15 @@ class CelebrationDayViewSet(OwnedViewSet):
 
 class GiftItemViewSet(viewsets.ModelViewSet):
     queryset = GiftItem.objects.all()
-    
+
     def get_serializer_class(self):
         if self.action == 'list' or self.action == 'retrieve':
-            return GiftItemGETSerializer 
+            return GiftItemGETSerializer
         return GiftItemAllSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(owner=self.request.user.id)
-
 
     def create(self, request, *args, **kwargs):
         owner = self.request.user.id
@@ -61,7 +49,8 @@ class GiftItemViewSet(viewsets.ModelViewSet):
         url = request.data.get('url', None)
         notes = request.data.get('notes', None)
         related_to = request.data.get('related_to', None)
-        json_date = {"name": name, 'owner': owner, "notes": notes, "related_to": related_to}
+        json_date = {"name": name, 'owner': owner,
+                     "notes": notes, "related_to": related_to}
         serializer = self.get_serializer(data=json_date)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -78,47 +67,21 @@ class GiftItemViewSet(viewsets.ModelViewSet):
             GiftItemUrl.objects.create(url=url, gift_item=gift_item)
         return super().partial_update(request, *args, **kwargs)
 
-class FriendlistListView(generics.ListAPIView):
-    queryset = Friendship.objects.all()
-    serializer_class = FriendshipListSerializer
-
-    def get_queryset(self):
-        queryset= super().get_queryset()
-        return_queryset = queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
-        return return_queryset
-
-
-class FriendrequestViewset(viewsets.ModelViewSet):
-    queryset = Friendship.objects.all() 
-    serializer_class = FriendshipRequestSerializer
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        filtered_queryset = queryset.filter(profile_acceptor=self.request.user.id, is_accepted=False)
-        serializer = FriendshipRequestSerializer(filtered_queryset, many=True)
-        return Response(serializer.data)
-
-    def create(self, request, *args, **kwargs):
-        data = {"profile_requestor": self.request.user.id, "profile_acceptor": self.request.data.get('profile_acceptor')}
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
 
 class ActivityFeedListView(generics.ListAPIView):
     queryset = Friendship.objects.all()
-    serializer_class = ActivityFeedSerializer 
-    
+    serializer_class = ActivityFeedSerializer
+
     def get_queryset(self):
-        queryset= super().get_queryset()
-        return_queryset = queryset.filter(Q(profile_requestor=self.request.user.id) | Q(profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
+        queryset = super().get_queryset()
+        return_queryset = queryset.filter(Q(profile_requestor=self.request.user.id) | Q(
+            profile_acceptor=self.request.user.id)).exclude(is_accepted=False)
         '''
         Get List of primary keys for users friends. 
         '''
         #print("list pks: ", [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())])
-        friends_list = [x['profile_requestor_id'] if x['profile_requestor_id'] != self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())]
+        friends_list = [x['profile_requestor_id'] if x['profile_requestor_id'] !=
+                        self.request.user.id else x['profile_acceptor_id'] for x in list(return_queryset.values())]
         return ActivityFeed.objects.filter(owner__in=friends_list).order_by('-created_at')[:10]
 
 
@@ -131,13 +94,72 @@ class GetGiftqueueUserBySub(viewsets.ViewSet):
 
 
 class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
+    """
+    Search Giftqueue users in our backend
+    """
     serializer_class = UserSerializer
-    
+
     def get_queryset(self):
         user = self.request.query_params.get("user", None)
 
         if user is not None:
-            return RegistryUser.objects.filter(Q(first_name__icontains=user)|Q(last_name__icontains=user)| Q(email__icontains = user))
+            return RegistryUser.objects.filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user))
 
         else:
             return RegistryUser.objects.all()
+
+
+class FriendshipViewSet(viewsets.ModelViewSet):
+    serializer_class = FriendshipSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            return Friendship.objects.filter(friends__pk=self.request.user.id)
+
+        return Friendship.objects.all()
+    """
+    Friendships should be created on PATCH of status from friendrequest
+    This is handled in post_save signal on friendrequest sender
+    """
+
+    def create(self, request, *args, **kwargs):
+        raise MethodNotAllowed('POST')
+
+
+class FriendRequestViewSet(viewsets.ModelViewSet):
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return FriendRequestListSerializer
+        return FriendRequestSerializer
+
+    def get_queryset(self):
+        if self.action == "list":
+            return FriendRequest.objects.filter(Q(requestor__pk=self.request.user.pk) | Q(requestee__pk=self.request.user.id))
+
+        return FriendRequest.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        requestor = RegistryUser.objects.get(pk=self.request.user.id)
+        requestee = RegistryUser.objects.get(
+            pk=request.data.get("requestee"))
+        """
+        Guard to ensure no friend request already exists for these users
+        """
+        friendrequests = FriendRequest.objects.filter(
+            Q(requestor=requestor.pk) & Q(requestee=requestee.pk) | Q(requestor=requestee.pk) & Q(requestee=requestor.pk))
+        if friendrequests.exists():
+            return Response({"error": "friendrequest already exists"}, status=status.HTTP_409_CONFLICT)
+
+        """
+        Guard to ensure no friendship already exists for these users
+        """
+        friendships = Friendship.objects.filter(
+            friends__pk=self.request.user.id)
+        if friendships:
+            friendships_with_friend = friendships.filter(
+                Q(friends__pk=requestee.pk))
+            if friendships_with_friend.exists():
+                return Response({"error": "friendship already exists"}, status=status.HTTP_409_CONFLICT)
+        request.data["requestor"] = self.request.user.id
+        return super().create(request, *args, **kwargs)
