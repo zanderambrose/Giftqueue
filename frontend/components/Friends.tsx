@@ -122,6 +122,7 @@ const Friends = () => {
                   image={session?.user?.image ?? ""}
                   isFriend={false}
                   fromGiftqueueBackend={true}
+                  gqId={user.id}
                 />
               );
             }

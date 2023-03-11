@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import { usePeopleApi } from "../util/clientApi";
+import { usePeopleApi, useFriendshipApi } from "../util/clientApi";
 
 interface IFriendCardProps {
   name: string;
@@ -12,6 +12,7 @@ interface IFriendCardProps {
   sub?: string;
   inviteToGq?: boolean;
   fromGiftqueueBackend?: boolean;
+  gqId?: string;
 }
 
 const FriendCard = ({
@@ -20,9 +21,12 @@ const FriendCard = ({
   isFriend,
   sub,
   fromGiftqueueBackend,
+  gqId,
 }: IFriendCardProps) => {
   const { getUserBySub } = usePeopleApi();
+  const { sendFriendRequest } = useFriendshipApi();
   const [isGiftqueueUser, setIsGiftqueueUser] = useState(false);
+  const [hasSentInvite, setHasSentInvite] = useState(false);
   let placeholderNameForTesting = "zander";
   const router = useRouter();
   // This will be set up as props passed in from data fetch
@@ -44,6 +48,17 @@ const FriendCard = ({
     };
     handleGetUserFetch();
   }, []);
+
+  const handleSendFriendRequest = async () => {
+    const response = await sendFriendRequest(gqId!);
+    console.log(response);
+    if (response?.data.id) {
+      setHasSentInvite(true);
+    }
+  };
+  const handleInviteToGiftqueue = () => {
+    alert("Invite functionality pending");
+  };
 
   return (
     <div className="friendCard relative">
@@ -77,15 +92,30 @@ const FriendCard = ({
       ) : (
         <>
           <p className="text-sm muted">Not a friend yet</p>
-          <div className="friendRequestBtn hover:opacity-80">
-            {isGiftqueueUser && (
-              <button className="text-white">Send friend request</button>
+          <div
+            onClick={() => handleSendFriendRequest()}
+            className="friendRequestBtn hover:opacity-80"
+          >
+            {isGiftqueueUser && gqId && (
+              <button className="text-white">
+                {hasSentInvite ? "Request Sent" : "Send friend request"}
+              </button>
             )}
             {!isGiftqueueUser && !fromGiftqueueBackend && (
-              <button className="text-white">Invite To Giftqueue</button>
+              <button
+                onClick={() => handleInviteToGiftqueue()}
+                className="text-white"
+              >
+                Invite To Giftqueue
+              </button>
             )}
-            {fromGiftqueueBackend && (
-              <button className="text-white">Send friend request</button>
+            {fromGiftqueueBackend && gqId && (
+              <button
+                onClick={() => handleSendFriendRequest()}
+                className="text-white"
+              >
+                {hasSentInvite ? "Request Sent" : "Send friend request"}
+              </button>
             )}
           </div>
         </>

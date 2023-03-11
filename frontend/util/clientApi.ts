@@ -135,7 +135,33 @@ export const usePeopleApi = () => {
     getUserBySub: async (sub: string) => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/v1/user/sub/${sub}/`,
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/sub/${sub}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
+  };
+};
+
+export const useFriendshipApi = () => {
+  const { data: session } = useSession();
+  return {
+    sendFriendRequest: async (requestee: string) => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendrequest/`,
+          {
+            requestee,
+            status: "PENDING",
+          },
           {
             headers: {
               Authorization: `Bearer ${session?.accessToken}`,
