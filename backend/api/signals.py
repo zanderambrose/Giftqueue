@@ -1,7 +1,27 @@
 import datetime
-from django.db.models.signals import pre_save, post_save 
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
-from .models import Friendship, CelebrationDay, GiftItem, ActivityFeed
+from .models import Friendship, CelebrationDay, GiftItem, ActivityFeed, FriendRequest, RegistryUser
+
+
+@receiver(post_save, sender=FriendRequest)
+def friendrequest_post_save(sender, instance, created, **kwargs):
+    """
+    Handle deleting friendrequest row 
+    Creates friendship row if request is accepted
+    """
+    if instance.status == 'ACCEPTED':
+        user1 = RegistryUser.objects.get(uuid=instance.requestor.uuid)
+        user2 = RegistryUser.objects.get(uuid=instance.requestee.uuid)
+        friendship = Friendship.objects.create()
+        friendship.friends.add(user1, user2)
+        instance = FriendRequest.objects.get(uuid=instance.uuid)
+        instance.delete()
+
+    if instance.status == 'REJECTED':
+        instance = FriendRequest.objects.get(uuid=instance.uuid)
+        instance.delete()
+
 
 # @receiver(pre_save, sender=Friendship)
 # def handle_accepted(sender, instance, **kwargs):
