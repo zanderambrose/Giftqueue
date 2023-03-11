@@ -92,14 +92,15 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('friends',)
+        fields = ('friends', "pk",)
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         user_uuid = int(self.context["request"].user.pk)
-        filteredList = [user for user in rep['friends']
-                        if not user["id"] == user_uuid]
-        return filteredList[0] if len(filteredList) == 1 else filteredList
+        filtered_list = [user for user in rep['friends']
+                         if not user["id"] == user_uuid]
+        filtered_list[0]["friendship_pk"] = rep["pk"]
+        return filtered_list[0] if len(filtered_list) == 1 else filtered_list
 
 
 class FriendRequestListSerializer(serializers.ModelSerializer):
