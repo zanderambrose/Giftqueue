@@ -106,6 +106,7 @@ const Friends = () => {
                     image={contact.photos[0].url}
                     isFriend={false}
                     sub={contact.metadata.sources[1]?.id}
+                    inviteToGq={true}
                   />
                 );
               }

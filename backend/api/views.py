@@ -4,7 +4,6 @@ from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friends
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
-from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import MethodNotAllowed
 
 
@@ -88,9 +87,12 @@ class ActivityFeedListView(generics.ListAPIView):
 class GetGiftqueueUserBySub(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None, *args, **kwargs):
-        user = get_object_or_404(RegistryUser, sub=pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        user = RegistryUser.objects.filter(sub=pk)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+
+        return Response({"detail": "Not Found"})
 
 
 class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):

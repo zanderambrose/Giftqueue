@@ -1,48 +1,41 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import axios from "axios";
-import { useSession } from "next-auth/react";
+import { usePeopleApi } from "../util/clientApi";
 
 interface IFriendCardProps {
   name: string;
   image: string;
   isFriend?: boolean;
   sub?: string;
+  inviteToGq?: boolean;
 }
 
 const FriendCard = ({ name, image, isFriend, sub }: IFriendCardProps) => {
-  const { data: session } = useSession();
+  const { getUserBySub } = usePeopleApi();
+  const [isGfitqueueUser, setIsGiftqueueUser] = useState(false);
   let placeholderNameForTesting = "zander";
   const router = useRouter();
   // This will be set up as props passed in from data fetch
   const handleFriendDetailPage = () => {
-    router.push(`/${placeholderNameForTesting}`);
-  };
-
-  const handleGetGiftqueueUserBySub = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/api/v1/user/sub/${sub}/`,
-        {
-          headers: {
-            Authorization: `Bearer ${session?.accessToken}`,
-          },
-        }
-      );
-      console.log("giftqueue by sub: ", response);
-    } catch (error) {
-      console.log(error);
+    if (isGfitqueueUser) {
+      router.push(`/${placeholderNameForTesting}`);
     }
   };
-
   useEffect(() => {
-    if (sub) {
-      console.log("sub exists");
-      handleGetGiftqueueUserBySub();
-    }
+    const handleGetUserFetch = async () => {
+      if (sub) {
+        const response = await getUserBySub(sub);
+        if (response?.data["detail"] !== "Not Found") {
+          setIsGiftqueueUser(true);
+        } else {
+          console.log("not found");
+        }
+      }
+    };
+    handleGetUserFetch();
   }, []);
 
   return (

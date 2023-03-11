@@ -128,3 +128,25 @@ export const useCelebrationApi = () => {
     },
   };
 };
+
+export const usePeopleApi = () => {
+  const { data: session } = useSession();
+  return {
+    getUserBySub: async (sub: string) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/api/v1/user/sub/${sub}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
+  };
+};
