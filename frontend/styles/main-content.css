@@ -239,4 +239,11 @@
   .btn-add-new {
     padding: 0.75rem 1.5rem;
   }
+  .deleteModalDeleteBtn {
+    padding: 1rem 3rem;
+  }
+
+  .deleteModalCancelBtn {
+    padding: 1rem 3rem;
+  }
 }
