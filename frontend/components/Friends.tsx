@@ -46,7 +46,6 @@ const Friends = () => {
           },
         }
       );
-      // console.log("USER SEARCH: ", response);
       if (response?.data?.length > 0) {
         setGiftqueueSearchData(response.data);
       } else {
@@ -98,7 +97,6 @@ const Friends = () => {
           <div className="mt-4 friendListCardGrid">
             {contacts.map((contact) => {
               if (contact.names && contact.photos) {
-                // console.log(contact);
                 return (
                   <FriendCard
                     key={contact.metadata.sources[0].id}
@@ -116,7 +114,6 @@ const Friends = () => {
       ) : (
         <>
           {giftqueueSearchData?.map((user) => {
-            console.log("user is: ", user);
             if (!user.is_superuser) {
               return (
                 <FriendCard
@@ -124,6 +121,7 @@ const Friends = () => {
                   name={`${user.first_name} ${user.last_name}`}
                   image={session?.user?.image ?? ""}
                   isFriend={false}
+                  fromGiftqueueBackend={true}
                 />
               );
             }

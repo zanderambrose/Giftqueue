@@ -11,16 +11,23 @@ interface IFriendCardProps {
   isFriend?: boolean;
   sub?: string;
   inviteToGq?: boolean;
+  fromGiftqueueBackend?: boolean;
 }
 
-const FriendCard = ({ name, image, isFriend, sub }: IFriendCardProps) => {
+const FriendCard = ({
+  name,
+  image,
+  isFriend,
+  sub,
+  fromGiftqueueBackend,
+}: IFriendCardProps) => {
   const { getUserBySub } = usePeopleApi();
-  const [isGfitqueueUser, setIsGiftqueueUser] = useState(false);
+  const [isGiftqueueUser, setIsGiftqueueUser] = useState(false);
   let placeholderNameForTesting = "zander";
   const router = useRouter();
   // This will be set up as props passed in from data fetch
   const handleFriendDetailPage = () => {
-    if (isGfitqueueUser) {
+    if (isGiftqueueUser) {
       router.push(`/${placeholderNameForTesting}`);
     }
   };
@@ -71,7 +78,15 @@ const FriendCard = ({ name, image, isFriend, sub }: IFriendCardProps) => {
         <>
           <p className="text-sm muted">Not a friend yet</p>
           <div className="friendRequestBtn hover:opacity-80">
-            <button className="text-white">Send friend request</button>
+            {isGiftqueueUser && (
+              <button className="text-white">Send friend request</button>
+            )}
+            {!isGiftqueueUser && !fromGiftqueueBackend && (
+              <button className="text-white">Invite To Giftqueue</button>
+            )}
+            {fromGiftqueueBackend && (
+              <button className="text-white">Send friend request</button>
+            )}
           </div>
         </>
       )}
