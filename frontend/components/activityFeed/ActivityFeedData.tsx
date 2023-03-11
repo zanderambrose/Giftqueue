@@ -10,6 +10,9 @@ import ActivitySidebarFriendRequestCard from "../ActivitySidebarFriendRequestCar
 
 const ActivityFeedData = () => {
   const [activityData, setActivityData] = useState(false);
+  const [activityView, setActivityView] = useState<"activity" | "request">(
+    "activity"
+  );
   return (
     <>
       <div className="relative top-10 pb-8 border-b-2">
@@ -20,6 +23,24 @@ const ActivityFeedData = () => {
         <div className="flex justify-center items-center mt-4">
           <div className="text-black text-sm text-center mr-2">Today</div>
           <FontAwesomeIcon icon={faAngleDown} />
+        </div>
+      </div>
+      <div className="flex justify-around items-center relative top-4">
+        <div
+          onClick={() => setActivityView("activity")}
+          className={`text-sm cursor-pointer ${
+            activityView === "activity" && "gqp font-bold"
+          }`}
+        >
+          Activity
+        </div>
+        <div
+          onClick={() => setActivityView("request")}
+          className={`text-sm cursor-pointer ${
+            activityView === "request" && "gqp font-bold"
+          }`}
+        >
+          Friend Requests
         </div>
       </div>
       <div className="relative top-10 mt-8">
