@@ -20,7 +20,7 @@ const ActivityFeedData = () => {
           <FontAwesomeIcon icon={faUserGroup} />
           <p className="ml-2 text-base text-slate-500">Latest Updates</p>
         </div>
-        <div className="flex justify-center items-center mt-4">
+        <div className="flex justify-center items-center mt-3">
           <div className="text-black text-sm text-center mr-2">Today</div>
           <FontAwesomeIcon icon={faAngleDown} />
         </div>

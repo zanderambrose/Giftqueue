@@ -174,5 +174,43 @@ export const useFriendshipApi = () => {
         return;
       }
     },
+    getFriendRequest: async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendrequest/`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
+  };
+};
+
+export const useActivityFeed = () => {
+  const { data: session } = useSession();
+  return {
+    getActivity: async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}activityfeed/`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    },
   };
 };
