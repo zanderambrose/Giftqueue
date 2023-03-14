@@ -184,6 +184,7 @@ export const useFriendshipApi = () => {
             },
           }
         );
+        console.log("FRIEND REQUEST: ", response);
         return response;
       } catch (error) {
         console.log(error);
@@ -206,6 +207,7 @@ export const useActivityFeed = () => {
             },
           }
         );
+        console.log(response);
         return response;
       } catch (error) {
         console.log(error);

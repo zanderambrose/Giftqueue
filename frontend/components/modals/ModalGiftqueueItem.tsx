@@ -50,6 +50,7 @@ const ModalGiftqueueItem = () => {
     useRecoilState(giftqueueItem);
   const { error, data } = useQuery({
     queryFn: getCelebrations,
+    queryKey: ["myCelebrations"],
   });
 
   const patchMutation = useMutation({

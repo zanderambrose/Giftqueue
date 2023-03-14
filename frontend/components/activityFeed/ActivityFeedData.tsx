@@ -1,36 +1,10 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUserGroup,
-  faAngleDown,
-  faEarthAmericas,
-} from "@fortawesome/free-solid-svg-icons";
-import ActivitySidebarEventCard from "../ActivitySidebarEventCard";
-import ActivitySidebarFriendRequestCard from "../ActivitySidebarFriendRequestCard";
-import { useQuery } from "@tanstack/react-query";
-import { useActivityFeed, useFriendshipApi } from "../../util/clientApi";
+import { faUserGroup, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import CurrentActivity from "./CurrentActivity";
+import FriendRequestData from "./FriendRequestData";
 
 const ActivityFeedData = () => {
-  const { getActivity } = useActivityFeed();
-  const { getFriendRequest } = useFriendshipApi();
-
-  const {
-    isLoading: activityIsLoading,
-    error: activityError,
-    data: activityData,
-  } = useQuery({
-    queryKey: ["myActivity"],
-    queryFn: getActivity,
-  });
-  const {
-    isLoading: friendRequestIsLoading,
-    error: friendRequestError,
-    data: friendRequestData,
-  } = useQuery({
-    queryKey: ["myFriendRequests"],
-    queryFn: getFriendRequest,
-  });
-
   const [activityView, setActivityView] = useState<"activity" | "request">(
     "activity"
   );
@@ -65,27 +39,10 @@ const ActivityFeedData = () => {
         </div>
       </div>
       <div className="relative top-10 mt-8">
-        {!activityData ? (
-          <>
-            <div className="flex justify-center items-center">
-              <FontAwesomeIcon
-                className="gqp"
-                size="4x"
-                icon={faEarthAmericas}
-              />
-            </div>
-            <p className="text-center mt-8 italic gqp">Nothing new yet!</p>
-          </>
+        {activityView === "activity" ? (
+          <CurrentActivity />
         ) : (
-          <div>
-            <ActivitySidebarFriendRequestCard />
-            <ActivitySidebarFriendRequestCard />
-            <ActivitySidebarEventCard />
-            <ActivitySidebarEventCard />
-            <ActivitySidebarEventCard />
-            <ActivitySidebarEventCard />
-            <ActivitySidebarEventCard />
-          </div>
+          <FriendRequestData />
         )}
       </div>
     </>
