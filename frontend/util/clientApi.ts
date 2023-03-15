@@ -192,6 +192,38 @@ export const useFriendshipApi = () => {
         return;
       }
     },
+    acceptFriendrequest: async (uuid: string) => {
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendrequest/${uuid}/`,
+          { status: "ACCEPTED" },
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log("error from getFriendrequest: ", error);
+      }
+    },
+    rejectFriendrequest: async (uuid: string) => {
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendrequest/${uuid}/`,
+          { status: "REJECTED" },
+          {
+            headers: {
+              Authorization: `Bearer ${session?.accessToken}`,
+            },
+          }
+        );
+        return response;
+      } catch (error) {
+        console.log("error from getFriendrequest: ", error);
+      }
+    },
   };
 };
 
