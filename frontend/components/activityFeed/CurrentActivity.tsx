@@ -26,7 +26,19 @@ const CurrentActivity = () => {
         </>
       ) : (
         <>
-          <ActivitySidebarEventCard />
+          {activityData &&
+            activityData.length > 0 &&
+            activityData.map((item: any) => {
+              return (
+                <ActivitySidebarEventCard
+                  firstName={item.owner.first_name}
+                  lastName={item.owner.last_name}
+                  action={item.action}
+                  timeAgo={item.time_ago}
+                  item={item.name}
+                />
+              );
+            })}
         </>
       )}
     </>

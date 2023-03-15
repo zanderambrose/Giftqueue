@@ -176,7 +176,8 @@ export const useFriendshipApi = () => {
     },
     getFriendRequest: async () => {
       try {
-        const response = await axios.get(
+        // TODO - type returned serialzed friend request data
+        const response = await axios.get<any[]>(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendrequest/`,
           {
             headers: {
@@ -185,7 +186,7 @@ export const useFriendshipApi = () => {
           }
         );
         console.log("FRIEND REQUEST: ", response);
-        return response;
+        return response.data;
       } catch (error) {
         console.log(error);
         return;
@@ -199,7 +200,8 @@ export const useActivityFeed = () => {
   return {
     getActivity: async () => {
       try {
-        const response = await axios.get(
+        // TODO - type return activity serialized data
+        const response = await axios.get<any[]>(
           `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}activityfeed/`,
           {
             headers: {
@@ -208,7 +210,7 @@ export const useActivityFeed = () => {
           }
         );
         console.log(response);
-        return response;
+        return response.data;
       } catch (error) {
         console.log(error);
         return;

@@ -26,7 +26,17 @@ const FriendRequestData = () => {
         </>
       ) : (
         <>
-          <ActivitySidebarFriendRequestCard />
+          {friendRequestData &&
+            friendRequestData.length > 0 &&
+            friendRequestData.map((item: any) => {
+              return (
+                <ActivitySidebarFriendRequestCard
+                  firstName={item.requestee.first_name}
+                  lastName={item.requestee.last_name}
+                  timeAgo={"placeholder min ago"}
+                />
+              );
+            })}
         </>
       )}
     </>
