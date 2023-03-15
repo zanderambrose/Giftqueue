@@ -12,6 +12,8 @@ import { faBell, faBars } from "@fortawesome/free-solid-svg-icons";
 import { modalProfileSidebar } from "../recoil/modal/modalProfileSidebar";
 import { modalActivityFeedSidebar } from "../recoil/modal/modalActivityFeedSidebar";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import { useFriendshipApi } from "../util/clientApi";
 
 const Navigation = () => {
   const { data: session } = useSession();
@@ -36,6 +38,15 @@ const Navigation = () => {
     setNavState("giftqueue");
   };
 
+  const { getFriendRequest } = useFriendshipApi();
+  const {
+    isLoading: friendRequestIsLoading,
+    error: friendRequestError,
+    data: friendRequestData,
+  } = useQuery({
+    queryKey: ["myFriendRequests"],
+    queryFn: getFriendRequest,
+  });
   return (
     <>
       <nav className="h-full flex items-center nav-shadow nav-mobile-hidden">
@@ -126,6 +137,20 @@ const Navigation = () => {
           className="gqp mr-6 hover:opacity-80"
           icon={faBell}
         />
+        {friendRequestData && friendRequestData.length > 0 && (
+          <span
+            style={{
+              height: "15px",
+              width: "15px",
+              backgroundColor: "red",
+              borderRadius: "50%",
+              display: "inline-block",
+              position: "absolute",
+              right: "22px",
+              top: "20px",
+            }}
+          ></span>
+        )}
       </nav>
     </>
   );
