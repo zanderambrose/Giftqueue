@@ -13,7 +13,8 @@ def user_create(django_user_model):
        sub = 123456789,
        email = 'testuser@testuser.com',
        first_name = 'test',
-       last_name = 'user') 
+       last_name = 'user',
+       id = '54321') 
    return make_user
 
 @pytest.fixture
