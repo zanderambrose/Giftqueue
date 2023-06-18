@@ -2,6 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import CelebrationDayViewSet, GiftItemViewSet, ActivityFeedListView, GetGiftqueueUserBySub, GiftqueueUserSearchViewSet, FriendshipViewSet, FriendRequestViewSet
 
+app_name = 'api'
+
 router = DefaultRouter()
 
 router.register(r'celebration', CelebrationDayViewSet, basename='celebration')
