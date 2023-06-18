@@ -1,6 +1,5 @@
 import pytest
 import logging
-from api.tests.fixtures.api import api_client, api_auth_client, user_create
 
 from django.urls import reverse
 
