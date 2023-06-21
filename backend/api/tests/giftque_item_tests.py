@@ -42,6 +42,7 @@ def test_get_celebration_payload(api_auth_client, create_gift_item):
 
 @pytest.mark.django_db
 def test_payload_includes_is_purchased(api_auth_client, create_gift_item, create_non_auth_user_gift_item):
+   pass
    # for day in list(celebration_days):
    #     day_dict = dict(day)
    #     LOGGER.info(day_dict)
@@ -89,3 +90,4 @@ def test_payload_includes_is_purchased(api_auth_client, create_gift_item, create
 #    assert response.status_code == status.HTTP_204_NO_CONTENT
 #    assert CelebrationDay.objects.count() == 0
 #    assert CelebrationDay.objects.filter(id=create_gift_item.id).first() is None
+
