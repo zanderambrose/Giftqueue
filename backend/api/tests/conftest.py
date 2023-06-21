@@ -51,7 +51,8 @@ def create_celebration_day_item(create_owned_base_model):
 @pytest.fixture
 def create_gift_item(create_owned_base_model):
    payload={
-        'date': fake.date(),
+        'is_purchased': fake.boolean(),
+        'notes': fake.text(),
     }
    gift_item = GiftItem.objects.create(**payload, **create_owned_base_model)
    return gift_item 
