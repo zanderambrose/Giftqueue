@@ -1,6 +1,6 @@
 import pytest
 
-from api.models import CelebrationDay, RegistryUser
+from api.models import CelebrationDay, RegistryUser, GiftItem
 from faker import Faker
 
 fake = Faker()
@@ -30,15 +30,28 @@ def api_auth_client(user_create, api_client):
     api_client.force_authenticate(user=None)
 
 @pytest.fixture
-def create_celebration_day_item(user_create):
+def create_owned_base_model(user_create):
    user = RegistryUser.objects.get(id=TEST_USER_ID)
    payload={
         'name': fake.name(),
         'owner': user,
-        'date': fake.date(),
         'created_at': fake.date(),
         'updated_at': fake.date(),
     }
-   celebration_day = CelebrationDay.objects.create(**payload)
+   return payload 
+   
+@pytest.fixture
+def create_celebration_day_item(create_owned_base_model):
+   payload={
+        'date': fake.date(),
+    }
+   celebration_day = CelebrationDay.objects.create(**payload, **create_owned_base_model)
    return celebration_day
 
+@pytest.fixture
+def create_gift_item(create_owned_base_model):
+   payload={
+        'date': fake.date(),
+    }
+   gift_item = GiftItem.objects.create(**payload, **create_owned_base_model)
+   return gift_item 
