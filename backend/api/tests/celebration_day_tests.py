@@ -54,8 +54,13 @@ def test_create_celebration_item(api_auth_client):
 @pytest.mark.django_db
 def test_patch_celebration_item(api_auth_client, create_celebration_day_payload):
    url = f'/api/v1/celebration/{create_celebration_day_payload.id}/'
-   payload = {'name': 'another name'}
-   response = api_auth_client.patch(url, payload)
-   assert response.status_code == 200
-   assert response.data['name']== 'another name'
+   name_payload = {'name': 'another name'}
+   name_patch_response = api_auth_client.patch(url, name_payload)
+   assert name_patch_response.status_code == 200
+   assert name_patch_response.data['name']== 'another name'
+   patched_date = fake.date()
+   date_payload = {'date': patched_date}
+   date_patch_response = api_auth_client.patch(url, date_payload)
+   assert date_patch_response.status_code == 200
+   assert date_patch_response.data['date'] == patched_date 
 
