@@ -30,7 +30,7 @@ def api_auth_client(user_create, api_client):
     api_client.force_authenticate(user=None)
 
 @pytest.fixture
-def create_celebration_day_payload(user_create):
+def create_celebration_day_item(user_create):
    user = RegistryUser.objects.get(id=TEST_USER_ID)
    payload={
         'name': fake.name(),
