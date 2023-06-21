@@ -51,3 +51,11 @@ def test_create_celebration_item(api_auth_client):
    assert CelebrationDay.objects.count() == 1
    assert celebration_day is not None
 
+@pytest.mark.django_db
+def test_patch_celebration_item(api_auth_client, create_celebration_day_payload):
+   url = f'/api/v1/celebration/{create_celebration_day_payload.id}/'
+   payload = {'name': 'another name'}
+   response = api_auth_client.patch(url, payload)
+   assert response.status_code == 200
+   assert response.data['name']== 'another name'
+
