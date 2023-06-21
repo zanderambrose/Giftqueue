@@ -18,10 +18,12 @@ def test_get_gift_item(api_auth_client, create_gift_item):
    assert response.status_code == status.HTTP_200_OK
    assert len(response.data) == 1
    gift_item = dict(response.data[0]) 
-   LOGGER.info(f'gift item: {gift_item}')
    assert gift_item['name'] == create_gift_item.name
    assert gift_item['owner'] == create_gift_item.owner.id
+   assert gift_item['url'] == []
+   assert gift_item['id'] == create_gift_item.id
    assert gift_item['notes'] == create_gift_item.notes
+   assert gift_item['related_to'] == None
    assert 'is_purchased' not in gift_item 
 
 # @pytest.mark.django_db
