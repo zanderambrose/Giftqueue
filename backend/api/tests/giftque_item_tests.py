@@ -26,19 +26,33 @@ def test_get_gift_item(api_auth_client, create_gift_item):
    assert gift_item['related_to'] == None
    assert 'is_purchased' not in gift_item 
 
-# @pytest.mark.django_db
-# def test_get_celebration_payload(api_auth_client, create_gift_item):
-#    url = reverse('api:wishlist-list')
-#    response = api_auth_client.get(url)
-#    celebration_day = list(response.data)
-#    for day in celebration_day:
-#        day_dict = dict(day)
-#        assert 'id' in day_dict
-#        assert 'created_at' in day_dict
-#        assert 'updated_at' in day_dict
-#        assert 'name' in day_dict
-#        assert 'date' in day_dict
-#        assert 'owner' in day_dict
+@pytest.mark.django_db
+def test_get_celebration_payload(api_auth_client, create_gift_item):
+   url = reverse('api:wishlist-list')
+   response = api_auth_client.get(url)
+   celebration_day = list(response.data)
+   for day in celebration_day:
+       day_dict = dict(day)
+       assert 'name' in day_dict
+       assert 'owner' in day_dict
+       assert 'id' in day_dict
+       assert 'notes' in day_dict
+       assert 'notes' in day_dict
+       assert 'related_to' in day_dict
+
+@pytest.mark.django_db
+def test_payload_includes_is_purchased(api_auth_client, create_gift_item, create_non_auth_user_gift_item):
+   # for day in list(celebration_days):
+   #     day_dict = dict(day)
+   #     LOGGER.info(day_dict)
+   #     assert 'name' in day_dict
+   #     assert 'owner' in day_dict
+   #     assert 'id' in day_dict
+   #     assert 'notes' in day_dict
+   #     assert 'notes' in day_dict
+   #     assert 'related_to' in day_dict
+   #     if create_gift_item.owner.id == day_dict['id']:
+   #        assert 'is_purchased' in day_dict
 
 # @pytest.mark.django_db
 # def test_create_celebration_item(api_auth_client):

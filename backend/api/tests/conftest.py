@@ -23,6 +23,17 @@ def user_create(django_user_model):
    return make_user
 
 @pytest.fixture
+def non_auth_user_create(django_user_model):
+   def make_non_auth_user(**kwargs):
+       return django_user_model.objects.create(
+       sub = 987654321,
+       email = 'non_auth_user@non_auth_user.com',
+       first_name = 'non_auth',
+       last_name = 'user',
+       id = f'{TEST_USER_ID}12345') 
+   return make_non_auth_user
+
+@pytest.fixture
 def api_auth_client(user_create, api_client):
     user = user_create()
     api_client.force_authenticate(user=user)
@@ -55,4 +66,18 @@ def create_gift_item(create_owned_base_model):
         'notes': fake.text(),
     }
    gift_item = GiftItem.objects.create(**payload, **create_owned_base_model)
+   return gift_item 
+
+@pytest.fixture
+def create_non_auth_user_gift_item(non_auth_user_create):
+   user = non_auth_user_create()
+   payload={
+        'name': fake.name(),
+        'owner': user,
+        'created_at': fake.date(),
+        'updated_at': fake.date(),
+        'is_purchased': fake.boolean(),
+        'notes': fake.text(),
+    }
+   gift_item = GiftItem.objects.create(**payload)
    return gift_item 

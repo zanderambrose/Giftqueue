@@ -13,6 +13,10 @@ fake = Faker()
 
 @pytest.mark.django_db
 def test_get_celebration_item(api_auth_client, create_celebration_day_item):
+   '''
+   Should be able to get users celebration day items
+   Item should match fixtures data
+   '''
    url = reverse('api:celebration-list')
    response = api_auth_client.get(url)
    assert response.status_code == status.HTTP_200_OK
