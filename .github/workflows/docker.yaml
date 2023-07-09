@@ -23,7 +23,7 @@ jobs:
 
       - name: Build and run containers
         run: |
-          docker-compose --env-file .env up --remove-orphans --force-recreate -V -d backend db
+          docker-compose up --remove-orphans --force-recreate -V -d backend db
 
       - name: Wait for services to start
         run: |
