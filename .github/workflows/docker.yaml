@@ -24,11 +24,25 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-        name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-        name: Docker compose 
-        uses: isbang/compose-action@v1.4.1
+      - name: Docker compose 
+        uses: KengoTODA/actions-setup-docker-compose@v1
         with:
-            up-flags: "--env-file .env up --remove-orphans --force-recreate -V -d"
-            compose-file: "./docker-compose.yml"
+          version: '2.15.1' 
+
+      - name: Build and run containers
+        run: |
+          docker-compose up -d backend db
+
+      - name: Wait for services to start
+        run: |
+          until docker-compose logs backend | grep "Starting development server"; do sleep 1; done
+
+      - name: Run tests
+        run: |
+          docker-compose exec backend pytest 
+      - name: Tear down containers
+        run: |
+          docker-compose down
