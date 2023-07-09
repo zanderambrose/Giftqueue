@@ -1,0 +1,47 @@
+name: Backend Integration CI 
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: zander 
+          POSTGRES_PASSWORD: registrydbtest 
+          POSTGRES_DB: db 
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        uses: docker/setup-docker-compose@v1
+
+      - name: Build and run containers
+        run: |
+          docker-compose up -d backend db
+
+      - name: Wait for services to start
+        run: |
+          until docker-compose logs backend | grep "Starting development server"; do sleep 1; done
+
+      - name: Run tests
+        run: |
+          docker-compose exec backend pytest 
+
+      - name: Tear down containers
+        run: |
+          docker-compose down
