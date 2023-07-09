@@ -25,10 +25,6 @@ jobs:
         run: |
           docker-compose up --remove-orphans --force-recreate -V -d backend db
 
-      - name: Wait for services to start
-        run: |
-          until docker-compose logs backend | grep "Starting development server"; do sleep 1; done
-
       - name: Run tests
         run: |
           docker-compose exec backend pytest 
