@@ -12,17 +12,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: zander 
-          POSTGRES_PASSWORD: registrydbtest 
-          POSTGRES_DB: db 
-        ports:
-          - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,7 +23,7 @@ jobs:
 
       - name: Build and run containers
         run: |
-          docker-compose up -d backend db
+          docker-compose --env-file .env up --remove-orphans --force-recreate -V -d backend db
 
       - name: Wait for services to start
         run: |
@@ -43,6 +32,7 @@ jobs:
       - name: Run tests
         run: |
           docker-compose exec backend pytest 
+
       - name: Tear down containers
         run: |
-          docker-compose down
+          docker-compose --env-file .env down --remove-orphans -v
