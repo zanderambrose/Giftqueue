@@ -22,11 +22,8 @@ jobs:
           version: '2.15.1' 
 
       - name: Build and run containers
-        env:
-          POSTGRES_USER: {{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: {{ secrets.POSTGRES_PASSWORD }}
         run: |
-          docker-compose up --remove-orphans --force-recreate -V -d backend db
+          POSTGRES_USER={{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD={{ secrets.POSTGRES_PASSWORD }} docker-compose up --remove-orphans --force-recreate -V -d backend db
 
       - name: Run tests
         run: |
