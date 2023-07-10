@@ -23,12 +23,15 @@ jobs:
 
       - name: Build and run containers
         run: |
-          docker-compose build --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER}}" backend db
-          docker-compose up --remove-orphans --force-recreate -V -d backend db
+          docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate -V -d 
 
-      - name: Cat env 
+      - name: Cat backend env 
         run: |
           docker-compose exec backend env 
+
+      - name: Cat db env 
+        run: |
+          docker-compose exec db env 
 
       - name: Run tests
         run: |
@@ -36,4 +39,4 @@ jobs:
 
       - name: Tear down containers
         run: |
-          docker-compose --env-file .env down --remove-orphans -v
+          docker-compose -f docker-compose.ci.yml down --remove-orphans -v
