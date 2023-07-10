@@ -1,0 +1,42 @@
+name: Backend Integration CI 
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker compose 
+        uses: KengoTODA/actions-setup-docker-compose@v1
+        with:
+          version: '2.15.1' 
+
+      - name: Build and run containers
+        run: |
+          docker-compose -f docker-compose.ci.yml up --remove-orphans --force-recreate -V -d 
+
+      - name: Cat backend env 
+        run: |
+          docker-compose exec backend env 
+
+      - name: Cat db env 
+        run: |
+          docker-compose exec db env 
+
+      - name: Run tests
+        run: |
+          docker-compose exec backend pytest 
+
+      - name: Tear down containers
+        run: |
+          docker-compose -f docker-compose.ci.yml down --remove-orphans -v

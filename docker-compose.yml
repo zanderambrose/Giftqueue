@@ -18,7 +18,8 @@ services:
       - NEXT_PUBLIC_REGISTRY_API_BASE_URL=$NEXT_PUBLIC_REGISTRY_API_BASE_URL
       - NEXTAUTH_URL=$NEXTAUTH_URL
   backend:
-    build: ./backend
+    build:
+      context: ./backend
     container_name: backend
     volumes:
       - ./backend:/app
