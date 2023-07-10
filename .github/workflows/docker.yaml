@@ -23,7 +23,8 @@ jobs:
 
       - name: Build and run containers
         run: |
-          POSTGRES_USER={{ secrets.POSTGRES_USER }} POSTGRES_PASSWORD={{ secrets.POSTGRES_PASSWORD }} docker-compose up --remove-orphans --force-recreate -V -d backend db
+          docker-compose build --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" POSTGRES_USER="${{ secrets.POSTGRES_USER}}" backend db
+          docker-compose up --remove-orphans --force-recreate -V -d backend db
 
       - name: Run tests
         run: |
