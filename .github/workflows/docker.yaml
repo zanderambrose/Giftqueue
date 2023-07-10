@@ -26,6 +26,10 @@ jobs:
           docker-compose build --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER}}" backend db
           docker-compose up --remove-orphans --force-recreate -V -d backend db
 
+      - name: Cat env 
+        run: |
+          docker-compose exec backend env 
+
       - name: Run tests
         run: |
           docker-compose exec backend pytest 
