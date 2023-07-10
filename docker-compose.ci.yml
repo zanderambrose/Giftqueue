@@ -12,8 +12,8 @@ services:
     environment:
       - GOOGLE_AUD_CLAIM=$GOOGLE_AUD_CLAIM
       - NEXT_PUBLIC_FRONTEND_BASE_URL=$NEXT_PUBLIC_FRONTEND_BASE_URL
-      - POSTGRES_PASSWORD=${{ secrests.POSTGRES_PASSWORD }}
-      - POSTGRES_USER=${{ secrests.POSTGRES_USER}}
+      - POSTGRES_PASSWORD=$${{ secrests.POSTGRES_PASSWORD }}
+      - POSTGRES_USER=$${{ secrests.POSTGRES_USER}}
     depends_on:
       - db
     restart: always
@@ -25,7 +25,7 @@ services:
     container_name: db
     restart: always
     environment:
-      - POSTGRES_PASSWORD=${{ secrests.POSTGRES_PASSWORD }}
-      - POSTGRES_USER=${{ secrests.POSTGRES_USER}}
+      - POSTGRES_PASSWORD=$${{ secrests.POSTGRES_PASSWORD }}
+      - POSTGRES_USER=$${{ secrests.POSTGRES_USER}}
     ports:
       - 5432:5432
