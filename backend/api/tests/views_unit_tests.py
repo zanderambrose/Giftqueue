@@ -18,11 +18,10 @@ mock_request = {
     '_mutable': bool(random.getrandbits(1))
 }
 
-def make_mock_request():
-    return mock_request
-
 def test_append_owner_to_request():
-    request = make_mock_request()
+    request = mock_request
     mutated_request = append_owner_to_request_data(request)
     assert mutated_request['data']['owner'] == request['user']['id'] 
-    
+
+def test_gift_item_create_mapping(request):
+

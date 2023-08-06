@@ -5,7 +5,7 @@ from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAll
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
-from .utils.helpers import append_owner_to_request_data
+from .utils.helpers import append_owner_to_request_data, gift_item_create_mapping 
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
@@ -40,14 +40,8 @@ class GiftItemViewSet(viewsets.ModelViewSet):
         return queryset.filter(owner=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
-        owner = self.request.user.id
-        name = request.data.get('name')
-        url = request.data.get('url', None)
-        notes = request.data.get('notes', None)
-        related_to = request.data.get('related_to', None)
-        json_date = {"name": name, 'owner': owner,
-                     "notes": notes, "related_to": related_to}
-        serializer = self.get_serializer(data=json_date)
+        json_data = gift_item_create_mapping(request)
+        serializer = self.get_serializer(data=json_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
