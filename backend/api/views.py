@@ -5,6 +5,7 @@ from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAll
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
+from .utils.helpers import append_owner_to_request_data
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
@@ -17,11 +18,7 @@ class OwnedViewSet(viewsets.ModelViewSet):
         return queryset.filter(owner=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
-        if isinstance(request.data, QueryDict):  # optional
-            request.data._mutable = True
-        request.data['name'] = request.data.get('name')
-        request.data['owner'] = request.user.id
-        #request.data['owner'] = 12
+        request = append_owner_to_request_data(request)
         return super().create(request, *args, **kwargs)
 
 
