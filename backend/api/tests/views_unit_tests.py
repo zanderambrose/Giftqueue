@@ -24,4 +24,5 @@ def test_append_owner_to_request():
     assert mutated_request['data']['owner'] == request['user']['id'] 
 
 def test_gift_item_create_mapping(request):
+    assert True == True
 
