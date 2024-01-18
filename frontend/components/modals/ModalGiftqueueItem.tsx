@@ -39,6 +39,7 @@ const ModalGiftqueueItem = () => {
         "anytime"
     );
     const [isRelatedToViewOpen, setIsRelatedToViewOpen] = useState(false);
+    const [noItemsToAssociateWithOpen, setNoItemsToAssociateWithOpen] = useState(false)
     const queryClient = useQueryClient();
     const [relatedCelebrationPicked, setRelatedCelebrationPicked] = useState<
         undefined | { id: string; name: string }
@@ -123,6 +124,7 @@ const ModalGiftqueueItem = () => {
         setIsRelatedToViewOpen(false);
         setRelatedCelebrationPicked(undefined);
         setGiftqueueItemModalShow(defaultGiftqueueItemModalState);
+        setNoItemsToAssociateWithOpen(false)
     };
 
     return (
@@ -187,6 +189,7 @@ const ModalGiftqueueItem = () => {
                                                     <button
                                                         onClick={(e) => {
                                                             e.preventDefault();
+                                                            if (noItemsToAssociateWithOpen) setNoItemsToAssociateWithOpen(false)
                                                             setGiftqueueFor("anytime");
                                                             setRelatedCelebrationPicked(undefined);
                                                         }}
@@ -242,7 +245,11 @@ const ModalGiftqueueItem = () => {
                                                         disabled={giftqueueFor === "anytime" ? true : false}
                                                         onClick={(e) => {
                                                             e.preventDefault();
-                                                            setIsRelatedToViewOpen(true);
+                                                            if (data && data.length > 0) {
+                                                                setIsRelatedToViewOpen(true);
+                                                            } else {
+                                                                setNoItemsToAssociateWithOpen(true)
+                                                            }
                                                         }}
                                                         className="mt-4 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:gqp focus:ring-1 focus:gqp disabled:opacity-25"
@@ -250,6 +257,7 @@ const ModalGiftqueueItem = () => {
                                                         Select Event
                                                     </button>
                                                 </label>
+                                                {noItemsToAssociateWithOpen && <p className="mt-4 text-red-500">No events to associate gift with</p>}
                                                 <textarea
                                                     disabled={isSubmitting}
                                                     {...register("notes")}
