@@ -50,7 +50,7 @@ def handle_giftitem_activity(sender, instance, created, **kwargs):
     if created:
         if instance.related_to:
             ActivityFeed.objects.create(owner=instance.owner, action='GIFT', name=instance.name,
-                                        related_to=instance.related_to, associated_action_id=instance.id)
+                                        related_to=instance, associated_action_id=instance.id)
         else:
             ActivityFeed.objects.create(
                 owner=instance.owner, action='GIFT', name=instance.name, associated_action_id=instance.id)
