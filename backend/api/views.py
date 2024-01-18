@@ -59,8 +59,11 @@ class GiftItemViewSet(viewsets.ModelViewSet):
 
 
 class ActivityFeedListView(generics.ListAPIView):
-    queryset = ActivityFeed.objects.all()
     serializer_class = ActivityFeedSerializer
+
+    def get_queryset(self):
+
+        return ActivityFeed.objects.all().order_by('-created_at')
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
