@@ -40,7 +40,7 @@ class GiftItemViewSet(viewsets.ModelViewSet):
         return queryset.filter(owner=self.request.user.id)
 
     def create(self, request, *args, **kwargs):
-        json_data = gift_item_create_mapping(request)
+        json_data, url = gift_item_create_mapping(request)
         serializer = self.get_serializer(data=json_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
