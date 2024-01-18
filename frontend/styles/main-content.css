@@ -181,6 +181,21 @@
   background-color: red;
   color: white;
 }
+
+.eventModalCancelBtn {
+  border: 2px solid #aa96da;
+  border-radius: 4px;
+  padding: 1rem 4rem;
+  color: #aa96da;
+}
+
+.eventModalConfirmBtn {
+  border: 2px solid #aa96da;
+  border-radius: 4px;
+  padding: 1rem 4rem;
+  background-color: #aa96da;
+  color: white;
+}
 .friendRequestAcceptBtn {
   background-color: var(--purple-main);
   box-shadow: -2px 4px 18px rgba(17, 17, 17, 0.1);
