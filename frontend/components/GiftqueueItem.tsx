@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { IGiftqueueSerializer } from "../util/typesClientApi";
 import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
@@ -15,6 +16,7 @@ const GiftqueueItem = ({
     url,
     related_to,
 }: IGiftqueueSerializer) => {
+    const queryClient = useQueryClient();
     const { deleteGiftItemUrl } = useGiftItemUrlApi();
     const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
     const setDeleteItemShow = useSetRecoilState(deleteGiftqueueItemModal);
@@ -36,8 +38,18 @@ const GiftqueueItem = ({
             };
         });
     };
+
+    const deleteUrlMutation = useMutation({
+        mutationFn: (uuid: string) => {
+            return deleteGiftItemUrl(uuid);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+        },
+    });
+
     const handleDeleteUrlClick = (id: number) => {
-        deleteGiftItemUrl(String(id))
+        deleteUrlMutation.mutate(String(id))
     }
 
     return (
