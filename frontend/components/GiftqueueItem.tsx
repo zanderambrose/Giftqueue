@@ -26,6 +26,12 @@ const GiftqueueItem = ({
                 ...currVal,
                 isOpen: true,
                 uuid: id,
+                data: {
+                    name,
+                    notes,
+                    url,
+                    related_to,
+                }
             };
         });
     };
