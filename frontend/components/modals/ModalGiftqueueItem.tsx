@@ -120,6 +120,14 @@ const ModalGiftqueueItem = () => {
         }
         )
 
+        if (giftqueueItemModalShow.data?.related_to) {
+            setGiftqueueFor("related")
+            setRelatedCelebrationPicked({
+                name: giftqueueItemModalShow.data?.related_to.name,
+                id: giftqueueItemModalShow.data?.related_to.id
+            })
+        }
+
     }, [giftqueueItemModalShow])
 
     // Reset on component unmount
