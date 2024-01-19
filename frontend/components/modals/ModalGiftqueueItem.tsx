@@ -113,6 +113,15 @@ const ModalGiftqueueItem = () => {
         handleModalReset();
     };
 
+    useEffect(() => {
+        reset({
+            name: giftqueueItemModalShow.data?.name ?? "",
+            notes: giftqueueItemModalShow.data?.notes ?? ""
+        }
+        )
+
+    }, [giftqueueItemModalShow])
+
     // Reset on component unmount
     useEffect(() => {
         return () => handleModalReset();
