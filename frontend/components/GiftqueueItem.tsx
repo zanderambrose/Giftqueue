@@ -12,7 +12,6 @@ const GiftqueueItem = ({
     id,
     notes,
     url,
-    owner,
     related_to,
 }: IGiftqueueSerializer) => {
     const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
@@ -40,7 +39,7 @@ const GiftqueueItem = ({
             <div className="flex flex-row">
                 <div className="w-full flex flex-row justify-between items-center">
                     <div>
-                        <h3 className="text-xl font-extrabold">{name}</h3>
+                        <h3 className="text-2xl font-extrabold">{name}</h3>
                         {related_to && (
                             <p className="muted">
                                 Reserved for: <span className="underline">{related_to.name}</span>{" "}
