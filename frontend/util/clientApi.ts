@@ -53,10 +53,11 @@ export const useGiftqueueApi = () => {
                 throw new Error(error.message);
             }
         },
-        deleteGiftqueueItem: async (itemUuid: string) => {
+        deleteGiftqueueItem: async (itemUuid: string, notify: boolean = true) => {
+            let notifyParam = notify ? 1 : 0
             try {
                 const response = await axios.delete(
-                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/${itemUuid}/`,
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}giftqueue/${itemUuid}/delete/?notify=${notifyParam}`,
                     {
                         headers: { Authorization: `Bearer ${session?.accessToken}` },
                     }

@@ -1,93 +1,105 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import {
-  defaultDeleteItemState,
-  deleteGiftqueueItemModal,
+    defaultDeleteItemState,
+    deleteGiftqueueItemModal,
 } from "../../recoil/modal/deleteGiftqueueItem";
 import { useGiftqueueApi } from "../../util/clientApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const ModalDeleteGiftqueueItem = () => {
-  const queryClient = useQueryClient();
-  const { deleteGiftqueueItem } = useGiftqueueApi();
-  const deleteMutation = useMutation({
-    mutationFn: (uuid: string) => {
-      return deleteGiftqueueItem(uuid);
-    },
-    onSuccess: (data, variables, context) => {
-      queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
-      setDeleteModalItemShow(defaultDeleteItemState);
-    },
-  });
+    const [isNotifyChecked, setIsNotifyChecked] = useState(false)
+    const queryClient = useQueryClient();
+    const { deleteGiftqueueItem } = useGiftqueueApi();
+    const deleteMutation = useMutation({
+        mutationFn: (uuid: string) => {
+            return deleteGiftqueueItem(uuid, !isNotifyChecked);
+        },
+        onSuccess: (data, variables, context) => {
+            queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
+            setDeleteModalItemShow(defaultDeleteItemState);
+        },
+    });
 
-  const [deleteItemModalShow, setDeleteModalItemShow] = useRecoilState(
-    deleteGiftqueueItemModal
-  );
+    const [deleteItemModalShow, setDeleteModalItemShow] = useRecoilState(
+        deleteGiftqueueItemModal
+    );
 
-  const handleDeleteClick = () => {
-    deleteMutation.mutate(deleteItemModalShow.uuid!);
-  };
+    const handleDeleteClick = () => {
+        deleteMutation.mutate(deleteItemModalShow.uuid!);
+    };
 
-  const handleCancelClick = () => {
-    setDeleteModalItemShow(defaultDeleteItemState);
-  };
+    const handleCancelClick = () => {
+        setDeleteModalItemShow(defaultDeleteItemState);
+    };
+    const handleCheckboxChange = () => {
+        setIsNotifyChecked(!isNotifyChecked)
+    }
 
-  return (
-    <>
-      {deleteItemModalShow.isOpen ? (
+    useEffect(() => {
+        return () => {
+            setIsNotifyChecked(false)
+        }
+    }, [deleteItemModalShow.isOpen])
+
+    return (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-            <div className="relative w-11/12 md:w-10/12 lg:w-8/12 xl:w-6/12 my-6 mx-auto max-w-3xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <h3 className="mt-6 text-lg font-semibold text-center">
-                  Delete Giftqueue Item
-                </h3>
-                {/*body*/}
-                <div className="relative px-6 flex-auto">
-                  <p className="muted text-sm my-6 w-10/12 text-center mx-auto">
-                    You are about to delete the registered event. Are you sure
-                    that you would like to delete it? Note your friend list may
-                    see this update!
-                  </p>
-                  <div className="text-center mb-8">
-                    <input
-                      type="checkbox"
-                      className="text-center mr-2"
-                      name="friend-notify"
-                      id="friend-notify"
-                    />
-                    <label htmlFor="friend-notify">
-                      Don't notify my friends
-                    </label>
-                  </div>
-                </div>
-                {/*footer*/}
-                <div className="flex flex-row items-center justify-center mb-6">
-                  <button
-                    onClick={() => handleDeleteClick()}
-                    className="deleteModalDeleteBtn mr-2"
-                    type="button"
-                  >
-                    Delete
-                  </button>
-                  <button
-                    onClick={() => handleCancelClick()}
-                    className="deleteModalCancelBtn ml-2"
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+            {deleteItemModalShow.isOpen ? (
+                <>
+                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                        <div className="relative w-11/12 md:w-10/12 lg:w-8/12 xl:w-6/12 my-6 mx-auto max-w-3xl">
+                            {/*content*/}
+                            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                                {/*header*/}
+                                <h3 className="mt-6 text-lg font-semibold text-center">
+                                    Delete Giftqueue Item
+                                </h3>
+                                {/*body*/}
+                                <div className="relative px-6 flex-auto">
+                                    <p className="muted text-sm my-6 w-10/12 text-center mx-auto">
+                                        You are about to delete the registered event. Are you sure
+                                        that you would like to delete it? Note your friend list may
+                                        see this update!
+                                    </p>
+                                    <div className="text-center mb-8">
+                                        <input
+                                            type="checkbox"
+                                            checked={isNotifyChecked}
+                                            onChange={handleCheckboxChange}
+                                            className="text-center mr-2"
+                                            name="friend-notify"
+                                            id="friend-notify"
+                                        />
+                                        <label htmlFor="friend-notify">
+                                            Don't notify my friends
+                                        </label>
+                                    </div>
+                                </div>
+                                {/*footer*/}
+                                <div className="flex flex-row items-center justify-center mb-6">
+                                    <button
+                                        onClick={() => handleDeleteClick()}
+                                        className="deleteModalDeleteBtn mr-2"
+                                        type="button"
+                                    >
+                                        Delete
+                                    </button>
+                                    <button
+                                        onClick={() => handleCancelClick()}
+                                        className="deleteModalCancelBtn ml-2"
+                                        type="button"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+            ) : null}
         </>
-      ) : null}
-    </>
-  );
+    );
 };
 
 export default ModalDeleteGiftqueueItem;

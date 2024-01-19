@@ -1,11 +1,13 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
+from rest_framework.decorators import action
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
 from .utils.helpers import append_owner_to_request_data, gift_item_create_mapping 
+
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
@@ -56,6 +58,19 @@ class GiftItemViewSet(viewsets.ModelViewSet):
             gift_item = GiftItem.objects.get(pk=kwargs.get('pk'))
             GiftItemUrl.objects.create(url=url, gift_item=gift_item)
         return super().partial_update(request, *args, **kwargs)
+
+    @action(detail=True, methods=['delete'])
+    def delete(self, request, pk=None):
+        notify_status = request.query_params.get('notify')
+        instance = self.get_object()
+
+        if notify_status == str(1):
+            ActivityFeed.objects.create(
+                owner=self.request.user, action='GIFT_DELETE', name=instance.name, associated_action_id=instance.id)
+
+        self.perform_destroy(instance)
+
+        return Response(status=204)
 
 
 class GiftItemUrlViewSet(viewsets.ModelViewSet):

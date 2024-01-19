@@ -93,8 +93,10 @@ class GiftItemUrl(TimeStampMixin, models.Model):
 
 
 ACTIVITY_FEED_ACTION_CHOICES = (
-    ("GIFT", 'GIFT'),
+    ("GIFT", "GIFT"),
     ("DAY", "DAY"),
+    ("GIFT_DELETE", "GIFT_DELETE"),
+    ("DAY_DELETE", "DAY_DELETE"),
 )
 
 
