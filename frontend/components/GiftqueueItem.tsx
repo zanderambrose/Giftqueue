@@ -43,7 +43,7 @@ const GiftqueueItem = ({
                         <h3 className="text-xl font-extrabold">{name}</h3>
                         {related_to && (
                             <p className="muted">
-                                Related to: <span className="underline">{related_to.name}</span>{" "}
+                                Reserved for: <span className="underline">{related_to.name}</span>{" "}
                                 {howMuchTimeUntil(related_to.date) < 30 &&
                                     howMuchTimeUntil(related_to.date) > 0 &&
                                     `, ${howMuchTimeUntil(related_to.date)} days remaining`}
@@ -68,21 +68,25 @@ const GiftqueueItem = ({
             </div>
             {url && url.length > 0 && (
                 <div className="mt-4">
-                    <p className="muted">Where to buy:</p>
+                    <p className="muted">Buy it here:</p>
                     <div className="flex flex-row items-center gap-4">
-                        {url.map((url, idx) => {
-                            return (
-                                <a
-                                    key={`${url}${idx}`}
-                                    target={"_blank"}
-                                    rel={"noreferrer"}
-                                    className="text-sky-400"
-                                    href={url}
-                                >
-                                    Link 1
-                                </a>
-                            );
-                        })}
+                        <ul>
+                            {url.map((url, idx) => {
+                                return (
+                                    <li>
+                                        <a
+                                            key={`${url}${idx}`}
+                                            target={"_blank"}
+                                            rel={"noreferrer"}
+                                            className="text-sky-400"
+                                            href={url}
+                                        >
+                                            {new URL(url).hostname}
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
                 </div>
             )}
