@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
 import { deleteGiftqueueItemModal } from "../recoil/modal/deleteGiftqueueItem";
 import { howMuchTimeUntil } from "../util/dateHelper";
+import { useGiftItemUrlApi } from "../util/clientApi";
 
 const GiftqueueItem = ({
     name,
@@ -14,6 +15,7 @@ const GiftqueueItem = ({
     url,
     related_to,
 }: IGiftqueueSerializer) => {
+    const { deleteGiftItemUrl } = useGiftItemUrlApi();
     const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
     const setDeleteItemShow = useSetRecoilState(deleteGiftqueueItemModal);
     const handleEditItemClick = () => {
@@ -34,6 +36,10 @@ const GiftqueueItem = ({
             };
         });
     };
+    const handleDeleteUrlClick = () => {
+        deleteGiftItemUrl(related_to.id)
+    }
+
     return (
         <div key={id} className="myGiftqueueCard mt-4">
             <div className="flex flex-row">
@@ -41,7 +47,7 @@ const GiftqueueItem = ({
                     <div>
                         <h3 className="text-2xl font-extrabold">{name}</h3>
                         {related_to && (
-                            <p className="muted">
+                            <p className="mt-4 muted">
                                 Reserved for: <span className="underline">{related_to.name}</span>{" "}
                                 {howMuchTimeUntil(related_to.date) < 30 &&
                                     howMuchTimeUntil(related_to.date) > 0 &&
@@ -72,7 +78,7 @@ const GiftqueueItem = ({
                         <ul>
                             {url.map((url, idx) => {
                                 return (
-                                    <li>
+                                    <li key={url}>
                                         <a
                                             key={`${url}${idx}`}
                                             target={"_blank"}
@@ -82,6 +88,11 @@ const GiftqueueItem = ({
                                         >
                                             {new URL(url).hostname}
                                         </a>
+                                        <FontAwesomeIcon
+                                            onClick={handleDeleteUrlClick}
+                                            className="muted ml-4 hover:opacity-80"
+                                            icon={faTrashCan}
+                                        />
                                     </li>
                                 );
                             })}
