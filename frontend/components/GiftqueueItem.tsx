@@ -36,8 +36,8 @@ const GiftqueueItem = ({
             };
         });
     };
-    const handleDeleteUrlClick = () => {
-        deleteGiftItemUrl(related_to.id)
+    const handleDeleteUrlClick = (id: number) => {
+        deleteGiftItemUrl(String(id))
     }
 
     return (
@@ -76,7 +76,7 @@ const GiftqueueItem = ({
                     <p className="muted">Buy it here:</p>
                     <div className="flex flex-row items-center gap-4">
                         <ul>
-                            {url.map((url, idx) => {
+                            {url.map(({ url, id }, idx) => {
                                 return (
                                     <li key={url}>
                                         <a
@@ -89,7 +89,7 @@ const GiftqueueItem = ({
                                             {new URL(url).hostname}
                                         </a>
                                         <FontAwesomeIcon
-                                            onClick={handleDeleteUrlClick}
+                                            onClick={() => handleDeleteUrlClick(id)}
                                             className="muted ml-4 hover:opacity-80"
                                             icon={faTrashCan}
                                         />

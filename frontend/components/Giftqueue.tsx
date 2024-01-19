@@ -9,51 +9,51 @@ import { useSetRecoilState } from "recoil";
 import { giftqueueItem } from "../recoil/modal/giftqueueItem";
 
 const Giftqueue = () => {
-  const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
-  const handleAddNewItemClick = () => {
-    setGiftqueueItemModalShow((currVal) => {
-      return {
-        ...currVal,
-        isOpen: true,
-      };
+    const setGiftqueueItemModalShow = useSetRecoilState(giftqueueItem);
+    const handleAddNewItemClick = () => {
+        setGiftqueueItemModalShow((currVal) => {
+            return {
+                ...currVal,
+                isOpen: true,
+            };
+        });
+    };
+
+    const { getGiftqueueItems } = useGiftqueueApi();
+
+    // State for showing users giftqueue or default state
+    const { isLoading, error, data } = useQuery({
+        queryKey: ["myGiftqueueItems"],
+        queryFn: getGiftqueueItems,
     });
-  };
 
-  const { getGiftqueueItems } = useGiftqueueApi();
-
-  // State for showing users giftqueue or default state
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["myGiftqueueItems"],
-    queryFn: getGiftqueueItems,
-  });
-
-  return (
-    <>
-      {!data || data?.length < 1 ? (
-        <NoItemDefaultCard
-          icon={faListCheck}
-          headingText="No items in your giftqueue"
-          subText="Let your friends know the items you wish to have."
-        />
-      ) : (
-        <div className="relative top-10 px-8">
-          <div className="celebration-day-header">
-            <h1 className="text-lg relative right-2">Your Giftqueue</h1>
-            <button
-              onClick={() => handleAddNewItemClick()}
-              className="btn-add-new rounded relative left-2 hover:opacity-80"
-            >
-              <FontAwesomeIcon className="relative right-2" icon={faPlus} />
-              {window.screen.width > 640 ? "Add New Event" : "Add New"}
-            </button>
-          </div>
-          {data?.map((item) => {
-            return <GiftqueueItem key={item.id} {...item} />;
-          })}
-        </div>
-      )}
-    </>
-  );
+    return (
+        <>
+            {!data || data?.length < 1 ? (
+                <NoItemDefaultCard
+                    icon={faListCheck}
+                    headingText="No items in your giftqueue"
+                    subText="Let your friends know the items you wish to have."
+                />
+            ) : (
+                <div className="relative top-10 px-8">
+                    <div className="celebration-day-header">
+                        <h1 className="text-lg relative right-2">Your Giftqueue</h1>
+                        <button
+                            onClick={() => handleAddNewItemClick()}
+                            className="btn-add-new rounded relative left-2 hover:opacity-80"
+                        >
+                            <FontAwesomeIcon className="relative right-2" icon={faPlus} />
+                            {window.screen.width > 640 ? "Add New Event" : "Add New"}
+                        </button>
+                    </div>
+                    {data?.map((item) => {
+                        return <GiftqueueItem key={item.id} {...item} />;
+                    })}
+                </div>
+            )}
+        </>
+    );
 };
 
 export default Giftqueue;

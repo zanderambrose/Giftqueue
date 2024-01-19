@@ -24,12 +24,10 @@ class CelebrationDaySerializer(serializers.ModelSerializer):
 
 
 class GiftItemUrlSerializer(serializers.ModelSerializer):
-    def to_representation(self, instance):
-        return instance.url
 
     class Meta:
         model = GiftItemUrl
-        fields = ('url',)
+        fields = ('url','id',)
 
 
 class GiftItemAllSerializer(serializers.ModelSerializer):

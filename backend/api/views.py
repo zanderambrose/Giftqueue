@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
@@ -56,6 +56,15 @@ class GiftItemViewSet(viewsets.ModelViewSet):
             gift_item = GiftItem.objects.get(pk=kwargs.get('pk'))
             GiftItemUrl.objects.create(url=url, gift_item=gift_item)
         return super().partial_update(request, *args, **kwargs)
+
+
+class GiftItemUrlViewSet(viewsets.ModelViewSet):
+    queryset = GiftItemUrl.objects.all()
+    serializer_class = GiftItemUrlSerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(gift_item__owner=self.request.user.id)
 
 
 class ActivityFeedListView(generics.ListAPIView):
