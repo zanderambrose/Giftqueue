@@ -78,7 +78,7 @@ const GiftqueueItem = ({
                                             key={`${url}${idx}`}
                                             target={"_blank"}
                                             rel={"noreferrer"}
-                                            className="text-sky-400"
+                                            className="text-blue-400 hover:text-blue-700"
                                             href={url}
                                         >
                                             {new URL(url).hostname}
