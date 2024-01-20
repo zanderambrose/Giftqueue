@@ -165,7 +165,6 @@ export const usePeopleApi = () => {
                 );
                 return response;
             } catch (error) {
-                console.log(error);
                 return;
             }
         },
@@ -191,7 +190,6 @@ export const useFriendshipApi = () => {
                 );
                 return response;
             } catch (error) {
-                console.log(error);
                 return;
             }
         },
@@ -206,10 +204,8 @@ export const useFriendshipApi = () => {
                         },
                     }
                 );
-                console.log("FRIEND REQUEST: ", response);
                 return response.data;
             } catch (error) {
-                console.log(error);
                 return;
             }
         },
@@ -226,7 +222,7 @@ export const useFriendshipApi = () => {
                 );
                 return response;
             } catch (error) {
-                console.log("error from getFriendrequest: ", error);
+                return
             }
         },
         rejectFriendrequest: async (uuid: string) => {
@@ -242,7 +238,7 @@ export const useFriendshipApi = () => {
                 );
                 return response;
             } catch (error) {
-                console.log("error from getFriendrequest: ", error);
+                return
             }
         },
     };
@@ -262,10 +258,8 @@ export const useActivityFeed = () => {
                         },
                     }
                 );
-                console.log(response);
                 return response.data;
             } catch (error) {
-                console.log(error);
                 return;
             }
         },
