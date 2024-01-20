@@ -1,13 +1,19 @@
 import date from "date-and-time";
 
+const currentYear = new Date().getFullYear();
+
+export const formatCurrentYearDate = (date: string) => {
+    return date.replace(/^.{4}/g, String(currentYear));
+}
+
 export const howMuchTimeUntil = (stringDate: string) => {
-  const currentYearDate = stringDate?.replace(/^.{4}/g, "2023");
-  const dateOfCelebration = new Date(currentYearDate);
-  const timeInDays = date.subtract(dateOfCelebration, new Date()).toDays();
-  return Math.round(timeInDays);
+    const currentYearDate = formatCurrentYearDate(stringDate)
+    const dateOfCelebration = new Date(currentYearDate);
+    const timeInDays = date.subtract(dateOfCelebration, new Date()).toDays();
+    return Math.round(timeInDays);
 };
 
 export const formatDateSending = (inputDate: Date) => {
-  const formatDate = date.format(inputDate, "YYYY/MM/DD");
-  return formatDate.replaceAll("/", "-");
+    const formatDate = date.format(inputDate, "YYYY/MM/DD");
+    return formatDate.replaceAll("/", "-");
 };

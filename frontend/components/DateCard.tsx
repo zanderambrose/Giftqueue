@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import date from "date-and-time";
-
-const currentYear = new Date().getFullYear();
+import { formatCurrentYearDate } from "../util/dateHelper";
 
 const DateCard = ({ date: celebrationDate }: { date: string }) => {
     const [weekday, setWeekday] = useState("Mon");
     const [month, setMonth] = useState("Jan");
     const [dayNumber, setDayNumber] = useState("1");
     useEffect(() => {
-        const currentYearDate = celebrationDate?.replace(/^.{4}/g, String(currentYear));
+        const currentYearDate = formatCurrentYearDate(celebrationDate)
         const formattedDate = date.format(
             new Date(currentYearDate),
             "ddd, MMM DD YYYY",
