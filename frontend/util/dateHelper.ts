@@ -10,7 +10,7 @@ export const howMuchTimeUntil = (stringDate: string) => {
     const currentYearDate = formatCurrentYearDate(stringDate)
     const dateOfCelebration = new Date(currentYearDate);
     const timeInDays = date.subtract(dateOfCelebration, new Date()).toDays();
-    return Math.round(timeInDays);
+    return Math.ceil(timeInDays);
 };
 
 export const formatDateSending = (inputDate: Date) => {
