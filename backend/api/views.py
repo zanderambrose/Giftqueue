@@ -1,13 +1,12 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest, ProfileImage
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
 from .utils.helpers import append_owner_to_request_data, gift_item_create_mapping 
-
 
 
 class OwnedViewSet(viewsets.ModelViewSet):
@@ -186,3 +185,8 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
                 return Response({"error": "friendship already exists"}, status=status.HTTP_409_CONFLICT)
         request.data["requestor"] = self.request.user.id
         return super().create(request, *args, **kwargs)
+
+
+class ProfileImageViewSet(viewsets.ModelViewSet):
+    queryset = ProfileImage.objects.all()
+    serializer_class = ProfileImageSerializer
