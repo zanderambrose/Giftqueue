@@ -138,3 +138,12 @@ class FriendRequest(TimeStampMixin, models.Model):
 
     def __str__(self) -> str:
         return f'{self.requestor.email} - {self.requestee.email} - {self.status}'
+
+
+def upload_to(instance, filename):
+    return '/'.join(['profile_images', str(instance.owner__sub), filename])
+
+
+class ProfileImage(models.Model):
+    owner = models.ForeignKey(RegistryUser, on_delete=models.SET_NULL)
+    image = models.ImageField(upload_to=upload_to, blank=True, null=True)

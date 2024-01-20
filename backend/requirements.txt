@@ -13,3 +13,4 @@ psycopg2===2.9.5
 pytest===7.3.2
 pytest-django===4.5.2
 Faker===18.10.1
+pillow===10.2.0

@@ -1,6 +1,6 @@
 from django.utils.timezone import now
 from rest_framework import serializers
-from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest
+from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest, ProfileImage
 from django.contrib.humanize.templatetags import humanize
 
 
@@ -123,4 +123,11 @@ class FriendRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FriendRequest
+        fields = '__all__'
+
+
+class ProfileImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProfileImage
         fields = '__all__'
