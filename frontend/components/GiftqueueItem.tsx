@@ -58,6 +58,8 @@ const GiftqueueItem = ({
         deleteUrlMutation.mutate(String(id))
     }
 
+    const timeRemaining = howMuchTimeUntil(related_to.date)
+
     return (
         <div key={id} className="myGiftqueueCard mt-4">
             <div className="flex flex-row">
@@ -66,10 +68,9 @@ const GiftqueueItem = ({
                         <h3 className="text-2xl font-extrabold">{name}</h3>
                         {related_to && (
                             <p className="mt-4 muted">
-                                Reserved for: <span className="underline">{related_to.name}</span>{" "}
-                                {howMuchTimeUntil(related_to.date) < 30 &&
-                                    howMuchTimeUntil(related_to.date) > 0 &&
-                                    `, ${howMuchTimeUntil(related_to.date)} days remaining`}
+                                Reserved for: <span className="italic underline">{related_to.name}</span>{" "}
+                                {timeRemaining > 0 && `, ${timeRemaining} ${timeRemaining > 1 ? "days" : "day"} remaining`}
+                                {timeRemaining == 0 && `, Today!`}
                             </p>
                         )}
                     </div>
