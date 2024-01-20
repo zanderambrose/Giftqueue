@@ -27,6 +27,21 @@ class OwnedViewSet(viewsets.ModelViewSet):
 class CelebrationDayViewSet(OwnedViewSet):
     queryset = CelebrationDay.objects.all()
     serializer_class = CelebrationDaySerializer
+    
+    @action(detail=True, methods=['delete'])
+    def delete(self, request, pk=None):
+        print(f'made it to delete')
+        notify_status = request.query_params.get('notify')
+        instance = self.get_object()
+
+        if notify_status == str(1):
+            print(f'notify_status = {notify_status}')
+            ActivityFeed.objects.create(
+                owner=self.request.user, action='DAY_DELETE', name=instance.name, associated_action_id=instance.id)
+
+        self.perform_destroy(instance)
+
+        return Response(status=204)
 
 
 class GiftItemViewSet(viewsets.ModelViewSet):

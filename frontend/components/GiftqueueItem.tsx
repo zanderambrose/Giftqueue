@@ -58,7 +58,7 @@ const GiftqueueItem = ({
         deleteUrlMutation.mutate(String(id))
     }
 
-    const timeRemaining = howMuchTimeUntil(related_to.date)
+    const timeRemaining = related_to?.date ? howMuchTimeUntil(related_to.date) : -1
 
     return (
         <div key={id} className="myGiftqueueCard mt-4">

@@ -15,7 +15,7 @@ const ModalDeleteGiftqueueItem = () => {
         mutationFn: (uuid: string) => {
             return deleteGiftqueueItem(uuid, !isNotifyChecked);
         },
-        onSuccess: (data, variables, context) => {
+        onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["myGiftqueueItems"] });
             setDeleteModalItemShow(defaultDeleteItemState);
         },

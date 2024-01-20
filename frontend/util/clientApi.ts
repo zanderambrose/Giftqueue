@@ -134,10 +134,11 @@ export const useCelebrationApi = () => {
                 throw new Error(error.message);
             }
         },
-        deleteCelebrationItem: async (itemUuid: string) => {
+        deleteCelebrationItem: async (itemUuid: string, notify: boolean = true) => {
+            let notifyParam = notify ? 1 : 0
             try {
                 const response = await axios.delete(
-                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/${itemUuid}/`,
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}celebration/${itemUuid}/delete/?notify=${notifyParam}`,
                     {
                         headers: { Authorization: `Bearer ${session?.accessToken}` },
                     }
