@@ -16,7 +16,6 @@ const FriendRequestData = () => {
         queryFn: getFriendRequest,
     });
 
-    console.log('friendRequestData: ', friendRequestData)
     return (
         <>
             {!friendRequestData || friendRequestData.length < 1 ? (
