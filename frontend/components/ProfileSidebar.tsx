@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChampagneGlasses } from "@fortawesome/free-solid-svg-icons";
+import { faChampagneGlasses, faGear } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileSidebar = () => {
     const { data: session } = useSession();
@@ -16,7 +16,15 @@ const ProfileSidebar = () => {
                     alt={"profile picture"}
                     className="block m-auto rounded-2xl"
                 />
-                <h1 className="mt-8 text-base font-black">{session?.user?.name}</h1>
+                <div className="mt-8 mx-auto flex justify-center items-center">
+                    <h1 className="text-base font-black">{session?.user?.name}</h1>
+                    <FontAwesomeIcon
+                        style={{ color: "#64748b" }}
+                        icon={faGear}
+                        className="pl-2 hover:opacity-80"
+                        onClick={() => console.log('hello world')}
+                    />
+                </div>
                 <p className="mt-4 text-sm text-slate-500">Joined since Jan 2023</p>
             </div>
             <div
