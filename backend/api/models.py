@@ -145,5 +145,5 @@ def upload_to(instance, filename):
 
 
 class ProfileImage(models.Model):
-    owner = models.ForeignKey(RegistryUser, on_delete=models.SET_NULL)
+    owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_to, blank=True, null=True)
