@@ -69,7 +69,7 @@ const GiftqueueItem = ({
                         {related_to && (
                             <p className="mt-4 muted">
                                 Reserved for: <span className="italic underline">{related_to.name}</span>{" "}
-                                {timeRemaining > 0 && `, ${timeRemaining} ${timeRemaining > 1 ? "days" : "day"} remaining`}
+                                {timeRemaining < 101 && timeRemaining > 0 && `, ${timeRemaining} ${timeRemaining > 1 ? "days" : "day"} remaining`}
                                 {timeRemaining == 0 && `, Today!`}
                             </p>
                         )}
