@@ -92,6 +92,11 @@ export const ModalCelebrationDay = () => {
         reset({
             name: celebrationDayModalShow.data?.name ?? "",
         })
+        if (celebrationDayModalShow.data && celebrationDayModalShow.data.date) {
+            const [year, month, day] = celebrationDayModalShow.data.date.split('-').map(Number);
+            const myDate = new Date(year, month - 1, day);
+            setDateSelected(myDate)
+        }
     }, [celebrationDayModalShow])
 
     return (
