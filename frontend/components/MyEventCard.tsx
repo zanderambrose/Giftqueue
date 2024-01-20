@@ -3,22 +3,16 @@ import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useSetRecoilState } from "recoil";
 import {
-    defaultCelebrationDayModalState,
     celebrationDayModal,
 } from "../recoil/modal/celebrationDay";
 import { deleteCelebrationItemModal } from "../recoil/modal/deleteCelebrationItem";
 import { useQuery } from "@tanstack/react-query";
 import { useGiftqueueApi } from "../util/clientApi";
 import { ModalRelatedGiftqueueItem } from "./modals/ModalRelatedGiftqueueItem";
-import { IGiftqueueSerializer } from "../util/typesClientApi";
+import { ICelebrationSerializer, IGiftqueueSerializer } from "../util/typesClientApi";
 
-interface IEventCard {
-    name: string;
-    id: string;
-    canEdit?: boolean;
-}
-
-const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
+const FriendEventCard = (props: ICelebrationSerializer & { canEdit?: boolean }) => {
+    const { name, id, canEdit = true } = props
     const setCelebrationDayModalShow = useSetRecoilState(celebrationDayModal);
     const setDeleteItemShow = useSetRecoilState(deleteCelebrationItemModal);
 
@@ -28,6 +22,7 @@ const FriendEventCard = ({ name, id, canEdit = true }: IEventCard) => {
                 ...currVal,
                 isOpen: true,
                 uuid: id,
+                data: { ...props }
             };
         });
     };
