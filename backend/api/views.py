@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from rest_framework.decorators import action
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest, ProfileImage
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer, UserSettingsSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
 from rest_framework.exceptions import MethodNotAllowed
@@ -190,3 +190,24 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
 class ProfileImageViewSet(viewsets.ModelViewSet):
     queryset = ProfileImage.objects.all()
     serializer_class = ProfileImageSerializer
+
+
+class UserSettingsViewSet(viewsets.ViewSet):
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+
+        user = RegistryUser.objects.get(sub=pk)
+        profile_image = None
+        if user:
+            serializer = UserSettingsSerializer(user)
+            try:
+                profile_image = ProfileImage.objects.get(owner=user)
+            except Exception as e:
+                print(f'no profile_image')
+
+            response_dict = serializer.data
+            response_dict["profile_image"] = profile_image
+
+            return Response(response_dict)
+
+        return Response({"detail": "Not Found"})

@@ -50,6 +50,7 @@ class CustomUserManager(BaseUserManager):
 
 class RegistryUser(AbstractUser, TimeStampMixin):
     username = None
+    display_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(_('email address'), unique=True)
     sub = models.CharField(max_length=255, blank=True, null=True)
 

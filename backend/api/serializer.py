@@ -15,6 +15,12 @@ class UserSerializer(serializers.ModelSerializer):
         computed_days = (now() - obj.created_at).days
         return computed_days if computed_days > 0 else 1
 
+class UserSettingsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = RegistryUser
+        fields = ('sub', 'email', 'display_name', )
+
 
 class CelebrationDaySerializer(serializers.ModelSerializer):
 
