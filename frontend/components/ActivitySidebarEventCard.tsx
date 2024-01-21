@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 
 interface IEventCard {
     firstName: string;
@@ -27,7 +26,7 @@ const ActivitySidebarEventCard = ({
     return (
         <div className="w-9/12 mx-auto mb-8">
             <div className="flex flex-row items-center">
-                <Image
+                <img
                     src={image ?? "/placeholderFriend.jpg"}
                     width={"48"}
                     height={"48"}

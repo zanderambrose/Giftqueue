@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChampagneGlasses, faGear } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +8,7 @@ const ProfileSidebar = () => {
     return (
         <div>
             <div className="text-center relative top-10 w-10/12 mx-auto pb-8 border-b-2">
-                <Image
+                <img 
                     src={session?.user?.image ?? ""}
                     width={"152"}
                     height={"152"}
