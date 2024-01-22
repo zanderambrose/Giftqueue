@@ -1,15 +1,33 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChampagneGlasses, faGear } from "@fortawesome/free-solid-svg-icons";
+import { useUserSettings } from '../util/clientApi'
 
 const ProfileSidebar = () => {
     const { data: session } = useSession();
+    const { getProfileImage } = useUserSettings()
+    const { data } = useQuery({
+        queryKey: ["myProfileImage"],
+        queryFn: getProfileImage,
+    });
+
+    console.log('data: ', data)
+
+    const imageSrc = () => {
+        if (data && data.profile_image) {
+            return `${process.env.NEXT_PUBLIC_REGISTRY_BASE_URL}${data.profile_image}`
+        }
+        return session?.user?.image ?? ""
+    }
+
+
     return (
         <div>
             <div className="text-center relative top-10 w-10/12 mx-auto pb-8 border-b-2">
-                <img 
-                    src={session?.user?.image ?? ""}
+                <img
+                    src={imageSrc()}
                     width={"152"}
                     height={"152"}
                     alt={"profile picture"}

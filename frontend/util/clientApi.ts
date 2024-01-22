@@ -266,3 +266,25 @@ export const useActivityFeed = () => {
         },
     };
 };
+
+export const useUserSettings = () => {
+    const { data: session } = useSession();
+    return {
+        getProfileImage: async () => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.get<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}media/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+    };
+};

@@ -1,10 +1,12 @@
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest, ProfileImage
 from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer, UserSettingsSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
+from django.db.models.query import QuerySet
 from rest_framework.exceptions import MethodNotAllowed
 from .utils.helpers import append_owner_to_request_data, gift_item_create_mapping 
 
@@ -211,3 +213,41 @@ class UserSettingsViewSet(viewsets.ViewSet):
             return Response(response_dict)
 
         return Response({"detail": "Not Found"})
+
+
+    def partial_update(self, request, pk=None, *args, **kwargs):
+
+        payload = request.data
+        user = RegistryUser.objects.get(sub=pk)
+        profile_image = payload.get('profile_image', None)
+        display_name = payload.get('display_name', None)
+
+        try:
+            profile_image = ProfileImage.objects.get(owner=user)
+        except Exception as e:
+            print(f'no profile_image')
+
+        if profile_image is not None:
+            if isinstance(profile_image, QuerySet):
+                if profile_image.image != profile_image:
+                    profile_image.image = profile_image
+                    profile_image.save()
+            else:
+                ProfileImage.objects.create(owner=user, image=profile_image)
+
+
+        if display_name is not None:
+            if user.display_name != display_name:
+                user.display_name = display_name
+                user.save()
+
+
+        return Response({"display_name": display_name if display_name is not None else user.display_name, 'profile_image': profile_image})
+        
+
+class ProfileImageView(APIView):
+    def get(self, request, pk=None):
+        sub = request.user.sub
+        print(f'sub = {sub}')
+        profile_image = ProfileImage.objects.get(owner__sub=sub)
+        return Response({'profile_image': profile_image.image.url[1:]})

@@ -19,7 +19,7 @@ class UserSettingsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RegistryUser
-        fields = ('sub', 'email', 'display_name', )
+        fields = ('display_name',)
 
 
 class CelebrationDaySerializer(serializers.ModelSerializer):
@@ -136,4 +136,4 @@ class ProfileImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProfileImage
-        fields = '__all__'
+        fields = 'image'
