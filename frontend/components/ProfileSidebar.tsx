@@ -13,8 +13,6 @@ const ProfileSidebar = () => {
         queryFn: getProfileImage,
     });
 
-    console.log('data: ', data)
-
     const imageSrc = () => {
         if (data && data.profile_image) {
             return `${process.env.NEXT_PUBLIC_REGISTRY_BASE_URL}${data.profile_image}`

@@ -20,6 +20,6 @@ router.register(r'user/settings', UserSettingsViewSet, basename='usersettings')
 
 urlpatterns = [
     path('activityfeed/', ActivityFeedListView.as_view(), name='activityfeed'),
-    path('media/', ProfileImageView.as_view(), name='media-file'),
+    path('profile_image/', ProfileImageView.as_view(), name='media-file'),
     path('', include(router.urls)),
 ]
