@@ -197,8 +197,8 @@ class ProfileImageViewSet(viewsets.ModelViewSet):
 
 class UserSettingsViewSet(viewsets.ViewSet):
 
-    def retrieve(self, request, pk=None, *args, **kwargs):
-        user = RegistryUser.objects.get(sub=pk)
+    def list(self, request, *args, **kwargs):
+        user = RegistryUser.objects.get(sub=self.request.user.sub)
         profile_image = None
 
         if user:
@@ -216,8 +216,8 @@ class UserSettingsViewSet(viewsets.ViewSet):
         return Response({"detail": "Not Found"})
 
 
-    def partial_update(self, request, pk=None, *args, **kwargs):
-        user = RegistryUser.objects.get(sub=pk)
+    def create(self, request, *args, **kwargs):
+        user = RegistryUser.objects.get(sub=self.request.user.sub)
         payload_profile_image = request.data.get('profile_image', None)
         display_name = request.data.get('display_name', None)
         current_profile_image = None

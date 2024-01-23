@@ -286,5 +286,37 @@ export const useUserSettings = () => {
                 return;
             }
         },
+        getUserSettings: async () => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.get<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/settings/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+        updateUserSettings: async () => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.post<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/settings/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
     };
 };
