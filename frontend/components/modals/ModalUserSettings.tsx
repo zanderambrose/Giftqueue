@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRecoilState } from "recoil";
 import {
     defaultUserSettingsModalState,
     userSettingsModal,
 } from "../../recoil/modal/userSettings";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useUserSettings } from '../../util/clientApi'
 
 type ModalUserSettingsInputs = {
     display_name: string;
-    profile_image: HTMLInputElement;
 };
 
 export const ModalUserSettings = () => {
@@ -19,19 +20,62 @@ export const ModalUserSettings = () => {
     const {
         register,
         handleSubmit,
-        watch,
         reset,
         clearErrors,
         formState: { errors, isSubmitting },
     } = useForm<ModalUserSettingsInputs>();
 
+    const [profileImage, setProfileImage] = useState(false)
+    const { data: session } = useSession();
+    const { getUserSettings, updateUserSettings } = useUserSettings()
+    const queryClient = useQueryClient();
+    const { data: userSettingsData } = useQuery({
+        queryKey: ["myUserSettings"],
+        queryFn: getUserSettings,
+    });
+
     const [userSettingsModalShow, setUserSettingsModalShow] =
         useRecoilState(userSettingsModal);
+
+    const mutation = useMutation({
+        mutationFn: (userSettings: any) => {
+            return updateUserSettings(userSettings);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["myUserSettings"] });
+        },
+    });
+
+    const handleModalRequest: SubmitHandler<ModalUserSettingsInputs> = async (
+        data
+    ) => {
+        const name = data.display_name
+
+        mutation.mutate({
+            display_name: Boolean(name) ? name : null,
+            profile_image: Boolean(profileImage) ? profileImage : null,
+        });
+
+        handleModalReset();
+    };
 
     const handleModalReset = () => {
         reset();
         clearErrors();
         setUserSettingsModalShow(defaultUserSettingsModalState);
+        setProfileImage(false)
+    };
+
+    const displayName = () => {
+        if (userSettingsData && userSettingsData.display_name) {
+            return userSettingsData.display_name
+        }
+        return session?.user?.name ?? ""
+    }
+
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0]; // Assuming you want to handle a single file
+        setProfileImage(file);
     };
 
     return (
@@ -58,7 +102,7 @@ export const ModalUserSettings = () => {
                                 </div>
                                 {/*body*/}
                                 <div className="relative px-6 flex-auto">
-                                    <form onSubmit={console.log('submitting')}>
+                                    <form onSubmit={handleSubmit(handleModalRequest)}>
                                         <label className="block">
                                             <span className="block text-md font-medium">
                                                 Display Name
@@ -67,7 +111,7 @@ export const ModalUserSettings = () => {
                                         <input
                                             {...register("display_name")}
                                             type="text"
-                                            placeholder="Display Name"
+                                            placeholder={displayName()}
                                             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                                         />
@@ -77,8 +121,10 @@ export const ModalUserSettings = () => {
                                             </span>
                                         </label>
                                         <input
-                                            {...register("profile_image")}
+                                            onChange={handleFileChange}
                                             type="file"
+                                            name="profile_image"
+                                            id="profile_image"
                                             className="text-sm text-stone-500
                                                file:mr-5 file:py-1 file:px-3 file:border-[1px]
                                                file:text-xs file:font-medium
