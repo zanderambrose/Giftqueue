@@ -1,3 +1,4 @@
+import os
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
 from rest_framework.views import APIView
@@ -208,7 +209,7 @@ class UserSettingsViewSet(viewsets.ViewSet):
                 print(f'no profile_image')
 
             response_dict = serializer.data
-            response_dict["profile_image"] = profile_image
+            response_dict["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
 
             return Response(response_dict)
 
@@ -228,6 +229,9 @@ class UserSettingsViewSet(viewsets.ViewSet):
 
         if payload_profile_image is not None:
             if current_profile_image is not None:
+                file_path = current_profile_image.image.path
+                if os.path.exists(file_path):
+                    os.remove(file_path)
                 current_profile_image.image = payload_profile_image
                 current_profile_image.save()
             else:
