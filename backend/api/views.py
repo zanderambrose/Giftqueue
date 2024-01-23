@@ -197,9 +197,9 @@ class ProfileImageViewSet(viewsets.ModelViewSet):
 class UserSettingsViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None, *args, **kwargs):
-
         user = RegistryUser.objects.get(sub=pk)
         profile_image = None
+
         if user:
             serializer = UserSettingsSerializer(user)
             try:
@@ -216,38 +216,44 @@ class UserSettingsViewSet(viewsets.ViewSet):
 
 
     def partial_update(self, request, pk=None, *args, **kwargs):
-
-        payload = request.data
         user = RegistryUser.objects.get(sub=pk)
-        profile_image = payload.get('profile_image', None)
-        display_name = payload.get('display_name', None)
+        payload_profile_image = request.data.get('profile_image', None)
+        display_name = request.data.get('display_name', None)
+        current_profile_image = None
 
         try:
-            profile_image = ProfileImage.objects.get(owner=user)
+            current_profile_image = ProfileImage.objects.get(owner=user)
         except Exception as e:
             print(f'no profile_image')
 
-        if profile_image is not None:
-            if isinstance(profile_image, QuerySet):
-                if profile_image.image != profile_image:
-                    profile_image.image = profile_image
-                    profile_image.save()
+        if payload_profile_image is not None:
+            if current_profile_image is not None:
+                current_profile_image.image = payload_profile_image
+                current_profile_image.save()
             else:
-                ProfileImage.objects.create(owner=user, image=profile_image)
+                current_profile_image = ProfileImage.objects.create(owner=user, image=payload_profile_image)
 
 
         if display_name is not None:
-            if user.display_name != display_name:
-                user.display_name = display_name
-                user.save()
+            user.display_name = display_name
+            user.save()
 
+        response_dict = {
+            "display_name": display_name if display_name is not None else user.display_name,
+            "profile_image": current_profile_image.image.url[1:] if current_profile_image is not None else None 
+        }
 
-        return Response({"display_name": display_name if display_name is not None else user.display_name, 'profile_image': profile_image})
+        return Response(response_dict)
         
 
 class ProfileImageView(APIView):
     def get(self, request, pk=None):
         sub = request.user.sub
-        print(f'sub = {sub}')
-        profile_image = ProfileImage.objects.get(owner__sub=sub)
-        return Response({'profile_image': profile_image.image.url[1:]})
+
+        try:
+            profile_image = ProfileImage.objects.get(owner__sub=sub)
+            return Response({'profile_image': profile_image.image.url[1:]})
+
+        except Exception as e:
+            return Response({'profile_image': None})
+
