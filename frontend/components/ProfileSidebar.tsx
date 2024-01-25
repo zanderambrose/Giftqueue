@@ -1,21 +1,14 @@
 import React from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { ProfileSettingsButton } from "./ProfileSettingsButton";
+import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { useSetRecoilState } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChampagneGlasses, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faChampagneGlasses } from "@fortawesome/free-solid-svg-icons";
 import { useUserSettings } from '../util/clientApi'
-import {
-    defaultUserSettingsModalState,
-    userSettingsModal,
-} from "../recoil/modal/userSettings";
-import { ModalUserSettings } from '../components/modals/ModalUserSettings'
 
 const ProfileSidebar = () => {
     const { data: session } = useSession();
-    const setUserSettingsModalShow =
-        useSetRecoilState(userSettingsModal);
-    const { getUserSettings, updateUserSettings } = useUserSettings()
+    const { getUserSettings } = useUserSettings()
     const { data } = useQuery({
         queryKey: ["myUserSettings"],
         queryFn: getUserSettings,
@@ -35,15 +28,6 @@ const ProfileSidebar = () => {
         return session?.user?.name ?? ""
     }
 
-    const handleSettingsButtonClick = () => {
-        setUserSettingsModalShow((currVal) => {
-            return {
-                ...currVal,
-                isOpen: true,
-            };
-        });
-    };
-
     return (
         <>
             <div>
@@ -57,12 +41,7 @@ const ProfileSidebar = () => {
                     />
                     <div className="mt-8 mx-auto flex justify-center items-center">
                         <h1 className="text-base font-black">{displayName()}</h1>
-                        <FontAwesomeIcon
-                            style={{ color: "#64748b" }}
-                            icon={faGear}
-                            className="pl-2 hover:opacity-80"
-                            onClick={handleSettingsButtonClick}
-                        />
+                        <ProfileSettingsButton />
                     </div>
                     <p className="mt-4 text-sm text-slate-500">Joined since Jan 2023</p>
                 </div>
@@ -80,7 +59,6 @@ const ProfileSidebar = () => {
                     <p className="mt-4 text-base font-black">No Events added yet!</p>
                 </div>
             </div>
-            <ModalUserSettings />
         </>
     );
 };
