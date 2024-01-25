@@ -1,10 +1,13 @@
+import os
 from rest_framework.response import Response
 from rest_framework import viewsets, status, generics
+from rest_framework.views import APIView
 from rest_framework.decorators import action
 from .models import RegistryUser, CelebrationDay, GiftItem, GiftItemUrl, Friendship, ActivityFeed, FriendRequest, ProfileImage
-from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer
+from api.serializer import UserSerializer, CelebrationDaySerializer, GiftItemAllSerializer, ActivityFeedSerializer, GiftItemGETSerializer, FriendRequestListSerializer, FriendRequestSerializer, FriendshipSerializer, GiftItemUrlSerializer, ProfileImageSerializer, UserSettingsSerializer
 from django.http.request import QueryDict
 from django.db.models import Q
+from django.db.models.query import QuerySet
 from rest_framework.exceptions import MethodNotAllowed
 from .utils.helpers import append_owner_to_request_data, gift_item_create_mapping 
 
@@ -190,3 +193,71 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
 class ProfileImageViewSet(viewsets.ModelViewSet):
     queryset = ProfileImage.objects.all()
     serializer_class = ProfileImageSerializer
+
+
+class UserSettingsViewSet(viewsets.ViewSet):
+
+    def list(self, request, *args, **kwargs):
+        user = RegistryUser.objects.get(sub=self.request.user.sub)
+        profile_image = None
+
+        if user:
+            serializer = UserSettingsSerializer(user)
+            try:
+                profile_image = ProfileImage.objects.get(owner=user)
+            except Exception as e:
+                print(f'no profile_image')
+
+            response_dict = serializer.data
+            response_dict["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
+
+            return Response(response_dict)
+
+        return Response({"detail": "Not Found"})
+
+
+    def create(self, request, *args, **kwargs):
+        user = RegistryUser.objects.get(sub=self.request.user.sub)
+        payload_profile_image = request.data.get('profile_image', None)
+        display_name = request.data.get('display_name', None)
+        current_profile_image = None
+
+        try:
+            current_profile_image = ProfileImage.objects.get(owner=user)
+        except Exception as e:
+            print(f'no profile_image')
+
+        if payload_profile_image is not None:
+            if current_profile_image is not None:
+                file_path = current_profile_image.image.path
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                current_profile_image.image = payload_profile_image
+                current_profile_image.save()
+            else:
+                current_profile_image = ProfileImage.objects.create(owner=user, image=payload_profile_image)
+
+
+        if display_name is not None:
+            user.display_name = display_name
+            user.save()
+
+        response_dict = {
+            "display_name": display_name if display_name is not None else user.display_name,
+            "profile_image": current_profile_image.image.url[1:] if current_profile_image is not None else None 
+        }
+
+        return Response(response_dict)
+        
+
+class ProfileImageView(APIView):
+    def get(self, request, pk=None):
+        sub = request.user.sub
+
+        try:
+            profile_image = ProfileImage.objects.get(owner__sub=sub)
+            return Response({'profile_image': profile_image.image.url[1:]})
+
+        except Exception as e:
+            return Response({'profile_image': None})
+

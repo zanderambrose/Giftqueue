@@ -50,6 +50,7 @@ class CustomUserManager(BaseUserManager):
 
 class RegistryUser(AbstractUser, TimeStampMixin):
     username = None
+    display_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(_('email address'), unique=True)
     sub = models.CharField(max_length=255, blank=True, null=True)
 
@@ -141,9 +142,12 @@ class FriendRequest(TimeStampMixin, models.Model):
 
 
 def upload_to(instance, filename):
-    return '/'.join(['profile_images', str(instance.owner__sub), filename])
+    return '/'.join(['profile_images', str(instance.owner.sub), filename])
 
 
 class ProfileImage(models.Model):
     owner = models.ForeignKey(RegistryUser, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=upload_to, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return f'profile image - {self.owner.email}'

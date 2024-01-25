@@ -266,3 +266,63 @@ export const useActivityFeed = () => {
         },
     };
 };
+
+export const useUserSettings = () => {
+    const { data: session } = useSession();
+    return {
+        getProfileImage: async () => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.get<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}profile_image/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+        getUserSettings: async () => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.get<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/settings/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+        // TODO - type userSettings payload 
+        updateUserSettings: async (userSettings: any) => {
+            const formData = new FormData();
+            if (userSettings.profile_image) formData.append('profile_image', userSettings.profile_image)
+            if (userSettings.display_name) formData.append('display_name', userSettings.display_name);
+
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.post<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/settings/`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+    };
+};
