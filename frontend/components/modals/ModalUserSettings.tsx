@@ -130,7 +130,6 @@ export const ModalUserSettings = () => {
                                         <input
                                             {...register("display_name")}
                                             type="text"
-                                            ref={fileInputRef}
                                             placeholder={displayName()}
                                             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
@@ -145,6 +144,7 @@ export const ModalUserSettings = () => {
                                                 <input
                                                     onChange={handleFileChange}
                                                     type="file"
+                                                    ref={fileInputRef}
                                                     name="profile_image"
                                                     id="profile_image"
                                                     className="text-sm text-stone-500
