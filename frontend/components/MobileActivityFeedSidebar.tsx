@@ -12,7 +12,7 @@ const ActivityFeedSidebar = () => {
         <>
             {isActivityFeedSidebarOpen ? (
                 <div
-                    className={`h-screen min-h-screen overflow-y-scroll bg-white top-0 right-0 absolute z-10 w-full`}
+                    className={`${"animate-mobile-activity-sidebar"} h-full min-h-full bg-white top-0 left-0 absolute z-10 w-full`}
                 >
                     <span
                         onClick={() => setIsActivityFeedSidebarOpen(false)}

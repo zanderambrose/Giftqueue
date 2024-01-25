@@ -36,7 +36,7 @@ const MobileProfileSidebar = () => {
         <>
             {isProfileSidebarOpen ? (
                 <div
-                    className={`h-full min-h-full bg-white top-0 left-0 absolute z-10 w-full`}
+                    className={`${"animate-mobile-profile-sidebar"} h-full min-h-full bg-white top-0 left-0 absolute z-10 w-full`}
                 >
                     <span
                         onClick={() => setIsProfileSidebarOpen(false)}

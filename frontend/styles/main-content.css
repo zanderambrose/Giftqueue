@@ -262,3 +262,30 @@
     padding: 1rem 3rem;
   }
 }
+
+/* Animations */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-mobile-profile-sidebar {
+  animation: slideInFromLeft 0.4s ease-in-out;
+}
+
+.animate-mobile-activity-sidebar {
+  animation: slideInFromRight 0.4s ease-in-out;
+}
