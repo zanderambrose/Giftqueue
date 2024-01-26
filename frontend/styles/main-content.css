@@ -110,6 +110,13 @@
   padding: 0.5rem;
   width: 95%;
 }
+
+.friendRequestBtnDisabled {
+  background-color: grey;
+  margin: 2rem auto 0 auto;
+  padding: 0.5rem;
+  width: 95%;
+}
 .main-Btn {
   width: 80%;
   margin: 0 auto;

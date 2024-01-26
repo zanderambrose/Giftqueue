@@ -99,7 +99,7 @@ const FriendCard = ({
                 <>
                     <p className="text-sm muted">Not a friend yet</p>
                     <div
-                        className="friendRequestBtn hover:opacity-80"
+                        className={`${hasSentInvite ? "friendRequestBtnDisabled hover:opacity-80" : "friendRequestBtn hover:opacity-80"}`}
                     >
                         {isGiftqueueUser && gqId && (
                             <button className="text-white">
