@@ -160,7 +160,7 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == "list":
-            return FriendRequest.objects.filter(Q(requestor__pk=self.request.user.pk) | Q(requestee__pk=self.request.user.id))
+            return FriendRequest.objects.filter(requestee__pk=self.request.user.id)
 
         return FriendRequest.objects.all()
 

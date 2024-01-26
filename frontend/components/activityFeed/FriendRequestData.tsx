@@ -16,8 +16,6 @@ const FriendRequestData = () => {
         queryFn: getFriendRequest,
     });
 
-    console.log('friend request data: ', friendRequestData)
-
     return (
         <>
             {!friendRequestData || friendRequestData.length < 1 ? (
@@ -37,6 +35,7 @@ const FriendRequestData = () => {
                                     firstName={item.requestor.first_name}
                                     lastName={item.requestor.last_name}
                                     timeAgo={item.time_ago}
+                                    requestId={item.id}
                                 />
                             );
                         })}
