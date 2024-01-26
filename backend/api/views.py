@@ -171,9 +171,11 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
         """
         Guard to ensure no friend request already exists for these users
         """
-        friendrequests = FriendRequest.objects.filter(
-            Q(requestor=requestor.pk) & Q(requestee=requestee.pk) | Q(requestor=requestee.pk) & Q(requestee=requestor.pk))
-        if friendrequests.exists():
+        query1 = Q(requestor=requestor, requestee=requestee)
+        query2 = Q(requestor=requestee, requestee=requestor)
+        friend_request_exists = FriendRequest.objects.filter(query1 | query2).exists()
+
+        if friend_request_exists:
             return Response({"error": "friendrequest already exists"}, status=status.HTTP_409_CONFLICT)
 
         """

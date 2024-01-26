@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { usePeopleApi, useFriendshipApi } from "../util/clientApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface IFriendCardProps {
     name: string;
@@ -48,13 +49,19 @@ const FriendCard = ({
         handleGetUserFetch();
     }, []);
 
-    const handleSendFriendRequest = async () => {
-        const response = await sendFriendRequest(gqId!);
-        console.log(response);
-        if (response?.data.id) {
+    const sendFriendRequestMutation = useMutation({
+        mutationFn: (requestee: string) => {
+            return sendFriendRequest(requestee);
+        },
+        onSuccess: () => {
             setHasSentInvite(true);
-        }
+        },
+    });
+
+    const handleSendFriendRequest = async () => {
+        sendFriendRequestMutation.mutate(gqId!)
     };
+
     const handleInviteToGiftqueue = () => {
         alert("Invite functionality pending");
     };
@@ -92,7 +99,6 @@ const FriendCard = ({
                 <>
                     <p className="text-sm muted">Not a friend yet</p>
                     <div
-                        onClick={() => handleSendFriendRequest()}
                         className="friendRequestBtn hover:opacity-80"
                     >
                         {isGiftqueueUser && gqId && (
@@ -110,8 +116,9 @@ const FriendCard = ({
                         )}
                         {fromGiftqueueBackend && gqId && (
                             <button
-                                onClick={() => handleSendFriendRequest()}
+                                onClick={handleSendFriendRequest}
                                 className="text-white"
+                                disabled={hasSentInvite}
                             >
                                 {hasSentInvite ? "Request Sent" : "Send friend request"}
                             </button>

@@ -16,6 +16,8 @@ const FriendRequestData = () => {
         queryFn: getFriendRequest,
     });
 
+    console.log('friend request data: ', friendRequestData)
+
     return (
         <>
             {!friendRequestData || friendRequestData.length < 1 ? (
@@ -32,9 +34,9 @@ const FriendRequestData = () => {
                         friendRequestData.map((item: any) => {
                             return (
                                 <ActivitySidebarFriendRequestCard
-                                    firstName={item.requestee.first_name}
-                                    lastName={item.requestee.last_name}
-                                    timeAgo={"placeholder min ago"}
+                                    firstName={item.requestor.first_name}
+                                    lastName={item.requestor.last_name}
+                                    timeAgo={item.time_ago}
                                 />
                             );
                         })}
