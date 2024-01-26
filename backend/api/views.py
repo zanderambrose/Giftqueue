@@ -103,8 +103,22 @@ class ActivityFeedListView(generics.ListAPIView):
     serializer_class = ActivityFeedSerializer
 
     def get_queryset(self):
+        user = self.request.user.id
+        # IF I WANT TO SEE MY OWN ACTIVITY FEED ITEMS JUST ADD USER TO THIS LIST
+        friends_id_list = []
 
-        return ActivityFeed.objects.all().order_by('-created_at')
+        friendships = Friendship.objects.filter(friends=user)
+
+        for friends in friendships:
+            users_in_friendship = friends.friends.all()
+
+            for person in users_in_friendship:
+                if person.pk != user:
+                    friends_id_list.append(person.pk)
+
+        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_id_list).order_by('-created_at')
+
+        return queryset
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
