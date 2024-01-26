@@ -142,7 +142,7 @@ class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
         user = self.request.query_params.get("user", None)
 
         if user is not None:
-            return RegistryUser.objects.filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user))
+            return RegistryUser.objects.exclude(pk=self.request.user.id).filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user) | Q(display_name__icontains=user))
 
         else:
             return RegistryUser.objects.all()

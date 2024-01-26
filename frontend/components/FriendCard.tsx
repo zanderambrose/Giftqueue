@@ -13,6 +13,7 @@ interface IFriendCardProps {
     inviteToGq?: boolean;
     fromGiftqueueBackend?: boolean;
     gqId?: string;
+    displayName?: string
 }
 
 const FriendCard = ({
@@ -22,6 +23,7 @@ const FriendCard = ({
     sub,
     fromGiftqueueBackend,
     gqId,
+    displayName
 }: IFriendCardProps) => {
     const { getUserBySub } = usePeopleApi();
     const { sendFriendRequest } = useFriendshipApi();
@@ -84,7 +86,7 @@ const FriendCard = ({
                 />
             </div>
             <p>{sub && "sub: " + sub}</p>
-            <h1 className="mt-4 text-lg">{name}</h1>
+            <h1 className="mt-4 text-lg">{displayName ?? name}</h1>
             {isFriend ? (
                 <>
                     <p className="text-sm muted">Friends since Feb-2023</p>

@@ -123,6 +123,7 @@ const Friends = () => {
                                     isFriend={false}
                                     fromGiftqueueBackend={true}
                                     gqId={user.id}
+                                    displayName={user.display_name}
                                 />
                             );
                         }
