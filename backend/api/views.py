@@ -99,10 +99,13 @@ class GiftItemUrlViewSet(viewsets.ModelViewSet):
         return queryset.filter(gift_item__owner=self.request.user.id)
 
 
-class ActivityFeedListView(generics.ListAPIView):
+class ActivityFeedViewSet(viewsets.ModelViewSet):
     serializer_class = ActivityFeedSerializer
 
     def get_queryset(self):
+        if self.action != "list":
+            return ActivityFeed.objects.all()
+
         user = self.request.user.id
         friends_dict = {}
 
@@ -116,7 +119,7 @@ class ActivityFeedListView(generics.ListAPIView):
                 if person.pk != user:
                     friends_dict[person.pk] = friendship_created_at
 
-        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_dict.keys()).order_by('-created_at')
+        queryset = ActivityFeed.objects.exclude(dismissed_by=user).filter(owner__pk__in=friends_dict.keys()).order_by('-created_at')
 
         result = []
 
@@ -125,6 +128,15 @@ class ActivityFeedListView(generics.ListAPIView):
                 result.append(activity)
 
         return result 
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = self.request.user
+        instance.dismissed_by.add(user)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
