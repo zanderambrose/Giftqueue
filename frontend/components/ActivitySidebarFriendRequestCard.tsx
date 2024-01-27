@@ -25,6 +25,7 @@ const ActivitySidebarFriendRequestCard = ({
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["myFriendRequests"] });
+            queryClient.invalidateQueries({ queryKey: ["myFriends"] });
         },
     });
 

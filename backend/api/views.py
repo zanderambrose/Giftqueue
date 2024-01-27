@@ -104,7 +104,6 @@ class ActivityFeedListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user.id
-        # IF I WANT TO SEE MY OWN ACTIVITY FEED ITEMS JUST ADD USER TO THIS LIST
         friends_id_list = []
 
         friendships = Friendship.objects.filter(friends=user)

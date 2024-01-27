@@ -1,69 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useQuery } from "@tanstack/react-query";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import FriendCard from "./FriendCard";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { TUser } from "../util/typesClientApi";
-import { useFriendshipApi } from "../util/clientApi";
+import { MyFriends } from "./friendsPage/myFriends";
+import { FindFriends } from "./friendsPage/findFriends";
 
 const Friends = () => {
-    const { data: session } = useSession();
-    const { getFriends } = useFriendshipApi()
-    const { data: myFriendsData } = useQuery({
-        queryKey: ["myFriends"],
-        queryFn: getFriends,
-    });
     const [tabState, setTabState] = useState<"myFriends" | "findFriends">("myFriends")
     const [queryState, setQueryState] = useState("");
-    const [giftqueueSearchData, setGiftqueueSearchData] = useState<
-        TUser[] | null
-    >(null);
 
 
     const handleSearchInputChange = (e: any) => {
         setQueryState(e.target.value);
     };
 
-    const handleSearchGiftqueueUsers = async () => {
-        try {
-            const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/search?user=${queryState}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${session?.accessToken}`,
-                    },
-                }
-            );
-            if (response?.data?.length > 0) {
-                setGiftqueueSearchData(response.data);
-            } else {
-                setGiftqueueSearchData(null);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (queryState === "") {
-                setGiftqueueSearchData(null);
-            } else {
-                handleSearchGiftqueueUsers();
-            }
-        }, 1000);
-
-        return () => clearTimeout(delayDebounceFn);
-    }, [queryState]);
-
-    const imageSrc = (image?: string) => {
-        if (image) {
-            return `${process.env.NEXT_PUBLIC_REGISTRY_BASE_URL}${image}`
-        }
-        return ""
-    }
 
     return (
         <div className="relative top-10 px-8">
@@ -88,33 +37,7 @@ const Friends = () => {
                     name="search"
                 />
             </label>
-            {giftqueueSearchData && giftqueueSearchData.map((friend) => {
-                console.log('search friend: ', friend)
-                return (
-                    <FriendCard
-                        key={friend.id}
-                        name={friend.display_name ?? `${friend.first_name} + ${friend.last_name}`}
-                        image={imageSrc(friend.profile_image)}
-                        isFriend={false}
-                        fromGiftqueueBackend
-                        gqId={friend.id}
-                    />
-                )
-            }
-            )}
-            {!giftqueueSearchData && myFriendsData && myFriendsData.map((friend) => {
-                console.log('friend: ', friend)
-                return (
-                    <FriendCard
-                        key={friend.id}
-                        name={friend.display_name ?? `${friend.first_name} + ${friend.last_name}`}
-                        image={imageSrc(friend.profile_image)}
-                        isFriend={true}
-                        sub={friend.sub}
-                    />
-                )
-            }
-            )}
+            {tabState === "myFriends" ? <MyFriends queryState={queryState} /> : <FindFriends queryState={queryState} />}
         </div>
     );
 };
