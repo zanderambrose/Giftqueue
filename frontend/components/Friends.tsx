@@ -15,6 +15,7 @@ const Friends = () => {
         queryKey: ["myFriends"],
         queryFn: getFriends,
     });
+    const [tabState, setTabState] = useState<"myFriends" | "findFriends">("myFriends")
     const [queryState, setQueryState] = useState("");
     const [giftqueueSearchData, setGiftqueueSearchData] = useState<
         TUser[] | null
@@ -66,7 +67,10 @@ const Friends = () => {
 
     return (
         <div className="relative top-10 px-8">
-            <h1 className="text-lg relative right-2">Friends List</h1>
+            <div role="tablist" className="tabs tabs-lifted tabs-lg">
+                <a onClick={() => setTabState("myFriends")} role="tab" className={`tab ${tabState === "myFriends" ? "tab-active" : ""}`}>My Friends</a>
+                <a onClick={() => setTabState("findFriends")} role="tab" className={`tab ${tabState === "findFriends" ? "tab-active" : ""}`}>Find Friends</a>
+            </div>
             <label className="relative block mt-4">
                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                     <FontAwesomeIcon
@@ -77,7 +81,7 @@ const Friends = () => {
                 </span>
                 <input
                     className="placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-md"
-                    placeholder="Search for friends"
+                    placeholder="Search friends"
                     value={queryState}
                     onChange={(e) => handleSearchInputChange(e)}
                     type="text"
