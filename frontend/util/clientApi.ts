@@ -280,6 +280,23 @@ export const useActivityFeed = () => {
                 return;
             }
         },
+        dismissActivity: async (uuid: string) => {
+            try {
+                // TODO - type return activity serialized data
+                const response = await axios.patch<any[]>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}activityfeed/${uuid}/`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
     };
 };
 
