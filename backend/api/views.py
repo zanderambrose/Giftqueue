@@ -104,20 +104,27 @@ class ActivityFeedListView(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user.id
-        friends_id_list = []
+        friends_dict = {}
 
         friendships = Friendship.objects.filter(friends=user)
 
         for friends in friendships:
             users_in_friendship = friends.friends.all()
+            friendship_created_at = friends.created_at
 
             for person in users_in_friendship:
                 if person.pk != user:
-                    friends_id_list.append(person.pk)
+                    friends_dict[person.pk] = friendship_created_at
 
-        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_id_list).order_by('-created_at')
+        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_dict.keys()).order_by('-created_at')
 
-        return queryset
+        result = []
+
+        for activity in queryset:
+            if friends_dict.get(activity.owner_id) < activity.created_at:
+                result.append(activity)
+
+        return result 
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
