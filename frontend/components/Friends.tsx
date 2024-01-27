@@ -15,7 +15,6 @@ const Friends = () => {
         TUser[] | null
     >(null);
 
-    // Request for data from google contacts
     useEffect(() => {
         const googleFetchFunction = async () => {
             try {
@@ -30,12 +29,10 @@ const Friends = () => {
         googleFetchFunction();
     }, []);
 
-    // Search input on change handler
     const handleSearchInputChange = (e: any) => {
         setQueryState(e.target.value);
     };
 
-    // Giftqueue backend search fetch
     const handleSearchGiftqueueUsers = async () => {
         try {
             const response = await axios.get(
@@ -57,11 +54,15 @@ const Friends = () => {
     };
 
     useEffect(() => {
-        if (queryState === "") {
-            setGiftqueueSearchData(null);
-        } else {
-            handleSearchGiftqueueUsers();
-        }
+        const delayDebounceFn = setTimeout(() => {
+            if (queryState === "") {
+                setGiftqueueSearchData(null);
+            } else {
+                handleSearchGiftqueueUsers();
+            }
+        }, 1000);
+
+        return () => clearTimeout(delayDebounceFn);
     }, [queryState]);
 
     return (
@@ -128,10 +129,6 @@ const Friends = () => {
                             );
                         }
                     })}
-                    {/* <p className="mt-4 relative right-2">
-            <span className="gqp">0</span> contacts found in your google
-            account!
-          </p> */}
                 </>
             )}
         </div>
