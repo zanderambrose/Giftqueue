@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import { usePeopleApi, useFriendshipApi } from "../util/clientApi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useFriendshipApi } from "../util/clientApi";
+import { useMutation } from "@tanstack/react-query";
 
 interface IFriendCardProps {
     name: string;
@@ -25,7 +25,6 @@ const FriendCard = ({
     gqId,
     displayName
 }: IFriendCardProps) => {
-    const { getUserBySub } = usePeopleApi();
     const { sendFriendRequest } = useFriendshipApi();
     const [isGiftqueueUser, setIsGiftqueueUser] = useState(false);
     const [hasSentInvite, setHasSentInvite] = useState(false);
@@ -37,19 +36,6 @@ const FriendCard = ({
             router.push(`/${placeholderNameForTesting}`);
         }
     };
-    useEffect(() => {
-        const handleGetUserFetch = async () => {
-            if (sub) {
-                const response = await getUserBySub(sub);
-                if (response?.data["detail"] !== "Not Found") {
-                    setIsGiftqueueUser(true);
-                } else {
-                    console.log("not found");
-                }
-            }
-        };
-        handleGetUserFetch();
-    }, []);
 
     const sendFriendRequestMutation = useMutation({
         mutationFn: (requestee: string) => {
@@ -85,7 +71,6 @@ const FriendCard = ({
                     onClick={() => handleFriendDetailPage()}
                 />
             </div>
-            <p>{sub && "sub: " + sub}</p>
             <h1 className="mt-4 text-lg">{displayName ?? name}</h1>
             {isFriend ? (
                 <>

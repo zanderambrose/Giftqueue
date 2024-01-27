@@ -143,19 +143,48 @@ class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
 
         if user is not None:
             return RegistryUser.objects.exclude(pk=self.request.user.id).filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user) | Q(display_name__icontains=user))
-
         else:
             return RegistryUser.objects.all()
+
+    def list(self, request, *args, **kwards):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        users = serializer.data
+        response_list = []
+
+        for user in users:
+            try:
+                profile_image = ProfileImage.objects.get(owner__pk=user["id"])
+                user["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
+                response_list.append(user)
+            except Exception as e:
+                print(f'error {e}')
+
+        return Response(response_list)
 
 
 class FriendshipViewSet(viewsets.ModelViewSet):
     serializer_class = FriendshipSerializer
 
     def get_queryset(self):
-        if self.action == "list":
-            return Friendship.objects.filter(friends__pk=self.request.user.id)
+        return Friendship.objects.filter(friends__pk=self.request.user.id)
 
-        return Friendship.objects.all()
+    def list(self, request, *args, **kwards):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        friends = serializer.data
+        response_list = []
+
+        for friend in friends:
+            try:
+                profile_image = ProfileImage.objects.get(owner__pk=friend["id"])
+                friend["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
+                response_list.append(friend)
+            except Exception as e:
+                print(f'error {e}')
+
+        return Response(response_list)
+
     """
     Friendships should be created on PATCH of status from friendrequest
     This is handled in post_save signal on friendrequest sender

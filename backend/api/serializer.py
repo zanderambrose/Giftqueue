@@ -96,7 +96,7 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('friends', "pk",)
+        fields = ('friends', "pk", 'created_at',)
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
