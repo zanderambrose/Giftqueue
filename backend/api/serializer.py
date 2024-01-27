@@ -96,7 +96,7 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('friends', "pk",)
+        fields = ('friends', "pk", 'created_at',)
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
@@ -110,6 +110,7 @@ class FriendshipSerializer(serializers.ModelSerializer):
 class FriendRequestListSerializer(serializers.ModelSerializer):
     requestor = UserSerializer()
     requestee = UserSerializer()
+    time_ago = serializers.SerializerMethodField('get_time')
 
     class Meta:
         model = FriendRequest
@@ -123,6 +124,9 @@ class FriendRequestListSerializer(serializers.ModelSerializer):
         if rep["requestee"]["id"] == user_uuid:
             del rep["requestee"]
         return rep
+
+    def get_time(self, instance):
+        return humanize.naturaltime(instance.created_at)
 
 
 class FriendRequestSerializer(serializers.ModelSerializer):

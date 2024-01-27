@@ -242,6 +242,22 @@ export const useFriendshipApi = () => {
                 return
             }
         },
+        getFriends: async () => {
+            try {
+                // TODO - type returned serialzed frienship data
+                const response = await axios.get<any[]>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}friendship/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
     };
 };
 
@@ -305,6 +321,7 @@ export const useUserSettings = () => {
         // TODO - type userSettings payload 
         updateUserSettings: async (userSettings: any) => {
             const formData = new FormData();
+            console.log('user settings: ', userSettings)
             if (userSettings.profile_image) formData.append('profile_image', userSettings.profile_image)
             if (userSettings.display_name) formData.append('display_name', userSettings.display_name);
 

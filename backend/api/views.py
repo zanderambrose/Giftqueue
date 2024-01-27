@@ -103,8 +103,22 @@ class ActivityFeedListView(generics.ListAPIView):
     serializer_class = ActivityFeedSerializer
 
     def get_queryset(self):
+        user = self.request.user.id
+        # IF I WANT TO SEE MY OWN ACTIVITY FEED ITEMS JUST ADD USER TO THIS LIST
+        friends_id_list = []
 
-        return ActivityFeed.objects.all().order_by('-created_at')
+        friendships = Friendship.objects.filter(friends=user)
+
+        for friends in friendships:
+            users_in_friendship = friends.friends.all()
+
+            for person in users_in_friendship:
+                if person.pk != user:
+                    friends_id_list.append(person.pk)
+
+        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_id_list).order_by('-created_at')
+
+        return queryset
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):
@@ -128,20 +142,49 @@ class GiftqueueUserSearchViewSet(viewsets.ModelViewSet):
         user = self.request.query_params.get("user", None)
 
         if user is not None:
-            return RegistryUser.objects.filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user))
-
+            return RegistryUser.objects.exclude(pk=self.request.user.id).filter(Q(first_name__icontains=user) | Q(last_name__icontains=user) | Q(email__icontains=user) | Q(display_name__icontains=user))
         else:
             return RegistryUser.objects.all()
+
+    def list(self, request, *args, **kwards):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        users = serializer.data
+        response_list = []
+
+        for user in users:
+            try:
+                profile_image = ProfileImage.objects.get(owner__pk=user["id"])
+                user["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
+                response_list.append(user)
+            except Exception as e:
+                print(f'error {e}')
+
+        return Response(response_list)
 
 
 class FriendshipViewSet(viewsets.ModelViewSet):
     serializer_class = FriendshipSerializer
 
     def get_queryset(self):
-        if self.action == "list":
-            return Friendship.objects.filter(friends__pk=self.request.user.id)
+        return Friendship.objects.filter(friends__pk=self.request.user.id)
 
-        return Friendship.objects.all()
+    def list(self, request, *args, **kwards):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        friends = serializer.data
+        response_list = []
+
+        for friend in friends:
+            try:
+                profile_image = ProfileImage.objects.get(owner__pk=friend["id"])
+                friend["profile_image"] = profile_image.image.url[1:] if profile_image is not None else None
+                response_list.append(friend)
+            except Exception as e:
+                print(f'error {e}')
+
+        return Response(response_list)
+
     """
     Friendships should be created on PATCH of status from friendrequest
     This is handled in post_save signal on friendrequest sender
@@ -160,7 +203,7 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action == "list":
-            return FriendRequest.objects.filter(Q(requestor__pk=self.request.user.pk) | Q(requestee__pk=self.request.user.id))
+            return FriendRequest.objects.filter(requestee__pk=self.request.user.id)
 
         return FriendRequest.objects.all()
 
@@ -171,9 +214,11 @@ class FriendRequestViewSet(viewsets.ModelViewSet):
         """
         Guard to ensure no friend request already exists for these users
         """
-        friendrequests = FriendRequest.objects.filter(
-            Q(requestor=requestor.pk) & Q(requestee=requestee.pk) | Q(requestor=requestee.pk) & Q(requestee=requestor.pk))
-        if friendrequests.exists():
+        query1 = Q(requestor=requestor, requestee=requestee)
+        query2 = Q(requestor=requestee, requestee=requestor)
+        friend_request_exists = FriendRequest.objects.filter(query1 | query2).exists()
+
+        if friend_request_exists:
             return Response({"error": "friendrequest already exists"}, status=status.HTTP_409_CONFLICT)
 
         """

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
-import { usePeopleApi, useFriendshipApi } from "../util/clientApi";
+import { useFriendshipApi } from "../util/clientApi";
+import { useMutation } from "@tanstack/react-query";
 
 interface IFriendCardProps {
     name: string;
@@ -12,6 +13,7 @@ interface IFriendCardProps {
     inviteToGq?: boolean;
     fromGiftqueueBackend?: boolean;
     gqId?: string;
+    displayName?: string
 }
 
 const FriendCard = ({
@@ -21,8 +23,8 @@ const FriendCard = ({
     sub,
     fromGiftqueueBackend,
     gqId,
+    displayName
 }: IFriendCardProps) => {
-    const { getUserBySub } = usePeopleApi();
     const { sendFriendRequest } = useFriendshipApi();
     const [isGiftqueueUser, setIsGiftqueueUser] = useState(false);
     const [hasSentInvite, setHasSentInvite] = useState(false);
@@ -34,27 +36,20 @@ const FriendCard = ({
             router.push(`/${placeholderNameForTesting}`);
         }
     };
-    useEffect(() => {
-        const handleGetUserFetch = async () => {
-            if (sub) {
-                const response = await getUserBySub(sub);
-                if (response?.data["detail"] !== "Not Found") {
-                    setIsGiftqueueUser(true);
-                } else {
-                    console.log("not found");
-                }
-            }
-        };
-        handleGetUserFetch();
-    }, []);
+
+    const sendFriendRequestMutation = useMutation({
+        mutationFn: (requestee: string) => {
+            return sendFriendRequest(requestee);
+        },
+        onSuccess: () => {
+            setHasSentInvite(true);
+        },
+    });
 
     const handleSendFriendRequest = async () => {
-        const response = await sendFriendRequest(gqId!);
-        console.log(response);
-        if (response?.data.id) {
-            setHasSentInvite(true);
-        }
+        sendFriendRequestMutation.mutate(gqId!)
     };
+
     const handleInviteToGiftqueue = () => {
         alert("Invite functionality pending");
     };
@@ -76,8 +71,7 @@ const FriendCard = ({
                     onClick={() => handleFriendDetailPage()}
                 />
             </div>
-            <p>{sub && "sub: " + sub}</p>
-            <h1 className="mt-4 text-lg">{name}</h1>
+            <h1 className="mt-4 text-lg">{displayName ?? name}</h1>
             {isFriend ? (
                 <>
                     <p className="text-sm muted">Friends since Feb-2023</p>
@@ -92,8 +86,7 @@ const FriendCard = ({
                 <>
                     <p className="text-sm muted">Not a friend yet</p>
                     <div
-                        onClick={() => handleSendFriendRequest()}
-                        className="friendRequestBtn hover:opacity-80"
+                        className={`${hasSentInvite ? "friendRequestBtnDisabled hover:opacity-80" : "friendRequestBtn hover:opacity-80"}`}
                     >
                         {isGiftqueueUser && gqId && (
                             <button className="text-white">
@@ -110,8 +103,9 @@ const FriendCard = ({
                         )}
                         {fromGiftqueueBackend && gqId && (
                             <button
-                                onClick={() => handleSendFriendRequest()}
+                                onClick={handleSendFriendRequest}
                                 className="text-white"
+                                disabled={hasSentInvite}
                             >
                                 {hasSentInvite ? "Request Sent" : "Send friend request"}
                             </button>

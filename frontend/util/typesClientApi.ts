@@ -43,4 +43,7 @@ export interface TUser {
     first_name: string;
     last_name: string;
     is_superuser: boolean;
+    display_name?: string
+    profile_image?: string
+    sub?: string
 }
