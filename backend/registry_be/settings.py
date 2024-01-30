@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'invite_api',
     'rest_framework_simplejwt',
     "corsheaders",
     "django.contrib.humanize",
