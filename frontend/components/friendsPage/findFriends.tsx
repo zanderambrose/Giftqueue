@@ -1,48 +1,77 @@
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { MyFriends } from "./friendsPage/myFriends";
-import { FindFriends } from "./friendsPage/findFriends";
+import { useState, useEffect } from "react";
+import FriendCard from "../FriendCard";
+import { TUser } from "../../util/typesClientApi";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
-const Friends = () => {
-    const [tabState, setTabState] = useState<"myFriends" | "findFriends">("myFriends")
-    const [queryState, setQueryState] = useState("");
+interface IFindFriendsProps {
+    queryState: string
+}
 
+export const FindFriends = ({ queryState }: IFindFriendsProps) => {
+    const { data: session } = useSession();
+    const [giftqueueSearchData, setGiftqueueSearchData] = useState<
+        TUser[] | null
+    >(null);
 
-    const handleSearchInputChange = (e: any) => {
-        setQueryState(e.target.value);
+    const imageSrc = (image?: string) => {
+        if (image) {
+            return `${process.env.NEXT_PUBLIC_REGISTRY_BASE_URL}${image}`
+        }
+        return ""
+    }
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (queryState === "") {
+                setGiftqueueSearchData(null);
+            } else {
+                handleSearchGiftqueueUsers();
+            }
+        }, 1000);
+
+        return () => clearTimeout(delayDebounceFn);
+    }, [queryState]);
+
+    const handleSearchGiftqueueUsers = async () => {
+        try {
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_REGISTRY_API_BASE_URL}user/search?user=${queryState}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${session?.accessToken}`,
+                    },
+                }
+            );
+            if (response?.data?.length > 0) {
+                setGiftqueueSearchData(response.data);
+            } else {
+                setGiftqueueSearchData(null);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
-
     return (
-        <div className="relative top-10 px-8">
-            <div role="tablist" className="tabs tabs-lifted tabs-lg">
-                <a onClick={() => setTabState("myFriends")} role="tab" className={`tab ${tabState === "myFriends" ? "tab-active" : ""}`}>My Friends</a>
-                <a onClick={() => setTabState("findFriends")} role="tab" className={`tab ${tabState === "findFriends" ? "tab-active" : ""}`}>Find Friends</a>
-            </div>
-            <label className="relative block mt-4">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                    <FontAwesomeIcon
-                        className="relative left-1 gqp"
-                        size="lg"
-                        icon={faSearch}
+        <div>
+            {giftqueueSearchData && giftqueueSearchData.map((friend) => {
+                console.log('search friend: ', friend)
+                return (
+                    <FriendCard
+                        key={friend.id}
+                        name={friend.display_name ?? `${friend.first_name} + ${friend.last_name}`}
+                        image={imageSrc(friend.profile_image)}
+                        isFriend={false}
+                        fromGiftqueueBackend
+                        gqId={friend.id}
                     />
-                </span>
-                <input
-                    className="placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-md"
-                    placeholder="Search friends"
-                    value={queryState}
-                    onChange={(e) => handleSearchInputChange(e)}
-                    type="text"
-                    name="search"
-                />
-            </label>
-            {tabState === "myFriends" ? <MyFriends queryState={queryState} /> : <FindFriends queryState={queryState} />}
+                )
+            }
+            )}
         </div>
-    );
-};
-
-export default Friends;
+    )
+}
 
 // TODO REUSE CONTACTS FLOW WITH FIXED UX
 // const [contacts, setContacts] = useState<any[]>([]);

@@ -99,26 +99,44 @@ class GiftItemUrlViewSet(viewsets.ModelViewSet):
         return queryset.filter(gift_item__owner=self.request.user.id)
 
 
-class ActivityFeedListView(generics.ListAPIView):
+class ActivityFeedViewSet(viewsets.ModelViewSet):
     serializer_class = ActivityFeedSerializer
 
     def get_queryset(self):
+        if self.action != "list":
+            return ActivityFeed.objects.all()
+
         user = self.request.user.id
-        # IF I WANT TO SEE MY OWN ACTIVITY FEED ITEMS JUST ADD USER TO THIS LIST
-        friends_id_list = []
+        friends_dict = {}
 
         friendships = Friendship.objects.filter(friends=user)
 
         for friends in friendships:
             users_in_friendship = friends.friends.all()
+            friendship_created_at = friends.created_at
 
             for person in users_in_friendship:
                 if person.pk != user:
-                    friends_id_list.append(person.pk)
+                    friends_dict[person.pk] = friendship_created_at
 
-        queryset = ActivityFeed.objects.filter(owner__pk__in=friends_id_list).order_by('-created_at')
+        queryset = ActivityFeed.objects.exclude(dismissed_by=user).filter(owner__pk__in=friends_dict.keys()).order_by('-created_at')
 
-        return queryset
+        result = []
+
+        for activity in queryset:
+            if friends_dict.get(activity.owner_id) < activity.created_at:
+                result.append(activity)
+
+        return result 
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = self.request.user
+        instance.dismissed_by.add(user)
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
 class GetGiftqueueUserBySub(viewsets.ViewSet):

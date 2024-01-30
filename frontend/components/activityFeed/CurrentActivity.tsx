@@ -36,6 +36,7 @@ const CurrentActivity = () => {
                                     action={item.action}
                                     timeAgo={item.time_ago}
                                     item={item.name}
+                                    activityId={item.id}
                                 />
                             );
                         })}

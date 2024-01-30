@@ -111,6 +111,7 @@ class ActivityFeed(models.Model):
     associated_action_id = models.IntegerField()
     related_to = models.ForeignKey(
         GiftItem, on_delete=models.SET_NULL, blank=True, null=True)
+    dismissed_by = models.ManyToManyField(RegistryUser, related_name='dismissed_activities')
 
     def __str__(self):
         return f'{self.owner.first_name} - {self.owner.last_name} - {self.action}'
