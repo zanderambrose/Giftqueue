@@ -18,6 +18,8 @@ FRONTEND_BASE_URL = os.environ.get(
     "NEXT_PUBLIC_FRONTEND_BASE_URL", 'http://localhost:3000')
 DATABASE_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 DATABASE_USER = os.environ.get('POSTGRES_USER')
+EMAIL_USER = os.environ.get('EMAIL_USER', None)
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD', None)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -189,3 +191,10 @@ CORS_ALLOWED_ORIGINS = [
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/' 
+
+# Email Settings
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT=587
+EMAIL_HOST_USER=EMAIL_USER
+EMAIL_HOST_PASSWORD=EMAIL_PASSWORD
+EMAIL_USE_TLS=True
