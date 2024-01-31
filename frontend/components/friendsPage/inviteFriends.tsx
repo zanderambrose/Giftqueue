@@ -9,7 +9,7 @@ interface IInviteFriendsProps {
 export const InviteFriends = ({ friendsQty, handleClick }: IInviteFriendsProps) => {
 
     return (
-        <div className="flex items-center justify-between mt-2 px-2">
+        <div className="flex items-start justify-between mt-2 px-2">
             <p className="mt-4 relative right-2">
                 <span className="gqp">
                     {friendsQty}
@@ -21,7 +21,7 @@ export const InviteFriends = ({ friendsQty, handleClick }: IInviteFriendsProps) 
                 className="btn-add-new rounded relative left-2 hover:opacity-80"
             >
                 <FontAwesomeIcon className="relative right-2" icon={faPlus} />
-                Invite friends
+                Invite
             </button>
         </div>
 
