@@ -16,8 +16,6 @@ export const MyFriends = ({ queryState }: IMyFriendsProps) => {
         queryFn: getFriends,
     });
 
-    console.log('myFriendsData: ', myFriendsData)
-
     const imageSrc = (image?: string) => {
         if (image) {
             return `${process.env.NEXT_PUBLIC_REGISTRY_BASE_URL}${image}`
@@ -26,9 +24,8 @@ export const MyFriends = ({ queryState }: IMyFriendsProps) => {
     }
 
     return (
-        <div>
+        <div className="mt-4 friendListCardGrid">
             {myFriendsData && myFriendsData.map((friend) => {
-                console.log('friend: ', friend)
                 return (
                     <FriendCard
                         key={friend.id}
