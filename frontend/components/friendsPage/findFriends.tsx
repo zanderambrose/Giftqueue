@@ -3,6 +3,7 @@ import FriendCard from "../FriendCard";
 import { TUser } from "../../util/typesClientApi";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { InviteFriends } from "./inviteFriends";
 
 interface IFindFriendsProps {
     queryState: string
@@ -55,6 +56,7 @@ export const FindFriends = ({ queryState }: IFindFriendsProps) => {
 
     return (
         <div>
+            <InviteFriends friendsQty={10} handleClick={() => console.log('hello click')} />
             {giftqueueSearchData && giftqueueSearchData.map((friend) => {
                 console.log('search friend: ', friend)
                 return (
