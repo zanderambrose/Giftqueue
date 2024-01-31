@@ -9,7 +9,7 @@ interface IInviteFriendsProps {
 export const InviteFriends = ({ friendsQty, handleClick }: IInviteFriendsProps) => {
 
     return (
-        <div className="flex items-center justify-between mt-2">
+        <div className="flex items-center justify-between mt-2 px-2">
             <p className="mt-4 relative right-2">
                 <span className="gqp">
                     {friendsQty}
