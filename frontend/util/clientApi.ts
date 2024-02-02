@@ -364,10 +364,11 @@ export const useUserSettings = () => {
 export const useInviteApi = () => {
     const { data: session } = useSession();
     return {
-        emailInvite: async () => {
+        emailInvite: async (email_address: string) => {
             try {
-                const response = await axios.get<any>(
+                const response = await axios.post<any>(
                     `${process.env.NEXT_PUBLIC_REGISTRY_INVITE_API_BASE_URL}email/`,
+                    { email_address },
                     {
                         headers: {
                             Authorization: `Bearer ${session?.accessToken}`,

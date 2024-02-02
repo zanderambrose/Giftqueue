@@ -7,6 +7,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import { useInviteApi } from "../../util/clientApi"
 
 type ModalEmailInviteInputs = {
     email: string;
@@ -19,8 +20,10 @@ export const ModalEmailInvite = () => {
         handleSubmit,
         reset,
         clearErrors,
-        formState: { errors, isSubmitting },
+        formState: { errors },
     } = useForm<ModalEmailInviteInputs>();
+
+    const { emailInvite } = useInviteApi()
 
     const [emailInviteModalShow, setEmailInviteModalShow] =
         useRecoilState(emailInviteModal);
@@ -28,7 +31,7 @@ export const ModalEmailInvite = () => {
     const handleModalRequest: SubmitHandler<ModalEmailInviteInputs> = async (
         { email }
     ) => {
-        console.log("email: ", email)
+        await emailInvite(email)
 
         handleModalReset();
     };
@@ -70,12 +73,19 @@ export const ModalEmailInvite = () => {
                                             </span>
                                         </label>
                                         <input
-                                            {...register("email")}
-                                            type="text"
+                                            {...register("email", {
+                                                required: true,
+                                                pattern: {
+                                                    value: /\S+@\S+\.\S+/,
+                                                    message: "Entered value does not match email format",
+                                                },
+                                            })}
                                             placeholder="email"
                                             className="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-md shadow-sm placeholder-slate-400
       focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                                         />
+                                        {errors.email && <span className="text-red-500" role="alert">{errors.email.message}</span>}
+
                                         <div className="text-center block p-6">
                                             <button
                                                 className="main-Btn hover:opacity-80"
