@@ -1,12 +1,27 @@
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { MyFriends } from "./friendsPage/myFriends";
 import { FindFriends } from "./friendsPage/findFriends";
+import { InviteFriends } from "./friendsPage/inviteFriends";
+import { emailInviteModal } from "../recoil/modal/emailInvite";
 
 const Friends = () => {
     const [tabState, setTabState] = useState<"myFriends" | "findFriends">("myFriends")
     const [queryState, setQueryState] = useState("");
+
+    const setUserSettingsModalShow =
+        useSetRecoilState(emailInviteModal);
+
+    const handleInviteButtonClick = () => {
+        setUserSettingsModalShow((currVal) => {
+            return {
+                ...currVal,
+                isOpen: true,
+            };
+        });
+    };
 
 
     const handleSearchInputChange = (e: any) => {
@@ -37,6 +52,7 @@ const Friends = () => {
                     name="search"
                 />
             </label>
+            <InviteFriends friendsQty={10} handleClick={handleInviteButtonClick} />
             {tabState === "myFriends" ? <MyFriends queryState={queryState} /> : <FindFriends queryState={queryState} />}
         </div>
     );

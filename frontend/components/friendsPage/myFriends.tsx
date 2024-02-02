@@ -3,7 +3,6 @@ import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import FriendCard from "../FriendCard";
 import { useFriendshipApi } from "../../util/clientApi";
 import NoItemDefaultCard from "../NoItemDefaultCard";
-import { InviteFriends } from "./inviteFriends";
 
 interface IMyFriendsProps {
     queryState: string
@@ -26,7 +25,6 @@ export const MyFriends = ({ queryState }: IMyFriendsProps) => {
 
     return (
         <>
-            <InviteFriends friendsQty={10} handleClick={() => console.log('hello click')} />
             <div className="mt-4 friendListCardGrid">
                 {myFriendsData && myFriendsData.map((friend) => {
                     return (
