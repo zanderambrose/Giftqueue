@@ -360,3 +360,24 @@ export const useUserSettings = () => {
         },
     };
 };
+
+export const useInviteApi = () => {
+    const { data: session } = useSession();
+    return {
+        emailInvite: async () => {
+            try {
+                const response = await axios.get<any>(
+                    `${process.env.NEXT_PUBLIC_REGISTRY_INVITE_API_BASE_URL}email/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${session?.accessToken}`,
+                        },
+                    }
+                );
+                return response.data;
+            } catch (error) {
+                return;
+            }
+        },
+    }
+};
